@@ -1,6 +1,9 @@
+"use client";
 import Master from "@/components/global/Master";
+import Pagination from "@/components/global/Pagination";
+import AddModal from "@/components/list-category/AddModal";
 import Search from "@/components/list-category/Search";
-import React from "react";
+import React, { useState } from "react";
 import { IoAdd } from "react-icons/io5";
 
 const categories = [
@@ -12,14 +15,21 @@ const categories = [
 ];
 
 export default function ListCategory() {
+  const [open, setOpen] = useState(false);
+
+  console.log(open);
   return (
     <Master>
       <div className="flex flex-col gap-5">
         <h1 className="text-black font-bold">List Category</h1>
-        <div className="flex items-center justify-between ">
+        <div className="flex flex-col items-center justify-between gap-5 ">
           <Search />
-          <div>
-            <button className="flex items-center gap-2 text-white bg-black hover:bg-gray-700 duration-300 cursor-pointer font-medium text-xs px-3 py-1.5 rounded-md">
+
+          <div className="flex justify-end w-full">
+            <button
+              onClick={() => setOpen(true)}
+              className="flex items-center gap-2 text-white bg-black hover:bg-gray-700 duration-300 cursor-pointer font-medium text-xs px-3 py-1.5 rounded-md"
+            >
               <div className="w-4 h-4">
                 <IoAdd className="w-full h-full" />
               </div>
@@ -32,7 +42,7 @@ export default function ListCategory() {
         {/* No, Nama Kategori, Kode */}
         <div className="relative overflow-x-auto sm:rounded-lg">
           <table
-            className="w-full text-center  text-black text-xs"
+            className="w-full text-center text-black text-xs"
             align="center"
           >
             <thead className="text-xs text-black uppercase bg-white">
@@ -63,101 +73,10 @@ export default function ListCategory() {
           </table>
         </div>
 
-        <nav
-          aria-label="Page navigation example"
-          className="flex items-center justify-center"
-        >
-          <ul className="flex items-center -space-x-px h-8 text-xs">
-            <li>
-              <a
-                href="#"
-                className="flex items-center justify-center px-3 h-8 ms-0 leading-tight text-black bg-white border border-e-0 border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700"
-              >
-                <span className="sr-only">Previous</span>
-                <svg
-                  className="w-2.5 h-2.5 rtl:rotate-180"
-                  aria-hidden="true"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 6 10"
-                >
-                  <path
-                    stroke="currentColor"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M5 1 1 5l4 4"
-                  />
-                </svg>
-              </a>
-            </li>
-            <li>
-              <a
-                href="#"
-                className="flex items-center justify-center px-3 h-8 leading-tight text-black bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700"
-              >
-                1
-              </a>
-            </li>
-            <li>
-              <a
-                href="#"
-                className="flex items-center justify-center px-3 h-8 leading-tight text-black bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700"
-              >
-                2
-              </a>
-            </li>
-            <li>
-              <a
-                href="#"
-                aria-current="page"
-                className="z-10 flex items-center justify-center px-3 h-8 leading-tight text-blue-600 border border-blue-300 bg-blue-50 hover:bg-blue-100 hover:text-blue-700"
-              >
-                3
-              </a>
-            </li>
-            <li>
-              <a
-                href="#"
-                className="flex items-center justify-center px-3 h-8 leading-tight text-black bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700"
-              >
-                4
-              </a>
-            </li>
-            <li>
-              <a
-                href="#"
-                className="flex items-center justify-center px-3 h-8 leading-tight text-black bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700"
-              >
-                5
-              </a>
-            </li>
-            <li>
-              <a
-                href="#"
-                className="flex items-center justify-center px-3 h-8 leading-tight text-black bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-700"
-              >
-                <span className="sr-only">Next</span>
-                <svg
-                  className="w-2.5 h-2.5 rtl:rotate-180"
-                  aria-hidden="true"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 6 10"
-                >
-                  <path
-                    stroke="currentColor"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="m1 9 4-4-4-4"
-                  />
-                </svg>
-              </a>
-            </li>
-          </ul>
-        </nav>
+        {/* Pagination */}
+        <Pagination />
       </div>
+      <AddModal open={open} setOpen={setOpen} />
     </Master>
   );
 }

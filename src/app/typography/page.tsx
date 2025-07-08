@@ -3,6 +3,7 @@ import Loading from "@/components/global/Loading";
 import Master from "@/components/global/Master";
 import Example from "@/components/global/Modal";
 import NoResults from "@/components/global/NoResults";
+import Pagination from "@/components/global/Pagination";
 import React from "react";
 
 export default function Typography() {
@@ -19,6 +20,9 @@ export default function Typography() {
         <EmptyData />
         {/* Load */}
         <Loading />
+
+        {/* Pagination */}
+        <Pagination />
       </div>
     </Master>
   );

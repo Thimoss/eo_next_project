@@ -1,16 +1,16 @@
 import React from "react";
 import Modal from "../global/Modal";
 
-interface AddModalProps {
+interface UpdateModalProps {
   open: boolean;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export default function AddModal({ open, setOpen }: AddModalProps) {
+export default function UpdateModal({ open, setOpen }: UpdateModalProps) {
   return (
     <Modal onClose={() => setOpen(false)} open={open}>
       <div className="flex flex-col gap-5">
-        <span className="text-sm font-bold text-left">Add Category</span>
+        <span className="text-sm font-bold text-left">Update Category</span>
         <div className="flex flex-col gap-5">
           <div className="flex flex-col items-start gap-2">
             <span className="text-xs font-semibold">Name</span>

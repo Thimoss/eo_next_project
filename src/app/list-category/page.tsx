@@ -1,8 +1,9 @@
 "use client";
 import Master from "@/components/global/Master";
 import Pagination from "@/components/global/Pagination";
-import AddModal from "@/components/list-category/AddModal";
+import CreateModal from "@/components/list-category/CreateModal";
 import Search from "@/components/list-category/Search";
+import UpdateModal from "@/components/list-category/UpdateModal";
 import React, { useState } from "react";
 import { IoAdd } from "react-icons/io5";
 
@@ -15,7 +16,8 @@ const categories = [
 ];
 
 export default function ListCategory() {
-  const [open, setOpen] = useState(false);
+  const [openCreate, setOpenCreate] = useState(false);
+  const [openUpdate, setOpenUpdate] = useState(false);
 
   console.log(open);
   return (
@@ -27,7 +29,7 @@ export default function ListCategory() {
 
           <div className="flex justify-end w-full">
             <button
-              onClick={() => setOpen(true)}
+              onClick={() => setOpenCreate(true)}
               className="flex items-center gap-2 text-white bg-black hover:bg-gray-700 duration-300 cursor-pointer font-medium text-xs px-3 py-1.5 rounded-md"
             >
               <div className="w-4 h-4">
@@ -76,7 +78,8 @@ export default function ListCategory() {
         {/* Pagination */}
         <Pagination />
       </div>
-      <AddModal open={open} setOpen={setOpen} />
+      <CreateModal open={openCreate} setOpen={setOpenCreate} />
+      <UpdateModal open={openUpdate} setOpen={setOpenUpdate} />
     </Master>
   );
 }

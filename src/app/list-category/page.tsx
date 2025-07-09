@@ -2,10 +2,19 @@
 import Master from "@/components/global/Master";
 import Pagination from "@/components/global/Pagination";
 import CreateModal from "@/components/list-category/CreateModal";
+import DeleteModal from "@/components/list-category/DeleteModal";
 import Search from "@/components/list-category/Search";
+import Table from "@/components/list-category/Table";
 import UpdateModal from "@/components/list-category/UpdateModal";
 import React, { useState } from "react";
 import { IoAdd } from "react-icons/io5";
+
+export interface CategoryProps {
+  id: number;
+  initial: string;
+  name: string;
+  code: string;
+}
 
 const categories = [
   { id: 1, initial: "A", name: "Kategori A", code: "A001" },
@@ -18,13 +27,24 @@ const categories = [
 export default function ListCategory() {
   const [openCreate, setOpenCreate] = useState(false);
   const [openUpdate, setOpenUpdate] = useState(false);
+  const [openDelete, setOpenDelete] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState<CategoryProps>();
+
+  const handleEdit = async (category: CategoryProps) => {
+    setSelectedCategory(category);
+    setOpenUpdate(true);
+  };
+  const handleDelete = async (category: CategoryProps) => {
+    setSelectedCategory(category);
+    setOpenDelete(true);
+  };
 
   console.log(open);
   return (
     <Master>
-      <div className="flex flex-col gap-5">
+      <div className="flex flex-col  gap-5">
         <h1 className="text-black font-bold">List Category</h1>
-        <div className="flex flex-col items-center justify-between gap-5 ">
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-5 ">
           <Search />
 
           <div className="flex justify-end w-full">
@@ -41,45 +61,26 @@ export default function ListCategory() {
         </div>
 
         {/* Table */}
-        {/* No, Nama Kategori, Kode */}
-        <div className="relative overflow-x-auto sm:rounded-lg">
-          <table
-            className="w-full text-center text-black text-xs"
-            align="center"
-          >
-            <thead className="text-xs text-black uppercase bg-white">
-              <tr>
-                <th scope="col" className="px-6 py-3">
-                  No
-                </th>
-                <th scope="col" className="px-6 py-3">
-                  Nama Kategori
-                </th>
-                <th scope="col" className="px-6 py-3">
-                  Kode
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              {categories.map((category) => (
-                <tr
-                  key={category.id}
-                  className="odd:bg-gray-100 even:bg-gray-50 border-b border-gray-200"
-                >
-                  <td className="px-6 py-3">{category.id}</td>
-                  <td className="px-6 py-3">{category.name}</td>
-                  <td className="px-6 py-3">{category.initial}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+        <Table
+          categories={categories}
+          handleEdit={handleEdit}
+          handleDelete={handleDelete}
+        />
 
         {/* Pagination */}
         <Pagination />
       </div>
       <CreateModal open={openCreate} setOpen={setOpenCreate} />
-      <UpdateModal open={openUpdate} setOpen={setOpenUpdate} />
+      <UpdateModal
+        open={openUpdate}
+        setOpen={setOpenUpdate}
+        selectedCategory={selectedCategory}
+      />
+      <DeleteModal
+        open={openDelete}
+        setOpen={setOpenDelete}
+        selectedCategory={selectedCategory}
+      />
     </Master>
   );
 }

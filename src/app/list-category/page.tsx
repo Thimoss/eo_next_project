@@ -39,7 +39,6 @@ export default function ListCategory() {
     setOpenDelete(true);
   };
 
-  console.log(open);
   return (
     <Master>
       <div className="flex flex-col  gap-5">

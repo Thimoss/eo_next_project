@@ -27,19 +27,23 @@ export default function Table({
               Code
             </th>
             <th scope="col" className="px-6 py-3">
+              Location
+            </th>
+            <th scope="col" className="px-6 py-3">
               Action
             </th>
           </tr>
         </thead>
         <tbody>
-          {categories.map((category) => (
+          {categories.map((category, index) => (
             <tr
               key={category.id}
               className="odd:bg-gray-100 even:bg-gray-50 border-b border-gray-200"
             >
-              <td className="px-6 py-3">{category.id}</td>
+              <td className="px-6 py-3">{index + 1}</td>
               <td className="px-6 py-3">{category.name}</td>
-              <td className="px-6 py-3">{category.initial}</td>
+              <td className="px-6 py-3">{category.code}</td>
+              <td className="px-6 py-3">{category.location}</td>
               <td className="px-6 py-3 flex items-center gap-2 justify-center">
                 <button
                   onClick={() => handleEdit(category)}

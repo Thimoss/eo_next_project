@@ -6,42 +6,40 @@ import DeleteModal from "@/components/list-category/DeleteModal";
 import Search from "@/components/list-category/Search";
 import Table from "@/components/list-category/Table";
 import UpdateModal from "@/components/list-category/UpdateModal";
-import React, { useState } from "react";
+import React from "react";
 import { IoAdd } from "react-icons/io5";
 
-export interface CategoryProps {
-  id: number;
-  initial: string;
-  name: string;
-  code: string;
-}
-
-const categories = [
-  { id: 1, initial: "A", name: "Kategori A", code: "A001" },
-  { id: 2, initial: "B", name: "Kategori B", code: "B002" },
-  { id: 3, initial: "C", name: "Kategori C", code: "C003" },
-  { id: 4, initial: "D", name: "Kategori D", code: "D004" },
-  { id: 5, initial: "E", name: "Kategori E", code: "E005" },
-];
+import Loading from "@/components/global/Loading";
+import EmptyData from "@/components/global/EmptyData";
+import { useCategories } from "../../../hooks/Categories";
 
 export default function ListCategory() {
-  const [openCreate, setOpenCreate] = useState(false);
-  const [openUpdate, setOpenUpdate] = useState(false);
-  const [openDelete, setOpenDelete] = useState(false);
-  const [selectedCategory, setSelectedCategory] = useState<CategoryProps>();
-
-  const handleEdit = async (category: CategoryProps) => {
-    setSelectedCategory(category);
-    setOpenUpdate(true);
-  };
-  const handleDelete = async (category: CategoryProps) => {
-    setSelectedCategory(category);
-    setOpenDelete(true);
-  };
+  const {
+    openCreate,
+    setOpenCreate,
+    openUpdate,
+    setOpenUpdate,
+    openDelete,
+    setOpenDelete,
+    selectedCategory,
+    // setSelectedCategory,
+    // page,
+    // setPage,
+    // pageSize,
+    // setPageSize,
+    // searchQuery,
+    // setSearchQuery,
+    handleEdit,
+    handleDelete,
+    data,
+    // error,
+    isLoading,
+    // mutate,
+  } = useCategories();
 
   return (
     <Master>
-      <div className="flex flex-col  gap-5">
+      <div className="flex flex-col gap-5">
         <h1 className="text-black font-bold">List Category</h1>
         <div className="flex flex-col sm:flex-row items-center justify-between gap-5 ">
           <Search />
@@ -58,16 +56,27 @@ export default function ListCategory() {
             </button>
           </div>
         </div>
+        {isLoading ? (
+          <div>
+            <Loading />
+          </div>
+        ) : data ? (
+          <div className="flex flex-col gap-5">
+            {/* Table */}
+            <Table
+              categories={data}
+              handleEdit={handleEdit}
+              handleDelete={handleDelete}
+            />
 
-        {/* Table */}
-        <Table
-          categories={categories}
-          handleEdit={handleEdit}
-          handleDelete={handleDelete}
-        />
-
-        {/* Pagination */}
-        <Pagination />
+            {/* Pagination */}
+            <Pagination />
+          </div>
+        ) : (
+          <div>
+            <EmptyData />
+          </div>
+        )}
       </div>
       <CreateModal open={openCreate} setOpen={setOpenCreate} />
       <UpdateModal

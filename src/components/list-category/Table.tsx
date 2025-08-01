@@ -1,11 +1,11 @@
-import { CategoryProps } from "@/app/list-category/page";
 import React from "react";
 import { IoPencil, IoTrash } from "react-icons/io5";
+import { Category } from "../../../types/Categories.type";
 
 interface TableProps {
-  categories: CategoryProps[];
-  handleEdit: (category: CategoryProps) => Promise<void>;
-  handleDelete: (category: CategoryProps) => Promise<void>;
+  categories: Category[];
+  handleEdit: (category: Category) => Promise<void>;
+  handleDelete: (category: Category) => Promise<void>;
 }
 export default function Table({
   categories,

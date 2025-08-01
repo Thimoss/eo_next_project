@@ -4,13 +4,13 @@ import useSWR from "swr";
 import Api from "../service/Api";
 
 export const useCategories = () => {
+  const [searchQuery, setSearchQuery] = useState("");
+  const [page, setPage] = useState(1);
+  const [pageSize, setPageSize] = useState(10);
+  const [selectedCategory, setSelectedCategory] = useState<Category>();
   const [openCreate, setOpenCreate] = useState(false);
   const [openUpdate, setOpenUpdate] = useState(false);
   const [openDelete, setOpenDelete] = useState(false);
-  const [selectedCategory, setSelectedCategory] = useState<Category>();
-  const [page, setPage] = useState(1);
-  const [pageSize, setPageSize] = useState(10);
-  const [searchQuery, setSearchQuery] = useState("");
 
   const handleEdit = async (category: Category) => {
     setSelectedCategory(category);
@@ -30,8 +30,6 @@ export const useCategories = () => {
     const api = new Api();
     api.url = url;
     api.method = "GET";
-    // api.auth = true;
-
     api.body = {
       page,
       pageSize,
@@ -39,6 +37,7 @@ export const useCategories = () => {
     };
 
     const response = await api.call();
+    console.log("red");
     if (!response.statusCode.toString().startsWith("2")) {
       throw new Error(response.meta.message);
     }
@@ -46,11 +45,10 @@ export const useCategories = () => {
   };
 
   const { data, error, isLoading, mutate } = useSWR(
-    [`category/list`, page, pageSize, searchQuery], // Key for caching and revalidation
+    [`category/list`, page, pageSize, searchQuery],
     ([url, page, pageSize, name]) => fetcher(url, page, pageSize, name), // The fetcher function
     {
       revalidateOnFocus: false,
-      refreshInterval: 0,
     }
   );
 

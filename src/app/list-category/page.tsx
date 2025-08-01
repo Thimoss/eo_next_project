@@ -1,4 +1,3 @@
-"use client";
 import Master from "@/components/global/Master";
 import React from "react";
 import ClientSide from "@/components/list-category/ClientSide";

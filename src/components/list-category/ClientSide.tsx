@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import Search from "./Search";
 import { useCategories } from "../../../hooks/Categories";
@@ -31,8 +32,10 @@ export default function ClientSide() {
     data,
     // error,
     isLoading,
-    // mutate,
+    mutate,
   } = useCategories();
+
+  console.log(data);
   return (
     <>
       <div className="flex flex-col gap-5">
@@ -56,11 +59,11 @@ export default function ClientSide() {
           <div>
             <Loading />
           </div>
-        ) : data ? (
+        ) : data.list.length > 0 ? (
           <div className="flex flex-col gap-5">
             {/* Table */}
             <Table
-              categories={data}
+              categories={data.list}
               handleEdit={handleEdit}
               handleDelete={handleDelete}
             />
@@ -74,11 +77,12 @@ export default function ClientSide() {
           </div>
         )}
       </div>
-      <CreateModal open={openCreate} setOpen={setOpenCreate} />
+      <CreateModal open={openCreate} setOpen={setOpenCreate} mutate={mutate} />
       <UpdateModal
         open={openUpdate}
         setOpen={setOpenUpdate}
         selectedCategory={selectedCategory}
+        mutate={mutate}
       />
       <DeleteModal
         open={openDelete}

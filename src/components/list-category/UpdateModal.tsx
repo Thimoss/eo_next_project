@@ -149,10 +149,7 @@ export default function UpdateModal({
               <p className="text-xs text-red-500">{errors.location.message}</p>
             )}
           </div>
-          <div
-            className="flex gap-5 justify-end
-               "
-          >
+          <div className="flex gap-5 justify-end">
             <button
               onClick={handleCancel}
               type="button"

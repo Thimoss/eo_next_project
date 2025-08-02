@@ -35,7 +35,6 @@ export default function ClientSide() {
     mutate,
   } = useCategories();
 
-  console.log(data);
   return (
     <>
       <div className="flex flex-col gap-5">
@@ -61,14 +60,12 @@ export default function ClientSide() {
           </div>
         ) : data.list.length > 0 ? (
           <div className="flex flex-col gap-5">
-            {/* Table */}
             <Table
               categories={data.list}
               handleEdit={handleEdit}
               handleDelete={handleDelete}
             />
 
-            {/* Pagination */}
             <Pagination />
           </div>
         ) : (
@@ -88,6 +85,7 @@ export default function ClientSide() {
         open={openDelete}
         setOpen={setOpenDelete}
         selectedCategory={selectedCategory}
+        mutate={mutate}
       />
     </>
   );

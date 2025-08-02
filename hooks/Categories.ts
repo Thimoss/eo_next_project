@@ -49,6 +49,7 @@ export const useCategories = () => {
     ([url, page, pageSize, name]) => fetcher(url, page, pageSize, name), // The fetcher function
     {
       revalidateOnFocus: false,
+      // refreshInterval: 0,
     }
   );
 

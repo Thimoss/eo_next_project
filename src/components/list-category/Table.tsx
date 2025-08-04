@@ -1,6 +1,8 @@
+"use client";
 import React from "react";
 import { IoPencil, IoTrash } from "react-icons/io5";
 import { Category } from "../../../types/Categories.type";
+import { useRouter } from "next/navigation";
 
 interface TableProps {
   categories: Category[];
@@ -12,6 +14,11 @@ export default function Table({
   handleEdit,
   handleDelete,
 }: TableProps) {
+  const route = useRouter();
+
+  const handleDetail = async (category: Category) => {
+    route.push(`detail-category/${category.id}`);
+  };
   return (
     <div className="relative overflow-x-auto sm:rounded-lg">
       <table className="w-full text-center text-black text-xs" align="center">
@@ -38,7 +45,8 @@ export default function Table({
           {categories.map((category, index) => (
             <tr
               key={category.id}
-              className="odd:bg-gray-100 even:bg-gray-50 border-b border-gray-200"
+              onClick={() => handleDetail(category)}
+              className="odd:bg-gray-100 even:bg-gray-50 border-b border-gray-200 cursor-pointer hover:bg-gray-200 duration-300"
             >
               <td className="px-6 py-3">{index + 1}</td>
               <td className="px-6 py-3">{category.name}</td>

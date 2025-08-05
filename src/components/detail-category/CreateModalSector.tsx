@@ -3,24 +3,28 @@ import Modal from "../global/Modal";
 import { useForm } from "react-hook-form";
 import { KeyedMutator } from "swr";
 import { CgSpinner } from "react-icons/cg";
+import Api from "../../../service/Api";
+import { toast } from "react-toastify";
 
 interface FormData {
   name: string;
   no: string;
-  source: string;
+  source?: string;
 }
 interface CreateModalProps {
   open: boolean;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
-
-  // mutate: KeyedMutator<any>;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  mutate: KeyedMutator<any>;
+  categoryId: string;
 }
 
 export default function CreateModalSector({
   open,
   setOpen,
-}: // mutate,
-CreateModalProps) {
+  mutate,
+  categoryId,
+}: CreateModalProps) {
   const [loading, setLoading] = useState(false);
   const {
     // control,
@@ -32,43 +36,39 @@ CreateModalProps) {
   } = useForm<FormData>();
 
   const onSubmit = async (data: FormData) => {
-    // try {
-    //   setLoading(true);
-
-    //   const api = new Api();
-    //   api.url = "category/create";
-    //   api.method = "POST";
-    //   api.type = "json";
-    //   api.body = {
-    //     name: data.name,
-    //     code: data.code,
-    //     reference: data.reference,
-    //     location: data.location,
-    //   };
-
-    //   const response = await api.call();
-
-    //   if (response.statusCode === 200) {
-    //     toast.success(response.message);
-    //     setOpen(false);
-    //     mutate();
-    //     reset();
-    //   } else {
-    //     if (response.message && Array.isArray(response.message)) {
-    //       response.message.forEach((error: string) => {
-    //         toast.error(error);
-    //       });
-    //     } else {
-    //       toast.error(response.message);
-    //     }
-    //   }
-    //   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    // } catch (error: any) {
-    //   toast.error("Error creating category: " + error.message);
-    // } finally {
-    //   setLoading(false);
-    // }
-    console.log(data);
+    try {
+      setLoading(true);
+      const api = new Api();
+      api.url = "sector/create";
+      api.method = "POST";
+      api.type = "json";
+      api.body = {
+        no: data.no,
+        name: data.name,
+        source: data.source,
+        categoryId: Number(categoryId),
+      };
+      const response = await api.call();
+      if (response.statusCode === 200) {
+        toast.success(response.message);
+        setOpen(false);
+        mutate();
+        reset();
+      } else {
+        if (response.message && Array.isArray(response.message)) {
+          response.message.forEach((error: string) => {
+            toast.error(error);
+          });
+        } else {
+          toast.error(response.message);
+        }
+      }
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
+      toast.error("Error creating sector: " + error.message);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleCancel = () => {
@@ -110,7 +110,7 @@ CreateModalProps) {
             <input
               type="text"
               placeholder="Input category source"
-              {...register("source", { required: "source is required" })}
+              {...register("source")}
               className="text-xs px-3 bg-gray-200 rounded-md py-1 border border-gray-300 focus:outline-none w-full"
             />
           </div>

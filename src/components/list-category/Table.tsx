@@ -45,11 +45,17 @@ export default function Table({
           {categories.map((category, index) => (
             <tr
               key={category.id}
-              onClick={() => handleDetail(category)}
-              className="odd:bg-gray-100 even:bg-gray-50 border-b border-gray-200 cursor-pointer hover:bg-gray-200 duration-300"
+              className="odd:bg-gray-100 even:bg-gray-50 border-b border-gray-200"
             >
               <td className="px-6 py-3">{index + 1}</td>
-              <td className="px-6 py-3">{category.name}</td>
+              <td className="px-6 py-3">
+                <span
+                  onClick={() => handleDetail(category)}
+                  className="hover:underline duration-300 cursor-pointer"
+                >
+                  {category.name}
+                </span>
+              </td>
               <td className="px-6 py-3">{category.code}</td>
               <td className="px-6 py-3">{category.location}</td>
               <td className="px-6 py-3 flex items-center gap-2 justify-center">

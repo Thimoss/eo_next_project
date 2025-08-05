@@ -66,8 +66,6 @@ export default function UpdateModal({
         location: data.location,
       };
 
-      console.log(api.body);
-
       const response = await api.call();
 
       if (response.statusCode === 200) {

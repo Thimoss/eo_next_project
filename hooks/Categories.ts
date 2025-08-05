@@ -37,7 +37,6 @@ export const useCategories = () => {
     };
 
     const response = await api.call();
-    console.log("red");
     if (!response.statusCode.toString().startsWith("2")) {
       throw new Error(response.meta.message);
     }

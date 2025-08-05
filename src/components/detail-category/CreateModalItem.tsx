@@ -1,27 +1,39 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Modal from "../global/Modal";
 import { useForm } from "react-hook-form";
 import { KeyedMutator } from "swr";
 import { CgSpinner } from "react-icons/cg";
+import { Sector } from "../../../types/Sectors.type";
 
 interface FormData {
   name: string;
   no: string;
-  source: string;
+  source?: string;
+  minimum?: number;
+  unit?: string;
+  materialPricePerUnit?: number;
+  feePerUnit?: number;
+  singleItem: boolean;
+  sectorId: number;
 }
+
 interface CreateModalProps {
   open: boolean;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
-
-  // mutate: KeyedMutator<any>;
+  selectedSector: Sector | null | undefined;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  mutate: KeyedMutator<any>;
 }
 
 export default function CreateModalItem({
   open,
   setOpen,
-}: // mutate,
-CreateModalProps) {
+  mutate,
+  selectedSector,
+}: CreateModalProps) {
   const [loading, setLoading] = useState(false);
+  const [singleItem, setSingleItem] = useState(true);
+
   const {
     // control,
     handleSubmit,
@@ -29,63 +41,44 @@ CreateModalProps) {
     formState: { errors },
     reset,
     clearErrors,
-  } = useForm<FormData>();
+    setValue,
+  } = useForm<FormData>({
+    defaultValues: {
+      sectorId: selectedSector?.id ?? 0,
+      singleItem: true, // Default to true
+    },
+  });
 
-  const onSubmit = async (data: FormData) => {
-    // try {
-    //   setLoading(true);
-
-    //   const api = new Api();
-    //   api.url = "category/create";
-    //   api.method = "POST";
-    //   api.type = "json";
-    //   api.body = {
-    //     name: data.name,
-    //     code: data.code,
-    //     reference: data.reference,
-    //     location: data.location,
-    //   };
-
-    //   const response = await api.call();
-
-    //   if (response.statusCode === 200) {
-    //     toast.success(response.message);
-    //     setOpen(false);
-    //     mutate();
-    //     reset();
-    //   } else {
-    //     if (response.message && Array.isArray(response.message)) {
-    //       response.message.forEach((error: string) => {
-    //         toast.error(error);
-    //       });
-    //     } else {
-    //       toast.error(response.message);
-    //     }
-    //   }
-    //   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    // } catch (error: any) {
-    //   toast.error("Error creating category: " + error.message);
-    // } finally {
-    //   setLoading(false);
-    // }
-    console.log(data);
-  };
+  const onSubmit = async (data: FormData) => {};
 
   const handleCancel = () => {
     reset();
     setOpen(false);
     clearErrors();
   };
+
+  useEffect(() => {
+    setValue("singleItem", singleItem);
+    if (!singleItem) {
+      setValue("minimum", undefined);
+      setValue("unit", undefined);
+      setValue("materialPricePerUnit", undefined);
+      setValue("feePerUnit", undefined);
+    }
+  }, [singleItem, setValue]);
+
   return (
     <Modal onClose={() => setOpen(false)} open={open}>
       <div className="flex flex-col gap-5">
-        <span className="text-sm font-bold text-left">Add Item</span>
+        <span className="text-sm font-bold text-left">
+          Add Item for {selectedSector?.name}
+        </span>
         <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-5">
           <div className="flex flex-col items-start gap-2">
             <span className="text-xs font-semibold">Name</span>
             <input
               type="text"
-              placeholder="Input category name"
+              placeholder="Input item name"
               {...register("name", { required: "Name is required" })}
               className="text-xs px-3 bg-gray-200 rounded-md py-1 border border-gray-300 focus:outline-none w-full"
             />
@@ -97,7 +90,7 @@ CreateModalProps) {
             <span className="text-xs font-semibold">Number</span>
             <input
               type="text"
-              placeholder="Input category code"
+              placeholder="Input item number"
               {...register("no", { required: "Number is required" })}
               className="text-xs px-3 bg-gray-200 rounded-md py-1 border border-gray-300 focus:outline-none w-full"
             />
@@ -109,13 +102,81 @@ CreateModalProps) {
             <span className="text-xs font-semibold">Source</span>
             <input
               type="text"
-              placeholder="Input category source"
-              {...register("source", { required: "source is required" })}
+              placeholder="Input item source"
+              {...register("source")}
               className="text-xs px-3 bg-gray-200 rounded-md py-1 border border-gray-300 focus:outline-none w-full"
             />
+            {errors.source && (
+              <p className="text-xs text-red-500">{errors.source.message}</p>
+            )}
           </div>
-          {errors.source && (
-            <p className="text-xs text-red-500">{errors.source.message}</p>
+
+          <div className="flex items-center gap-2">
+            <input
+              type="checkbox"
+              id="singleItem"
+              {...register("singleItem")}
+              checked={singleItem}
+              onChange={() => setSingleItem(!singleItem)}
+            />
+            <label htmlFor="singleItem" className="text-xs font-semibold">
+              Single Item
+            </label>
+          </div>
+
+          {singleItem && (
+            <div className="grid grid-cols-2 gap-5">
+              <div className="flex flex-col items-start gap-2">
+                <span className="text-xs font-semibold">Minimum</span>
+                <input
+                  type="number"
+                  placeholder="Input minimum quantity"
+                  {...register("minimum", { required: "Minimum is required" })}
+                  className="text-xs px-3 bg-gray-200 rounded-md py-1 border border-gray-300 focus:outline-none w-full"
+                />
+                {errors.minimum && (
+                  <p className="text-xs text-red-500">
+                    {errors.minimum.message}
+                  </p>
+                )}
+              </div>
+
+              <div className="flex flex-col items-start gap-2">
+                <span className="text-xs font-semibold">Unit</span>
+                <input
+                  type="text"
+                  placeholder="Input unit"
+                  {...register("unit", { required: "Unit is required" })}
+                  className="text-xs px-3 bg-gray-200 rounded-md py-1 border border-gray-300 focus:outline-none w-full"
+                />
+              </div>
+
+              <div className="flex flex-col items-start gap-2">
+                <span className="text-xs font-semibold">
+                  Material Price Per Unit
+                </span>
+                <input
+                  type="number"
+                  placeholder="Input material price per unit"
+                  {...register("materialPricePerUnit", {
+                    required: "Material price is required",
+                  })}
+                  className="text-xs px-3 bg-gray-200 rounded-md py-1 border border-gray-300 focus:outline-none w-full"
+                />
+              </div>
+
+              <div className="flex flex-col items-start gap-2">
+                <span className="text-xs font-semibold">Fee Per Unit</span>
+                <input
+                  type="number"
+                  placeholder="Input fee per unit"
+                  {...register("feePerUnit", {
+                    required: "Fee per unit is required",
+                  })}
+                  className="text-xs px-3 bg-gray-200 rounded-md py-1 border border-gray-300 focus:outline-none w-full"
+                />
+              </div>
+            </div>
           )}
 
           <div
@@ -147,3 +208,36 @@ CreateModalProps) {
     </Modal>
   );
 }
+// try {
+//   setLoading(true);
+//   const api = new Api();
+//   api.url = "category/create";
+//   api.method = "POST";
+//   api.type = "json";
+//   api.body = {
+//     name: data.name,
+//     code: data.code,
+//     reference: data.reference,
+//     location: data.location,
+//   };
+//   const response = await api.call();
+//   if (response.statusCode === 200) {
+//     toast.success(response.message);
+//     setOpen(false);
+//     mutate();
+//     reset();
+//   } else {
+//     if (response.message && Array.isArray(response.message)) {
+//       response.message.forEach((error: string) => {
+//         toast.error(error);
+//       });
+//     } else {
+//       toast.error(response.message);
+//     }
+//   }
+//   // eslint-disable-next-line @typescript-eslint/no-explicit-any
+// } catch (error: any) {
+//   toast.error("Error creating category: " + error.message);
+// } finally {
+//   setLoading(false);
+// }

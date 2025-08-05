@@ -1,3 +1,5 @@
+import { Sector } from "./Sectors.type";
+
 export interface Category {
   id: number;
   name: string;
@@ -5,7 +7,7 @@ export interface Category {
   code: string;
   reference: string;
   location: string;
-  //   sectors: Sector[];
+  sectors: Sector[];
   createdAt: Date;
   updatedAt: Date;
   deletedAt?: Date | null; // This is optional, since deletedAt is nullable in the schema

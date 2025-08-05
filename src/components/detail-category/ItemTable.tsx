@@ -1,18 +1,25 @@
 import React from "react";
 import { IoAdd, IoPencil, IoTrash } from "react-icons/io5";
+import { Item } from "../../../types/Items.type";
+import { Sector } from "../../../types/Sectors.type";
 
 interface ItemTableProps {
-  openCreateItem: boolean;
-  setOpenCreateItem: React.Dispatch<React.SetStateAction<boolean>>;
-  handleEditItem: (item: any) => Promise<void>;
-  handleDeleteItem: (item: any) => Promise<void>;
+  data: Item[];
+  openCreate: boolean;
+  // setOpenCreate: React.Dispatch<React.SetStateAction<boolean>>;
+  handleCreate: (sector: Sector) => Promise<void>;
+  handleEdit: () => Promise<void>;
+  handleDelete: () => Promise<void>;
+  selectedSector: Sector;
 }
 
 export default function ItemTable({
-  openCreateItem,
-  setOpenCreateItem,
-  handleEditItem,
-  handleDeleteItem,
+  openCreate,
+  handleEdit,
+  handleDelete,
+  handleCreate,
+  selectedSector,
+  data,
 }: ItemTableProps) {
   return (
     <div className="relative overflow-x-auto sm:rounded-lg">
@@ -28,6 +35,9 @@ export default function ItemTable({
             <th scope="col" rowSpan={2} className="px-2 py-1.5">
               Job Types
             </th>
+            <th scope="col" rowSpan={2} className="px-2 py-1.5">
+              Unit
+            </th>
             <th scope="col" colSpan={2} className="px-2 py-1.5">
               Price
             </th>
@@ -37,72 +47,51 @@ export default function ItemTable({
           </tr>
           <tr>
             <th scope="col" className="px-2 py-1.5">
-              Price 1
+              Material
             </th>
             <th scope="col" className="px-2 py-1.5">
-              Price 2
+              Fee
             </th>
           </tr>
         </thead>
         <tbody>
-          {" "}
-          {/* Example row */}
-          <tr className="odd:bg-gray-100 even:bg-gray-50 border-b border-gray-200">
-            <td className="px-2 py-1.5">Source 1</td>
-            <td className="px-2 py-1.5">1</td>
-            <td className="px-2 py-1.5">Full-time</td>
-            <td className="px-2 py-1.5">$5000</td>
-            <td className="px-2 py-1.5">$5500</td>
-            <td className="px-2 py-1.5 flex items-center gap-2 justify-center">
-              <button
-                // onClick={() => handleEdit(category)}
-                className="text-white bg-black rounded-md px-2 py-0.5 duration-300 hover:bg-gray-700 cursor-pointer"
+          {data.length > 0 &&
+            data.map((item) => (
+              <tr
+                key={item.id}
+                className="odd:bg-gray-100 even:bg-gray-50 border-b border-gray-200"
               >
-                <div className="w-4 h-4">
-                  <IoPencil className="w-full h-full" />
-                </div>
-              </button>
-              <button
-                // onClick={() => handleDelete(category)}
-                className="text-white bg-black rounded-md px-2 py-0.5 duration-300 hover:bg-gray-700 cursor-pointer"
-              >
-                <div className="w-4 h-4">
-                  <IoTrash className="w-full h-full" />
-                </div>
-              </button>
-            </td>
-          </tr>
-          {/* Example row */}
-          <tr className="odd:bg-gray-100 even:bg-gray-50 border-b border-gray-200">
-            <td className="px-2 py-1.5">Source 2</td>
-            <td className="px-2 py-1.5">2</td>
-            <td className="px-2 py-1.5">Part-time</td>
-            <td className="px-2 py-1.5">$3000</td>
-            <td className="px-2 py-1.5">$3500</td>{" "}
-            <td className="px-2 py-1.5 flex items-center gap-2 justify-center">
-              <button
-                // onClick={() => handleEdit(category)}
-                className="text-white bg-black rounded-md px-2 py-0.5 duration-300 hover:bg-gray-700 cursor-pointer"
-              >
-                <div className="w-4 h-4">
-                  <IoPencil className="w-full h-full" />
-                </div>
-              </button>
-              <button
-                // onClick={() => handleDelete(category)}
-                className="text-white bg-black rounded-md px-2 py-0.5 duration-300 hover:bg-gray-700 cursor-pointer"
-              >
-                <div className="w-4 h-4">
-                  <IoTrash className="w-full h-full" />
-                </div>
-              </button>
-            </td>
-          </tr>
+                <td className="px-2 py-1.5">Source 1</td>
+                <td className="px-2 py-1.5">1</td>
+                <td className="px-2 py-1.5">Full-time</td>
+                <td className="px-2 py-1.5">Full-time</td>
+                <td className="px-2 py-1.5">Kg</td>
+                <td className="px-2 py-1.5">$5500</td>
+                <td className="px-2 py-1.5 flex items-center gap-2 justify-center">
+                  <button
+                    // onClick={() => handleEdit(category)}
+                    className="text-white bg-black rounded-md px-2 py-0.5 duration-300 hover:bg-gray-700 cursor-pointer"
+                  >
+                    <div className="w-4 h-4">
+                      <IoPencil className="w-full h-full" />
+                    </div>
+                  </button>
+                  <button
+                    onClick={handleDelete}
+                    className="text-white bg-black rounded-md px-2 py-0.5 duration-300 hover:bg-gray-700 cursor-pointer"
+                  >
+                    <div className="w-4 h-4">
+                      <IoTrash className="w-full h-full" />
+                    </div>
+                  </button>
+                </td>
+              </tr>
+            ))}
           <tr className="odd:bg-gray-100 even:bg-gray-50 border-b border-gray-200">
             <td colSpan={7} className="px-2 py-1.5">
               <div className="flex  justify-center">
                 <button
-                  onClick={() => setOpenCreateItem(true)}
+                  onClick={() => handleCreate(selectedSector)}
                   className="text-white flex items-center gap-2 justify-center bg-black rounded-md px-2 py-0.5 duration-300 hover:bg-gray-700 cursor-pointer"
                 >
                   <div className="w-4 h-4">

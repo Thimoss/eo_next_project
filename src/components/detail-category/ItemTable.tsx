@@ -14,8 +14,8 @@ interface ItemTableProps {
 }
 
 export default function ItemTable({
-  openCreate,
-  handleEdit,
+  // openCreate,
+  // handleEdit,
   handleDelete,
   handleCreate,
   selectedSector,
@@ -61,12 +61,18 @@ export default function ItemTable({
                 key={item.id}
                 className="odd:bg-gray-100 even:bg-gray-50 border-b border-gray-200"
               >
-                <td className="px-2 py-1.5">Source 1</td>
-                <td className="px-2 py-1.5">1</td>
-                <td className="px-2 py-1.5">Full-time</td>
-                <td className="px-2 py-1.5">Full-time</td>
-                <td className="px-2 py-1.5">Kg</td>
-                <td className="px-2 py-1.5">$5500</td>
+                <td className="px-2 py-1.5">
+                  {item.source ? item.source : "-"}
+                </td>
+                <td className="px-2 py-1.5">
+                  {item.categoryCode}.{item.sectorNo}.{item.no}
+                </td>
+                <td className="px-2 py-1.5">{item.name}</td>
+                <td className="px-2 py-1.5">
+                  {item.minimum} {item.unit}
+                </td>
+                <td className="px-2 py-1.5">{item.materialPricePerUnit}</td>
+                <td className="px-2 py-1.5">{item.feePerUnit}</td>
                 <td className="px-2 py-1.5 flex items-center gap-2 justify-center">
                   <button
                     // onClick={() => handleEdit(category)}

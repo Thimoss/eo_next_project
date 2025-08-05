@@ -1,10 +1,6 @@
 import React, { useState } from "react";
 import Modal from "../global/Modal";
-import Api from "../../../service/Api";
-import { Category } from "../../../types/Categories.type";
-import { toast } from "react-toastify";
 import { CgSpinner } from "react-icons/cg";
-import { KeyedMutator } from "swr";
 
 interface DeleteModalProps {
   open: boolean;
@@ -20,6 +16,7 @@ export default function DeleteModalSector({
 }: // selectedCategory,
 // mutate,
 DeleteModalProps) {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [loading, setLoading] = useState(false);
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [error, setError] = useState(null);

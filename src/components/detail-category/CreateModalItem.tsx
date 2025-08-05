@@ -4,6 +4,8 @@ import { useForm } from "react-hook-form";
 import { KeyedMutator } from "swr";
 import { CgSpinner } from "react-icons/cg";
 import { Sector } from "../../../types/Sectors.type";
+import { toast } from "react-toastify";
+import Api from "../../../service/Api";
 
 interface FormData {
   name: string;
@@ -49,7 +51,60 @@ export default function CreateModalItem({
     },
   });
 
-  const onSubmit = async (data: FormData) => {};
+  const onSubmit = async (data: FormData) => {
+    try {
+      setLoading(true);
+      const api = new Api();
+      api.url = "item/create";
+      api.method = "POST";
+      api.type = "json";
+      api.body = {
+        no: data.no,
+        name: data.name,
+        source: data.source,
+        sectorId: selectedSector?.id,
+        singleItem: data.singleItem,
+        ...(data.singleItem && {
+          minimum: data.minimum
+            ? parseInt(data.minimum.toString(), 10)
+            : undefined,
+          unit: data.unit ?? undefined,
+          materialPricePerUnit: data.materialPricePerUnit
+            ? parseFloat(data.materialPricePerUnit.toString())
+            : undefined,
+          feePerUnit: data.feePerUnit
+            ? parseFloat(data.feePerUnit.toString())
+            : undefined,
+        }),
+        ...(!data.singleItem && {
+          minimum: null,
+          unit: null,
+          materialPricePerUnit: null,
+          feePerUnit: null,
+        }),
+      };
+      const response = await api.call();
+      if (response.statusCode === 200) {
+        toast.success(response.message);
+        setOpen(false);
+        mutate();
+        reset();
+      } else {
+        if (response.message && Array.isArray(response.message)) {
+          response.message.forEach((error: string) => {
+            toast.error(error);
+          });
+        } else {
+          toast.error(response.message);
+        }
+      }
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
+      toast.error("Error creating category: " + error.message);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const handleCancel = () => {
     reset();
@@ -208,36 +263,3 @@ export default function CreateModalItem({
     </Modal>
   );
 }
-// try {
-//   setLoading(true);
-//   const api = new Api();
-//   api.url = "category/create";
-//   api.method = "POST";
-//   api.type = "json";
-//   api.body = {
-//     name: data.name,
-//     code: data.code,
-//     reference: data.reference,
-//     location: data.location,
-//   };
-//   const response = await api.call();
-//   if (response.statusCode === 200) {
-//     toast.success(response.message);
-//     setOpen(false);
-//     mutate();
-//     reset();
-//   } else {
-//     if (response.message && Array.isArray(response.message)) {
-//       response.message.forEach((error: string) => {
-//         toast.error(error);
-//       });
-//     } else {
-//       toast.error(response.message);
-//     }
-//   }
-//   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-// } catch (error: any) {
-//   toast.error("Error creating category: " + error.message);
-// } finally {
-//   setLoading(false);
-// }

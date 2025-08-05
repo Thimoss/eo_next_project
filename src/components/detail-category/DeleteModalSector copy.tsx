@@ -9,6 +9,7 @@ interface DeleteModalProps {
 }
 
 export default function DeleteModalItem({ open, setOpen }: DeleteModalProps) {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [loading, setLoading] = useState(false);
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [error, setError] = useState(null);

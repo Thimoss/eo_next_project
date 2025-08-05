@@ -26,7 +26,7 @@ export const useDetailCategories = ({ id }: UseDetailCategoriesProps) => {
     setOpenDeleteSector(true);
   };
 
-  const handleCreateItem = async (sector) => {
+  const handleCreateItem = async (sector: Sector) => {
     setSelectedSector(sector);
     setOpenCreateItem(true);
   };

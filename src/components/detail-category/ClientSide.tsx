@@ -80,27 +80,32 @@ export default function ClientSide({ id }: ClientSideDetailCategoryProps) {
               </div>
             </div>
 
-            <div className="flex flex-col gap-5">
+            <div className="flex flex-col gap-10">
               {dataDetail.sectors.length === 0 ? (
                 <div>Belum ada Sector</div>
               ) : (
                 dataDetail.sectors.map((sector: Sector) => (
-                  <div key={sector.id} className="flex flex-col gap-2">
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-2">
-                        <p className="text-sm font-semibold">
-                          {sector.categoryCode}.{sector.no} {sector.name}
-                        </p>
-                        <button className="px-2 hover:bg-gray-300 rounded-md cursor-pointer py-1 duration-300">
-                          <IoPencil className="h-4 w-4" />
+                  <div key={sector.id} className="flex flex-col gap-4">
+                    <div>
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-2">
+                          <p className="text-sm font-semibold">
+                            {sector.categoryCode}.{sector.no} {sector.name}
+                          </p>
+                          <button className="px-2 hover:bg-gray-300 rounded-md cursor-pointer py-1 duration-300">
+                            <IoPencil className="h-4 w-4" />
+                          </button>
+                        </div>
+                        <button
+                          onClick={() => handleDeleteSector()}
+                          className="px-2 hover:bg-red-500 hover:text-white rounded-md cursor-pointer py-1 duration-300"
+                        >
+                          <IoTrash className="h-4 w-4" />
                         </button>
                       </div>
-                      <button
-                        onClick={() => handleDeleteSector()}
-                        className="px-2 hover:bg-red-500 hover:text-white rounded-md cursor-pointer py-1 duration-300"
-                      >
-                        <IoTrash className="h-4 w-4" />
-                      </button>
+                      <span className="text-xs">
+                        Source: {sector.source ? sector.source : "-"}
+                      </span>
                     </div>
                     <ItemTable
                       data={sector.items}

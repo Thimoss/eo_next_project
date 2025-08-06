@@ -9,6 +9,17 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --background: #ffffff;
+  --foreground: #171717;
+  --color-primaryBlue: #006eb6;
+  --color-primaryBlueDarker: #005a95;
+  --color-primaryBlueLighter: #3396d1;
+  --color-primaryRed: #e31e24;
+  --color-primaryRedDarker: #b5191f;
+  --color-primaryRedLighter: #f65d62;
+  --color-primaryGreen: #b0cb1f;
+  --color-primaryGreenDarker: #8a9b16;
+  --color-primaryGreenLighter: #d1e35b;
   --font-sans: var(--font-geist-sans);
 }
 

@@ -22,7 +22,7 @@ export default function Table({
   return (
     <div className="relative overflow-x-auto sm:rounded-lg">
       <table className="w-full text-center text-black text-xs" align="center">
-        <thead className="text-xs text-black uppercase bg-white">
+        <thead className="text-xs text-white uppercase bg-primaryBlue">
           <tr>
             <th scope="col" className="px-6 py-3">
               No
@@ -51,7 +51,7 @@ export default function Table({
               <td className="px-6 py-3">
                 <span
                   onClick={() => handleDetail(category)}
-                  className="hover:underline duration-300 cursor-pointer"
+                  className="hover:underline duration-300 cursor-pointer hover:text-primaryBlue"
                 >
                   {category.name}
                 </span>
@@ -61,7 +61,7 @@ export default function Table({
               <td className="px-6 py-3 flex items-center gap-2 justify-center">
                 <button
                   onClick={() => handleEdit(category)}
-                  className="text-white bg-black rounded-md px-2 py-0.5 duration-300 hover:bg-gray-700 cursor-pointer"
+                  className="text-white bg-primaryGreen disabled:bg-primaryGreenLighter hover:bg-primaryGreenDarker rounded-md px-2 py-0.5 duration-300  cursor-pointer"
                 >
                   <div className="w-4 h-4">
                     <IoPencil className="w-full h-full" />
@@ -69,7 +69,7 @@ export default function Table({
                 </button>
                 <button
                   onClick={() => handleDelete(category)}
-                  className="text-white bg-black rounded-md px-2 py-0.5 duration-300 hover:bg-gray-700 cursor-pointer"
+                  className="text-white bg-primaryRed disabled:bg-primaryRedLighter hover:bg-primaryRedDarker rounded-md px-2 py-0.5 duration-300  cursor-pointer"
                 >
                   <div className="w-4 h-4">
                     <IoTrash className="w-full h-full" />

@@ -45,7 +45,7 @@ export default function ClientSide() {
           <div className="flex justify-end w-full">
             <button
               onClick={() => setOpenCreate(true)}
-              className="flex items-center gap-2 text-white bg-black hover:bg-gray-700 duration-300 cursor-pointer font-medium text-xs px-3 py-1.5 rounded-md"
+              className="flex items-center gap-2 text-white bg-primaryGreen hover:bg-primaryGreenDarker duration-300 cursor-pointer font-medium text-xs px-3 py-1.5 rounded-md"
             >
               <div className="w-4 h-4">
                 <IoAdd className="w-full h-full" />

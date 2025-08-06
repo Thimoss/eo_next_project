@@ -6,16 +6,14 @@ import { Sector } from "../../../types/Sectors.type";
 interface ItemTableProps {
   data: Item[];
   openCreate: boolean;
-  // setOpenCreate: React.Dispatch<React.SetStateAction<boolean>>;
   handleCreate: (sector: Sector) => Promise<void>;
-  handleEdit: () => Promise<void>;
-  handleDeleteItem: (item: Item) => Promise<void>;
+  handleEdit: (item: Item, sector: Sector) => void;
+  handleDelete: (item: Item) => Promise<void>;
   selectedSector: Sector;
 }
 
 export default function ItemTable({
-  // openCreate,
-  // handleEdit,
+  handleEdit,
   handleDelete,
   handleCreate,
   selectedSector,
@@ -75,7 +73,7 @@ export default function ItemTable({
                 <td className="px-2 py-1.5">{item.feePerUnit}</td>
                 <td className="px-2 py-1.5 flex items-center gap-2 justify-center">
                   <button
-                    // onClick={() => handleEdit(category)}
+                    onClick={() => handleEdit(item, selectedSector)}
                     className="text-white bg-black rounded-md px-2 py-0.5 duration-300 hover:bg-gray-700 cursor-pointer"
                   >
                     <div className="w-4 h-4">

@@ -31,7 +31,8 @@ export const useDetailCategories = ({ id }: UseDetailCategoriesProps) => {
     setSelectedSector(sector);
     setOpenCreateItem(true);
   };
-  const handleEditItem = (item: Item) => {
+  const handleEditItem = (item: Item, sector: Sector) => {
+    setSelectedSector(sector);
     setSelectedItem(item);
     setOpenUpdateItem(true);
   };

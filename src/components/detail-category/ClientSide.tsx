@@ -5,11 +5,12 @@ import ItemTable from "./ItemTable";
 import { useDetailCategories } from "../../../hooks/DetailCategories";
 import { IoAdd, IoPencil, IoTrash } from "react-icons/io5";
 import CreateModalSector from "./CreateModalSector";
-import CreateModalItem from "./CreateModalItem";
 import DeleteModalSector from "./DeleteModalSector";
 import Loading from "../global/Loading";
 import { Sector } from "../../../types/Sectors.type";
 import DeleteModalItem from "./DeleteModalItem";
+import UpdateModalSector from "./UpdateModalSector";
+import UpdateModalItem from "./UpdateModalItem";
 
 interface ClientSideDetailCategoryProps {
   id: string;
@@ -19,14 +20,14 @@ export default function ClientSide({ id }: ClientSideDetailCategoryProps) {
   const {
     openCreateSector,
     setOpenCreateSector,
-    // openUpdateSector,
-    // setOpenUpdateSector,
+    openUpdateSector,
+    setOpenUpdateSector,
     openDeleteSector,
     setOpenDeleteSector,
     openCreateItem,
-    setOpenCreateItem,
-    // openUpdateItem,
-    // setOpenUpdateItem,
+    // setOpenCreateItem,
+    openUpdateItem,
+    setOpenUpdateItem,
     openDeleteItem,
     setOpenDeleteItem,
     selectedSector,
@@ -34,7 +35,7 @@ export default function ClientSide({ id }: ClientSideDetailCategoryProps) {
     selectedItem,
     handleCreateItem,
     // setSelectedItem,
-    // handleEditSector,
+    handleEditSector,
     handleDeleteSector,
     handleEditItem,
     handleDeleteItem,
@@ -92,7 +93,10 @@ export default function ClientSide({ id }: ClientSideDetailCategoryProps) {
                           <p className="text-sm font-semibold">
                             {sector.categoryCode}.{sector.no} {sector.name}
                           </p>
-                          <button className="px-2 hover:bg-gray-300 rounded-md cursor-pointer py-1 duration-300">
+                          <button
+                            onClick={() => handleEditSector(sector)}
+                            className="px-2 hover:bg-gray-300 rounded-md cursor-pointer py-1 duration-300"
+                          >
                             <IoPencil className="h-4 w-4" />
                           </button>
                         </div>
@@ -130,13 +134,21 @@ export default function ClientSide({ id }: ClientSideDetailCategoryProps) {
         mutate={mutateDetail}
         categoryId={id}
       />
-      <CreateModalItem
-        open={openCreateItem}
-        setOpen={setOpenCreateItem}
+      <UpdateModalSector
+        open={openUpdateSector}
+        setOpen={setOpenUpdateSector}
+        mutate={mutateDetail}
+        categoryId={id}
+        selectedSector={selectedSector}
+      />
+      <UpdateModalItem
+        open={openUpdateItem}
+        setOpen={setOpenUpdateItem}
         mutate={mutateDetail}
         selectedSector={selectedSector}
-        // selectedSectorId
+        selectedItem={selectedItem}
       />
+
       <DeleteModalSector
         open={openDeleteSector}
         setOpen={setOpenDeleteSector}

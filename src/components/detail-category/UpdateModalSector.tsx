@@ -1,71 +1,68 @@
 import React, { useEffect, useState } from "react";
 import Modal from "../global/Modal";
-import { Category } from "../../../types/Categories.type";
-import { KeyedMutator } from "swr";
 import { useForm } from "react-hook-form";
-import { toast } from "react-toastify";
-import Api from "../../../service/Api";
+import { KeyedMutator } from "swr";
 import { CgSpinner } from "react-icons/cg";
+import Api from "../../../service/Api";
+import { toast } from "react-toastify";
+import { Sector } from "../../../types/Sectors.type";
 
 interface FormData {
   name: string;
-  code: string;
-  reference: string;
-  location: string;
+  no: string;
+  source?: string;
 }
-
 interface UpdateModalProps {
   open: boolean;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  selectedCategory?: Category;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   mutate: KeyedMutator<any>;
+  categoryId: string;
+  selectedSector: Sector | null | undefined;
 }
 
-export default function UpdateModal({
+export default function UpdateModalSector({
   open,
   setOpen,
-  selectedCategory,
   mutate,
+  categoryId,
+  selectedSector,
 }: UpdateModalProps) {
   const [loading, setLoading] = useState(false);
-
   const {
+    // control,
     handleSubmit,
     register,
     formState: { errors },
     reset,
+    clearErrors,
   } = useForm<FormData>({});
 
   useEffect(() => {
     // Reset form jika selectedCategory berubah
-    if (selectedCategory) {
+    if (selectedSector) {
       reset({
-        name: selectedCategory.name || "",
-        code: selectedCategory.code || "",
-        reference: selectedCategory.reference || "",
-        location: selectedCategory.location || "",
+        name: selectedSector.name || "",
+        no: selectedSector.no || "",
+        source: selectedSector.source || "",
       });
     }
-  }, [selectedCategory, reset]);
+  }, [selectedSector, reset]);
 
   const onSubmit = async (data: FormData) => {
     try {
       setLoading(true);
-
       const api = new Api();
-      api.url = `category/update/${selectedCategory?.id}`;
+      api.url = `sector/update/${selectedSector?.id}`;
       api.method = "PATCH";
       api.type = "json";
       api.body = {
+        no: data.no,
         name: data.name,
-        code: data.code,
-        reference: data.reference,
-        location: data.location,
+        source: data.source,
+        categoryId: Number(categoryId),
       };
-
       const response = await api.call();
-
       if (response.statusCode === 200) {
         toast.success(response.message);
         setOpen(false);
@@ -82,20 +79,21 @@ export default function UpdateModal({
       }
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
-      toast.error("Error creating category: " + error.message);
+      toast.error("Error updating sector: " + error.message);
     } finally {
       setLoading(false);
     }
   };
 
   const handleCancel = () => {
+    reset();
     setOpen(false);
-    reset(); // Reset form when modal is closed or canceled
+    clearErrors();
   };
   return (
     <Modal onClose={() => setOpen(false)} open={open}>
       <div className="flex flex-col gap-5">
-        <span className="text-sm font-bold text-left">Update Category</span>
+        <span className="text-sm font-bold text-left">Update Sector</span>
         <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-5">
           <div className="flex flex-col items-start gap-2">
             <span className="text-xs font-semibold">Name</span>
@@ -110,42 +108,34 @@ export default function UpdateModal({
             )}
           </div>
           <div className="flex flex-col items-start gap-2">
-            <span className="text-xs font-semibold">Code</span>
+            <span className="text-xs font-semibold">Number</span>
             <input
               type="text"
               placeholder="Input category code"
-              {...register("code", { required: "Code is required" })}
+              {...register("no", { required: "Number is required" })}
               className="text-xs px-3 bg-gray-200 rounded-md py-1 border border-gray-300 focus:outline-none w-full"
             />
-            {errors.code && (
-              <p className="text-xs text-red-500">{errors.code.message}</p>
+            {errors.no && (
+              <p className="text-xs text-red-500">{errors.no.message}</p>
             )}
           </div>
           <div className="flex flex-col items-start gap-2">
-            <span className="text-xs font-semibold">Reference</span>
+            <span className="text-xs font-semibold">Source</span>
             <input
               type="text"
-              placeholder="Input category reference"
-              {...register("reference", { required: "Reference is required" })}
+              placeholder="Input category source"
+              {...register("source")}
               className="text-xs px-3 bg-gray-200 rounded-md py-1 border border-gray-300 focus:outline-none w-full"
             />
           </div>
-          {errors.reference && (
-            <p className="text-xs text-red-500">{errors.reference.message}</p>
+          {errors.source && (
+            <p className="text-xs text-red-500">{errors.source.message}</p>
           )}
-          <div className="flex flex-col items-start gap-2">
-            <span className="text-xs font-semibold">Location</span>
-            <input
-              type="text"
-              placeholder="Input category location"
-              {...register("location", { required: "Location is required" })}
-              className="text-xs px-3 bg-gray-200 rounded-md py-1 border border-gray-300 focus:outline-none w-full"
-            />
-            {errors.location && (
-              <p className="text-xs text-red-500">{errors.location.message}</p>
-            )}
-          </div>
-          <div className="flex gap-5 justify-end">
+
+          <div
+            className="flex gap-5 justify-end
+          "
+          >
             <button
               onClick={handleCancel}
               type="button"

@@ -2,6 +2,7 @@ import { useState } from "react";
 import Api from "../service/Api";
 import useSWR from "swr";
 import { Sector } from "../types/Sectors.type";
+import { Item } from "../types/Items.type";
 
 interface UseDetailCategoriesProps {
   id: string;
@@ -15,14 +16,14 @@ export const useDetailCategories = ({ id }: UseDetailCategoriesProps) => {
   const [openUpdateItem, setOpenUpdateItem] = useState(false);
   const [openDeleteItem, setOpenDeleteItem] = useState(false);
   const [selectedSector, setSelectedSector] = useState<Sector | null>();
-  const [selectedItem, setSelectedItem] = useState();
+  const [selectedItem, setSelectedItem] = useState<Item | null>();
 
-  const handleEditSector = async () => {
-    // setSelectedCategory(category);
+  const handleEditSector = async (sector: Sector) => {
+    setSelectedSector(sector);
     setOpenUpdateSector(true);
   };
-  const handleDeleteSector = async () => {
-    // setSelectedCategory(category);
+  const handleDeleteSector = async (sector: Sector) => {
+    setSelectedSector(sector);
     setOpenDeleteSector(true);
   };
 
@@ -30,12 +31,12 @@ export const useDetailCategories = ({ id }: UseDetailCategoriesProps) => {
     setSelectedSector(sector);
     setOpenCreateItem(true);
   };
-  const handleEditItem = async () => {
-    // setSelectedCategory(category);
+  const handleEditItem = (item: Item) => {
+    setSelectedItem(item);
     setOpenUpdateItem(true);
   };
-  const handleDeleteItem = async () => {
-    // setSelectedCategory(category);
+  const handleDeleteItem = async (item: Item) => {
+    setSelectedItem(item);
     setOpenDeleteItem(true);
   };
 

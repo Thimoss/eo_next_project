@@ -1,65 +1,67 @@
 import React, { useState } from "react";
 import Modal from "../global/Modal";
 import { CgSpinner } from "react-icons/cg";
+import Api from "../../../service/Api";
+import { toast } from "react-toastify";
+import { KeyedMutator } from "swr";
+import { Sector } from "../../../types/Sectors.type";
 
 interface DeleteModalProps {
   open: boolean;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  // selectedCategory?: Category;
-
-  // mutate: KeyedMutator<any>;
+  selectedSector: Sector | null | undefined;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  mutate: KeyedMutator<any>;
 }
 
 export default function DeleteModalSector({
   open,
   setOpen,
-}: // selectedCategory,
-// mutate,
-DeleteModalProps) {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  mutate,
+  selectedSector,
+}: DeleteModalProps) {
   const [loading, setLoading] = useState(false);
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [error, setError] = useState(null);
 
-  // const handleDelete = async () => {
-  //   if (loading) return;
+  const handleDelete = async () => {
+    if (loading) return;
 
-  //   setLoading(true);
-  //   setError(null);
+    setLoading(true);
+    setError(null);
 
-  //   const api = new Api();
-  //   api.method = "DELETE";
-  //   api.url = `category/delete/${selectedCategory?.id}`;
+    const api = new Api();
+    api.method = "DELETE";
+    api.url = `sector/delete/${selectedSector?.id}`;
 
-  //   try {
-  //     const res = await api.call();
+    try {
+      const res = await api.call();
 
-  //     if (res.statusCode === 200) {
-  //       toast.success(res.message);
-  //       mutate();
-  //       setOpen(false);
-  //     } else {
-  //       toast.error(res.message || "Gagal menghapus kategori. Coba lagi.");
-  //     }
-  //     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  //   } catch (err: any) {
-  //     toast.error(
-  //       "Terjadi kesalahan saat menghubungi server. Coba lagi nanti."
-  //     );
-  //     setError(err);
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // };
+      if (res.statusCode === 200) {
+        toast.success(res.message);
+        mutate();
+        setOpen(false);
+      } else {
+        toast.error(res.message || "Gagal menghapus sektor. Coba lagi.");
+      }
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (err: any) {
+      toast.error(
+        "Terjadi kesalahan saat menghubungi server. Coba lagi nanti."
+      );
+      setError(err);
+    } finally {
+      setLoading(false);
+    }
+  };
   return (
     <Modal onClose={() => setOpen(false)} open={open}>
       <div className="flex flex-col gap-5">
-        <span className="text-sm font-bold text-left">Delete Category</span>
+        <span className="text-sm font-bold text-left">Delete Sektor</span>
         <div className="flex flex-col gap-5">
           <p className="text-xs">
             Are you sure you want to delete the{" "}
-            {/* <strong>{selectedCategory?.name}</strong>? */}
-            <strong>Tes</strong>?
+            <strong>{selectedSector?.name}</strong>??
           </p>
 
           <div
@@ -74,7 +76,7 @@ DeleteModalProps) {
             </button>
             <button
               disabled={loading}
-              // onClick={handleDelete}
+              onClick={handleDelete}
               className=" cursor-pointer px-3 py-1.5 rounded-md border-black border text-xs text-white font-semibold duration-300 hover:bg-gray-700 bg-black flex items-center gap-2 transition-all"
             >
               {loading && (

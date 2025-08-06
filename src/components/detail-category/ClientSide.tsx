@@ -7,9 +7,9 @@ import { IoAdd, IoPencil, IoTrash } from "react-icons/io5";
 import CreateModalSector from "./CreateModalSector";
 import CreateModalItem from "./CreateModalItem";
 import DeleteModalSector from "./DeleteModalSector";
-import DeleteModalItem from "./DeleteModalSector copy";
 import Loading from "../global/Loading";
 import { Sector } from "../../../types/Sectors.type";
+import DeleteModalItem from "./DeleteModalItem";
 
 interface ClientSideDetailCategoryProps {
   id: string;
@@ -31,7 +31,7 @@ export default function ClientSide({ id }: ClientSideDetailCategoryProps) {
     setOpenDeleteItem,
     selectedSector,
     // setSelectedSector,
-    // selectedItem,
+    selectedItem,
     handleCreateItem,
     // setSelectedItem,
     // handleEditSector,
@@ -97,7 +97,7 @@ export default function ClientSide({ id }: ClientSideDetailCategoryProps) {
                           </button>
                         </div>
                         <button
-                          onClick={() => handleDeleteSector()}
+                          onClick={() => handleDeleteSector(sector)}
                           className="px-2 hover:bg-red-500 hover:text-white rounded-md cursor-pointer py-1 duration-300"
                         >
                           <IoTrash className="h-4 w-4" />
@@ -140,8 +140,15 @@ export default function ClientSide({ id }: ClientSideDetailCategoryProps) {
       <DeleteModalSector
         open={openDeleteSector}
         setOpen={setOpenDeleteSector}
+        mutate={mutateDetail}
+        selectedSector={selectedSector}
       />
-      <DeleteModalItem open={openDeleteItem} setOpen={setOpenDeleteItem} />
+      <DeleteModalItem
+        open={openDeleteItem}
+        setOpen={setOpenDeleteItem}
+        mutate={mutateDetail}
+        selectedItem={selectedItem}
+      />
     </>
   );
 }

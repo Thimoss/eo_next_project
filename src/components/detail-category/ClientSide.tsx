@@ -71,7 +71,7 @@ export default function ClientSide({ id }: ClientSideDetailCategoryProps) {
               <div className="flex justify-end w-full">
                 <button
                   onClick={() => setOpenCreateSector(true)}
-                  className="flex items-center gap-2 text-white bg-black hover:bg-gray-700 duration-300 cursor-pointer font-medium text-xs px-3 py-1.5 rounded-md"
+                  className="flex items-center gap-2 text-white bg-primaryGreen disabled:bg-primaryGreenLighter hover:bg-primaryGreenDarker duration-300 cursor-pointer font-medium text-xs px-3 py-1.5 rounded-md"
                 >
                   <div className="w-4 h-4">
                     <IoAdd className="w-full h-full" />
@@ -95,7 +95,7 @@ export default function ClientSide({ id }: ClientSideDetailCategoryProps) {
                           </p>
                           <button
                             onClick={() => handleEditSector(sector)}
-                            className="px-2 hover:bg-gray-300 rounded-md cursor-pointer py-1 duration-300"
+                            className="px-2 hover:bg-gray-300 rounded-md cursor-pointer py-1 duration-300 text-primaryGreen"
                           >
                             <IoPencil className="h-4 w-4" />
                           </button>

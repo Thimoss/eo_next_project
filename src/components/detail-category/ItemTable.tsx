@@ -22,7 +22,7 @@ export default function ItemTable({
   return (
     <div className="relative overflow-x-auto sm:rounded-lg">
       <table className="w-full text-center text-black text-xs " align="center">
-        <thead className="text-xs text-black uppercase bg-white">
+        <thead className="text-xs text-white uppercase bg-primaryBlue">
           <tr>
             <th scope="col" rowSpan={2} className="px-2 py-1.5">
               Source
@@ -57,7 +57,11 @@ export default function ItemTable({
             data.map((item) => (
               <tr
                 key={item.id}
-                className="odd:bg-gray-100 even:bg-gray-50 border-b border-gray-200"
+                className={`${
+                  item.singleItem
+                    ? "odd:bg-gray-100 even:bg-gray-50"
+                    : "bg-blue-100"
+                } border-b border-gray-200`}
               >
                 <td className="px-2 py-1.5">
                   {item.source ? item.source : "-"}
@@ -74,7 +78,7 @@ export default function ItemTable({
                 <td className="px-2 py-1.5 flex items-center gap-2 justify-center">
                   <button
                     onClick={() => handleEdit(item, selectedSector)}
-                    className="text-white bg-black rounded-md px-2 py-0.5 duration-300 hover:bg-gray-700 cursor-pointer"
+                    className="text-white bg-primaryGreen disabled:bg-primaryGreenLighter hover:bg-primaryGreenDarker rounded-md px-2 py-0.5 duration-300  cursor-pointer"
                   >
                     <div className="w-4 h-4">
                       <IoPencil className="w-full h-full" />
@@ -82,7 +86,7 @@ export default function ItemTable({
                   </button>
                   <button
                     onClick={() => handleDelete(item)}
-                    className="text-white bg-black rounded-md px-2 py-0.5 duration-300 hover:bg-gray-700 cursor-pointer"
+                    className="text-white bg-primaryRed disabled:bg-primaryRedLighter hover:bg-primaryRedDarker rounded-md px-2 py-0.5 duration-300  cursor-pointer"
                   >
                     <div className="w-4 h-4">
                       <IoTrash className="w-full h-full" />
@@ -96,12 +100,12 @@ export default function ItemTable({
               <div className="flex  justify-center">
                 <button
                   onClick={() => handleCreate(selectedSector)}
-                  className="text-white flex items-center gap-2 justify-center bg-black rounded-md px-2 py-0.5 duration-300 hover:bg-gray-700 cursor-pointer"
+                  className="text-white bg-primaryBlue disabled:bg-primaryBlueLighter hover:bg-primaryBlueDarker duration-300 cursor-pointer flex items-center gap-2 justify-center  rounded-md px-2 py-0.5"
                 >
                   <div className="w-4 h-4">
                     <IoAdd className="w-full h-full" />
                   </div>
-                  <span>Tambah Item</span>
+                  <span>Add Item</span>
                 </button>
               </div>
             </td>

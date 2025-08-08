@@ -137,8 +137,6 @@ export default function UpdateModalItem({
     }
   }, [singleItem, setValue]);
 
-  console.log(selectedItem);
-
   return (
     <Modal onClose={() => setOpen(false)} open={open}>
       <div className="flex flex-col gap-5">

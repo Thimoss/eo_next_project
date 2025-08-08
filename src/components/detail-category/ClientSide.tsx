@@ -11,6 +11,8 @@ import { Sector } from "../../../types/Sectors.type";
 import DeleteModalItem from "./DeleteModalItem";
 import UpdateModalSector from "./UpdateModalSector";
 import UpdateModalItem from "./UpdateModalItem";
+import SectorEmpty from "./SectorEmpty";
+import CreateModalItem from "./CreateModalItem";
 
 interface ClientSideDetailCategoryProps {
   id: string;
@@ -25,7 +27,7 @@ export default function ClientSide({ id }: ClientSideDetailCategoryProps) {
     openDeleteSector,
     setOpenDeleteSector,
     openCreateItem,
-    // setOpenCreateItem,
+    setOpenCreateItem,
     openUpdateItem,
     setOpenUpdateItem,
     openDeleteItem,
@@ -83,7 +85,7 @@ export default function ClientSide({ id }: ClientSideDetailCategoryProps) {
 
             <div className="flex flex-col gap-10">
               {dataDetail.sectors.length === 0 ? (
-                <div>Belum ada Sector</div>
+                <SectorEmpty />
               ) : (
                 dataDetail.sectors.map((sector: Sector) => (
                   <div key={sector.id} className="flex flex-col gap-4">
@@ -95,14 +97,14 @@ export default function ClientSide({ id }: ClientSideDetailCategoryProps) {
                           </p>
                           <button
                             onClick={() => handleEditSector(sector)}
-                            className="px-2 hover:bg-gray-300 rounded-md cursor-pointer py-1 duration-300 text-primaryGreen"
+                            className="px-2 hover:bg-primaryGreen hover:text-white rounded-md cursor-pointer py-1 duration-300 text-primaryGreen"
                           >
                             <IoPencil className="h-4 w-4" />
                           </button>
                         </div>
                         <button
                           onClick={() => handleDeleteSector(sector)}
-                          className="px-2 hover:bg-red-500 hover:text-white rounded-md cursor-pointer py-1 duration-300"
+                          className="px-2 hover:bg-primaryRed hover:text-white text-primaryRed rounded-md cursor-pointer py-1 duration-300"
                         >
                           <IoTrash className="h-4 w-4" />
                         </button>
@@ -139,6 +141,12 @@ export default function ClientSide({ id }: ClientSideDetailCategoryProps) {
         setOpen={setOpenUpdateSector}
         mutate={mutateDetail}
         categoryId={id}
+        selectedSector={selectedSector}
+      />
+      <CreateModalItem
+        open={openCreateItem}
+        setOpen={setOpenCreateItem}
+        mutate={mutateDetail}
         selectedSector={selectedSector}
       />
       <UpdateModalItem

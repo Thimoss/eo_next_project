@@ -15,6 +15,9 @@ export default function RootLayout({
   return (
     <>
       <html lang="en">
+        <head>
+          <link rel="icon" href="/icon.png" sizes="any" />
+        </head>
         <body className={`antialiased`}>{children}</body>
       </html>
       <ToastContainer />

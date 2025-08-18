@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { ToastContainer } from "react-toastify";
+import NextTopLoader from "nextjs-toploader";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -18,7 +19,10 @@ export default function RootLayout({
         <head>
           <link rel="icon" href="/icon.png" sizes="any" />
         </head>
-        <body className={`antialiased`}>{children}</body>
+        <body className={`antialiased`}>
+          <NextTopLoader />
+          {children}
+        </body>
       </html>
       <ToastContainer />
     </>

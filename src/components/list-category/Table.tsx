@@ -2,7 +2,7 @@
 import React from "react";
 import { IoPencil, IoTrash } from "react-icons/io5";
 import { Category } from "../../../types/Categories.type";
-import { useRouter } from "next/navigation";
+import { useRouter } from "nextjs-toploader/app";
 
 interface TableProps {
   categories: Category[];

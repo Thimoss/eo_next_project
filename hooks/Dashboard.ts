@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import Api from "../service/Api";
 import useSWR from "swr";
-import { useRouter } from "next/navigation";
+import { useRouter } from "nextjs-toploader/app";
 
 export interface SortByDataProps {
   value: string;

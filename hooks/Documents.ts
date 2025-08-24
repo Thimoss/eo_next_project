@@ -1,10 +1,14 @@
 import useSWR from "swr";
 import Api from "../service/Api";
+import { useState } from "react";
 
 interface UseDetailDocumentProps {
   slug: string;
 }
 export const UseDetailDocument = ({ slug }: UseDetailDocumentProps) => {
+  const [openCreateSection, setOpenCreateSection] = useState(false);
+  const [openDeleteSection, setOpenDeleteSection] = useState(false);
+  const [openUpdateSection, setOpenUpdateSection] = useState(false);
   const fetcherDetail = async (url: string, slug: string) => {
     const api = new Api();
     api.url = url + slug;
@@ -28,8 +32,24 @@ export const UseDetailDocument = ({ slug }: UseDetailDocumentProps) => {
     ([url, slug]) => fetcherDetail(url, slug),
     {
       revalidateOnFocus: false,
-      // refreshInterval: 0,
+      refreshInterval: 300,
     }
   );
-  return { dataDetail, errorDetail, isLoadingDetail, mutateDetail };
+
+  const handleCreateSection = async () => {
+    setOpenCreateSection(true);
+  };
+  return {
+    dataDetail,
+    errorDetail,
+    isLoadingDetail,
+    mutateDetail,
+    openCreateSection,
+    setOpenCreateSection,
+    openDeleteSection,
+    setOpenDeleteSection,
+    openUpdateSection,
+    setOpenUpdateSection,
+    handleCreateSection,
+  };
 };

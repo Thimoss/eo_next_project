@@ -4,13 +4,27 @@ import DocumentInformation from "./DocumentInformation";
 import { UseDetailDocument } from "../../../hooks/Documents";
 import Loading from "../global/Loading";
 import Table from "./Table";
+import CreateModalSection from "./CreateModalSection";
+import UpdateModalSection from "./UpdateModalSection";
+import DeleteModalSection from "./DeleteModalSection";
 
 interface DetailDocumentProps {
   slug: string;
 }
 export default function ClientSide({ slug }: DetailDocumentProps) {
-  const { dataDetail, errorDetail, isLoadingDetail, mutateDetail } =
-    UseDetailDocument({ slug });
+  const {
+    dataDetail,
+    errorDetail,
+    isLoadingDetail,
+    mutateDetail,
+    openCreateSection,
+    setOpenCreateSection,
+    // openDeleteSection,
+    // setOpenDeleteSection,
+    // openUpdateSection,
+    // setOpenUpdateSection,
+    handleCreateSection,
+  } = UseDetailDocument({ slug });
 
   return (
     <>
@@ -22,12 +36,22 @@ export default function ClientSide({ slug }: DetailDocumentProps) {
             location={dataDetail.location}
             base={dataDetail.base}
             job={dataDetail.job}
+            slug={slug}
+            mutate={mutateDetail}
           />
-          <Table />
+          <Table handleCreateSection={handleCreateSection} />
         </div>
       ) : (
         <div>Data Tidak ada</div>
       )}
+
+      <CreateModalSection
+        mutate={mutateDetail}
+        open={openCreateSection}
+        setOpen={setOpenCreateSection}
+      />
+      <UpdateModalSection />
+      <DeleteModalSection />
     </>
   );
 }

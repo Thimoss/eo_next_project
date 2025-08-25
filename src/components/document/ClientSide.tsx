@@ -21,8 +21,10 @@ export default function ClientSide({ slug }: DetailDocumentProps) {
     setOpenCreateSection,
     // openDeleteSection,
     // setOpenDeleteSection,
-    // openUpdateSection,
-    // setOpenUpdateSection,
+    openUpdateSection,
+    setOpenUpdateSection,
+    handleUpdateSection,
+    selectedJobSection,
     handleCreateSection,
   } = UseDetailDocument({ slug });
 
@@ -31,27 +33,39 @@ export default function ClientSide({ slug }: DetailDocumentProps) {
       {isLoadingDetail ? (
         <Loading />
       ) : dataDetail ? (
-        <div className="flex flex-col gap-5">
-          <DocumentInformation
-            location={dataDetail.location}
-            base={dataDetail.base}
-            job={dataDetail.job}
-            slug={slug}
+        <>
+          <div className="flex flex-col gap-5">
+            <DocumentInformation
+              location={dataDetail.location}
+              base={dataDetail.base}
+              job={dataDetail.job}
+              slug={slug}
+              mutate={mutateDetail}
+            />
+            <Table
+              handleCreateSection={handleCreateSection}
+              jobSections={dataDetail.jobSections}
+              handleUpdateSection={handleUpdateSection}
+            />
+          </div>
+          <CreateModalSection
             mutate={mutateDetail}
+            open={openCreateSection}
+            setOpen={setOpenCreateSection}
+            documentId={dataDetail?.id}
           />
-          <Table handleCreateSection={handleCreateSection} />
-        </div>
+          <UpdateModalSection
+            open={openUpdateSection}
+            setOpen={setOpenUpdateSection}
+            mutate={mutateDetail}
+            selectedJobSection={selectedJobSection}
+            documentId={dataDetail?.id}
+          />
+          <DeleteModalSection />
+        </>
       ) : (
         <div>Data Tidak ada</div>
       )}
-
-      <CreateModalSection
-        mutate={mutateDetail}
-        open={openCreateSection}
-        setOpen={setOpenCreateSection}
-      />
-      <UpdateModalSection />
-      <DeleteModalSection />
     </>
   );
 }

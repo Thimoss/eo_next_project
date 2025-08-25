@@ -9,6 +9,7 @@ export const UseDetailDocument = ({ slug }: UseDetailDocumentProps) => {
   const [openCreateSection, setOpenCreateSection] = useState(false);
   const [openDeleteSection, setOpenDeleteSection] = useState(false);
   const [openUpdateSection, setOpenUpdateSection] = useState(false);
+  const [selectedJobSection, setSelectedJobSection] = useState();
   const fetcherDetail = async (url: string, slug: string) => {
     const api = new Api();
     api.url = url + slug;
@@ -39,6 +40,10 @@ export const UseDetailDocument = ({ slug }: UseDetailDocumentProps) => {
   const handleCreateSection = async () => {
     setOpenCreateSection(true);
   };
+  const handleUpdateSection = async (section) => {
+    setSelectedJobSection(section);
+    setOpenUpdateSection(true);
+  };
   return {
     dataDetail,
     errorDetail,
@@ -51,5 +56,7 @@ export const UseDetailDocument = ({ slug }: UseDetailDocumentProps) => {
     openUpdateSection,
     setOpenUpdateSection,
     handleCreateSection,
+    handleUpdateSection,
+    selectedJobSection,
   };
 };

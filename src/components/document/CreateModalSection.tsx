@@ -3,6 +3,8 @@ import { KeyedMutator } from "swr";
 import Modal from "../global/Modal";
 import { CgSpinner } from "react-icons/cg";
 import { useForm } from "react-hook-form";
+import { toast } from "react-toastify";
+import Api from "../../../service/Api";
 
 interface FormData {
   name: string;
@@ -13,12 +15,14 @@ interface CreateModalProps {
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   mutate: KeyedMutator<any>;
+  documentId: number;
 }
 
 export default function CreateModalSection({
   open,
   setOpen,
   mutate,
+  documentId,
 }: CreateModalProps) {
   const [loading, setLoading] = useState(false);
   const {
@@ -31,39 +35,37 @@ export default function CreateModalSection({
   } = useForm<FormData>();
 
   const onSubmit = async (data: FormData) => {
-    // try {
-    //   setLoading(true);
-    //   const api = new Api();
-    //   api.url = "category/create";
-    //   api.method = "POST";
-    //   api.type = "json";
-    //   api.body = {
-    //     name: data.name,
-    //     code: data.code,
-    //     reference: data.reference,
-    //     location: data.location,
-    //   };
-    //   const response = await api.call();
-    //   if (response.statusCode === 200) {
-    //     toast.success(response.message);
-    //     setOpen(false);
-    //     mutate();
-    //     reset();
-    //   } else {
-    //     if (response.message && Array.isArray(response.message)) {
-    //       response.message.forEach((error: string) => {
-    //         toast.error(error);
-    //       });
-    //     } else {
-    //       toast.error(response.message);
-    //     }
-    //   }
-    //   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    // } catch (error: any) {
-    //   toast.error("Error creating category: " + error.message);
-    // } finally {
-    //   setLoading(false);
-    // }
+    try {
+      setLoading(true);
+      const api = new Api();
+      api.url = "job-section/create";
+      api.method = "POST";
+      api.type = "json";
+      api.body = {
+        name: data.name,
+        documentId: documentId,
+      };
+      const response = await api.call();
+      if (response.statusCode === 200) {
+        toast.success(response.message);
+        setOpen(false);
+        mutate();
+        reset();
+      } else {
+        if (response.message && Array.isArray(response.message)) {
+          response.message.forEach((error: string) => {
+            toast.error(error);
+          });
+        } else {
+          toast.error(response.message);
+        }
+      }
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
+      toast.error("Error creating document: " + error.message);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleCancel = () => {

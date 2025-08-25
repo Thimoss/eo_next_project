@@ -71,14 +71,14 @@ export default function DeleteModalItem({
           >
             <button
               onClick={() => setOpen(false)}
-              className=" cursor-pointer px-3 py-1.5 rounded-md border-black border text-xs font-semibold text-black duration-300 hover:bg-gray-300 bg-white"
+              className="px-3 py-1.5 rounded-md text-xs font-semibold text-white duration-300 bg-primaryBlue disabled:bg-primaryBlueLighter hover:bg-primaryBlueDarker cursor-pointer"
             >
               Cancel
             </button>
             <button
               disabled={loading}
               onClick={handleDelete}
-              className=" cursor-pointer px-3 py-1.5 rounded-md border-black border text-xs text-white font-semibold duration-300 hover:bg-gray-700 bg-black flex items-center gap-2 transition-all"
+              className="px-3 py-1.5 rounded-md text-xs font-semibold text-white duration-300 bg-primaryRed disabled:bg-primaryRedLighter hover:bg-primaryRedDarker cursor-pointer"
             >
               {loading && (
                 <div>

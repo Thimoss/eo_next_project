@@ -1,59 +1,66 @@
 import React, { useState } from "react";
-import { IoAdd } from "react-icons/io5";
+import { IoAdd, IoPencil, IoTrash } from "react-icons/io5";
 
 interface TableProps {
   handleCreateSection: () => Promise<void>;
+  jobSections: any;
+  handleUpdateSection: (section: any) => Promise<void>;
 }
 
-export default function Table({ handleCreateSection }: TableProps) {
-  const [jobSections, setJobSections] = useState([]);
+export default function Table({
+  handleCreateSection,
+  jobSections,
+  handleUpdateSection,
+}: TableProps) {
+  console.log(jobSections);
+  // const [jobSections, setJobSections] = useState([]);
 
   // Handler to add a new item to a specific job section
-  const handleAddItem = (jobSectionId) => {
-    // Get data for the new item (simulate a form input or prompt)
-    const itemName = prompt("Enter job item name:");
-    const materialPrice = parseFloat(
-      prompt("Enter material price per volume:")
-    );
-    const feePrice = parseFloat(prompt("Enter fee per volume:"));
-    const volume = parseInt(prompt("Enter volume:"));
-    const info = prompt("Enter item information:");
+  // const handleAddItem = (jobSectionId) => {
+  //   // Get data for the new item (simulate a form input or prompt)
+  //   const itemName = prompt("Enter job item name:");
+  //   const materialPrice = parseFloat(
+  //     prompt("Enter material price per volume:")
+  //   );
+  //   const feePrice = parseFloat(prompt("Enter fee per volume:"));
+  //   const volume = parseInt(prompt("Enter volume:"));
+  //   const info = prompt("Enter item information:");
 
-    const newItem = {
-      id: Date.now(), // Unique ID based on timestamp
-      description: itemName,
-      volume: volume,
-      materialPrice: materialPrice,
-      feePrice: feePrice,
-      info: info,
-    };
+  //   const newItem = {
+  //     id: Date.now(), // Unique ID based on timestamp
+  //     description: itemName,
+  //     volume: volume,
+  //     materialPrice: materialPrice,
+  //     feePrice: feePrice,
+  //     info: info,
+  //   };
 
-    // Update the job section with the new item and recalculate total prices
-    setJobSections((prevState) =>
-      prevState.map((section) => {
-        if (section.id === jobSectionId) {
-          // Recalculate total prices
-          const updatedItems = [...section.items, newItem];
-          const newTotalMaterialPrice = updatedItems.reduce(
-            (acc, item) => acc + item.materialPrice * item.volume,
-            0
-          );
-          const newTotalFeePrice = updatedItems.reduce(
-            (acc, item) => acc + item.feePrice * item.volume,
-            0
-          );
+  //   // Update the job section with the new item and recalculate total prices
+  //   setJobSections((prevState) =>
+  //     prevState.map((section) => {
+  //       if (section.id === jobSectionId) {
+  //         // Recalculate total prices
+  //         const updatedItems = [...section.items, newItem];
+  //         const newTotalMaterialPrice = updatedItems.reduce(
+  //           (acc, item) => acc + item.materialPrice * item.volume,
+  //           0
+  //         );
+  //         const newTotalFeePrice = updatedItems.reduce(
+  //           (acc, item) => acc + item.feePrice * item.volume,
+  //           0
+  //         );
 
-          return {
-            ...section,
-            items: updatedItems,
-            totalMaterialPrice: newTotalMaterialPrice,
-            totalFeePrice: newTotalFeePrice,
-          };
-        }
-        return section;
-      })
-    );
-  };
+  //         return {
+  //           ...section,
+  //           items: updatedItems,
+  //           totalMaterialPrice: newTotalMaterialPrice,
+  //           totalFeePrice: newTotalFeePrice,
+  //         };
+  //       }
+  //       return section;
+  //     })
+  //   );
+  // };
 
   // Handler to add a new job section
   // const handleAddJobSection = () => {
@@ -127,7 +134,7 @@ export default function Table({ handleCreateSection }: TableProps) {
                     <td className="px-6 py-3">
                       {String.fromCharCode(65 + index)}
                     </td>
-                    <td className="px-6 py-3">{jobSection.description}</td>
+                    <td className="px-6 py-3">{jobSection.name}</td>
                     <td className="px-6 py-3"></td>
                     <td className="px-6 py-3"></td>
                     <td className="px-6 py-1.5"></td>
@@ -136,15 +143,31 @@ export default function Table({ handleCreateSection }: TableProps) {
                     </td>
                     <td className="px-6 py-3">{jobSection.totalFeePrice}</td>
                     <td className="px-6 py-3"></td>
-                    <td className="px-6 py-3"></td>
+                    <td className="px-6 py-3 flex items-center gap-2 justify-center">
+                      <button
+                        onClick={() => handleUpdateSection(jobSection)}
+                        className="text-white bg-primaryGreen disabled:bg-primaryGreenLighter hover:bg-primaryGreenDarker rounded-md px-2 py-0.5 duration-300  cursor-pointer"
+                      >
+                        <div className="w-4 h-4">
+                          <IoPencil className="w-full h-full" />
+                        </div>
+                      </button>
+                      <button
+                        //  onClick={() => handleDelete(category)}
+                        className="text-white bg-primaryRed disabled:bg-primaryRedLighter hover:bg-primaryRedDarker rounded-md px-2 py-0.5 duration-300  cursor-pointer"
+                      >
+                        <div className="w-4 h-4">
+                          <IoTrash className="w-full h-full" />
+                        </div>
+                      </button>
+                    </td>
                   </tr>
-                  {jobSection.items.map((item, idx) => (
+                  {/* {jobSection.items.map((item, idx) => (
                     <tr
                       key={item.id}
                       className="odd:bg-gray-100 even:bg-gray-50 border-b border-gray-200"
                     >
                       <td className="px-6 py-3">{idx + 1}</td>
-                      {/* Use idx to display the correct item number */}
                       <td className="px-6 py-3">{item.description}</td>
                       <td className="px-6 py-3">{item.volume}</td>
                       <td className="px-6 py-3">{item.materialPrice}</td>
@@ -158,13 +181,13 @@ export default function Table({ handleCreateSection }: TableProps) {
                       <td className="px-6 py-3">{item.info}</td>
                       <td className="px-6 py-3"></td>
                     </tr>
-                  ))}
+                  ))} */}
                   <tr className="odd:bg-gray-100 even:bg-gray-50 border-b border-gray-200">
                     <td className="px-6 py-3"></td>
                     <td className="px-6 py-3 flex justify-center">
                       <button
                         className="flex items-center gap-2 text-white bg-primaryBlue hover:bg-primaryBlueDarker duration-300 cursor-pointer font-medium text-xs px-3 py-1.5 rounded-md"
-                        onClick={() => handleAddItem(jobSection.id)}
+                        // onClick={() => handleAddItem(jobSection.id)}
                       >
                         <div className="w-4 h-4">
                           <IoAdd className="w-full h-full" />
@@ -210,3 +233,73 @@ export default function Table({ handleCreateSection }: TableProps) {
     </div>
   );
 }
+
+// {jobSections.length === 0 ? (
+//         <tr>
+//           <td colSpan={9} className="text-center py-3">
+//             No job sections available. Add a job section to start.
+//           </td>
+//         </tr>
+//       ) : (
+//         jobSections.map((jobSection, index) => (
+//           <React.Fragment key={jobSection.id}>
+//             <tr className="bg-blue-100 border-b border-gray-200 font-semibold">
+//               <td className="px-6 py-3">
+//                 {String.fromCharCode(65 + index)}
+//               </td>
+//               <td className="px-6 py-3">{jobSection.description}</td>
+//               <td className="px-6 py-3"></td>
+//               <td className="px-6 py-3"></td>
+//               <td className="px-6 py-1.5"></td>
+//               <td className="px-6 py-3">
+//                 {jobSection.totalMaterialPrice}
+//               </td>
+//               <td className="px-6 py-3">{jobSection.totalFeePrice}</td>
+//               <td className="px-6 py-3"></td>
+//               <td className="px-6 py-3"></td>
+//             </tr>
+//             {jobSection.items.map((item, idx) => (
+//               <tr
+//                 key={item.id}
+//                 className="odd:bg-gray-100 even:bg-gray-50 border-b border-gray-200"
+//               >
+//                 <td className="px-6 py-3">{idx + 1}</td>
+//                 {/* Use idx to display the correct item number */}
+//                 <td className="px-6 py-3">{item.description}</td>
+//                 <td className="px-6 py-3">{item.volume}</td>
+//                 <td className="px-6 py-3">{item.materialPrice}</td>
+//                 <td className="px-6 py-3">{item.feePrice}</td>
+//                 <td className="px-6 py-3">
+//                   {item.materialPrice * item.volume}
+//                 </td>
+//                 <td className="px-6 py-3">
+//                   {item.feePrice * item.volume}
+//                 </td>
+//                 <td className="px-6 py-3">{item.info}</td>
+//                 <td className="px-6 py-3"></td>
+//               </tr>
+//             ))}
+//             <tr className="odd:bg-gray-100 even:bg-gray-50 border-b border-gray-200">
+//               <td className="px-6 py-3"></td>
+//               <td className="px-6 py-3 flex justify-center">
+//                 <button
+//                   className="flex items-center gap-2 text-white bg-primaryBlue hover:bg-primaryBlueDarker duration-300 cursor-pointer font-medium text-xs px-3 py-1.5 rounded-md"
+//                   onClick={() => handleAddItem(jobSection.id)}
+//                 >
+//                   <div className="w-4 h-4">
+//                     <IoAdd className="w-full h-full" />
+//                   </div>
+//                   <span className="text-xs font-semibold">Add Item</span>
+//                 </button>
+//               </td>
+//               <td className="px-6 py-3"></td>
+//               <td className="px-6 py-3"></td>
+//               <td className="px-6 py-3"></td>
+//               <td className="px-6 py-3"></td>
+//               <td className="px-6 py-3"></td>
+//               <td className="px-6 py-3"></td>
+//               <td className="px-6 py-3"></td>
+//             </tr>
+//           </React.Fragment>
+//         ))
+//       )}

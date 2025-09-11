@@ -5,6 +5,7 @@ import { CgSpinner } from "react-icons/cg";
 import { toast } from "react-toastify";
 import Api from "../../../service/Api";
 import { useForm } from "react-hook-form";
+import { JobSection } from "../../../types/Documents.type";
 
 interface FormData {
   name: string;
@@ -15,7 +16,7 @@ interface UpdateModalProps {
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   mutate: KeyedMutator<any>;
-  selectedJobSection: any;
+  selectedJobSection: JobSection | null | undefined;
   documentId: number;
 }
 
@@ -108,7 +109,7 @@ export default function UpdateModalSection({
             <button
               onClick={handleCancel}
               type="button"
-              className="px-3 py-1.5 rounded-md text-xs font-semibold text-white duration-300 bg-primaryRed disabled:bg-primaryRedLighter hover:bg-primaryRedDarker cursor-pointer"
+              className="px-3 py-1.5 rounded-md text-xs font-semibold text-white duration-300 bg-primaryRed disabled:bg-primaryRedLighter hover:bg-primaryRedDarker cursor-pointer flex items-center justify-between"
             >
               Cancel
             </button>

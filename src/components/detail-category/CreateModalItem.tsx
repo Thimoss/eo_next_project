@@ -14,7 +14,7 @@ interface FormData {
   minimum?: number;
   unit?: string;
   materialPricePerUnit?: number;
-  feePerUnit?: number;
+  feePricePerUnit?: number;
   singleItem: boolean;
   sectorId: number;
 }
@@ -72,15 +72,15 @@ export default function CreateModalItem({
           materialPricePerUnit: data.materialPricePerUnit
             ? parseFloat(data.materialPricePerUnit.toString())
             : undefined,
-          feePerUnit: data.feePerUnit
-            ? parseFloat(data.feePerUnit.toString())
+          feePricePerUnit: data.feePricePerUnit
+            ? parseFloat(data.feePricePerUnit.toString())
             : undefined,
         }),
         ...(!data.singleItem && {
           minimum: null,
           unit: null,
           materialPricePerUnit: null,
-          feePerUnit: null,
+          feePricePerUnit: null,
         }),
       };
       const response = await api.call();
@@ -118,7 +118,7 @@ export default function CreateModalItem({
       setValue("minimum", undefined);
       setValue("unit", undefined);
       setValue("materialPricePerUnit", undefined);
-      setValue("feePerUnit", undefined);
+      setValue("feePricePerUnit", undefined);
     }
   }, [singleItem, setValue]);
 
@@ -225,7 +225,7 @@ export default function CreateModalItem({
                 <input
                   type="number"
                   placeholder="Input fee per unit"
-                  {...register("feePerUnit", {
+                  {...register("feePricePerUnit", {
                     required: "Fee per unit is required",
                   })}
                   className="text-xs px-3 bg-gray-200 rounded-md py-1 border border-gray-300 focus:outline-none w-full"
@@ -241,7 +241,7 @@ export default function CreateModalItem({
             <button
               onClick={handleCancel}
               type="button"
-              className="px-3 py-1.5 rounded-md text-xs font-semibold text-white duration-300 bg-primaryRed disabled:bg-primaryRedLighter hover:bg-primaryRedDarker cursor-pointer"
+              className="px-3 py-1.5 rounded-md text-xs font-semibold text-white duration-300 bg-primaryRed disabled:bg-primaryRedLighter hover:bg-primaryRedDarker cursor-pointer flex items-center justify-between"
             >
               Cancel
             </button>

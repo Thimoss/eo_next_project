@@ -1,82 +1,32 @@
-import React, { useState } from "react";
+import React from "react";
 import { IoAdd, IoPencil, IoTrash } from "react-icons/io5";
+import formatRupiah from "../../../utils/formatRupiah";
+import {
+  Document,
+  ItemJobSection,
+  JobSection,
+} from "../../../types/Documents.type";
 
 interface TableProps {
   handleCreateSection: () => Promise<void>;
-  jobSections: any;
-  handleUpdateSection: (section: any) => Promise<void>;
+  handleUpdateSection: (section: JobSection) => Promise<void>;
+  handleDeleteSection: (section: JobSection) => Promise<void>;
+  handleCreateItemJob: (section: JobSection) => Promise<void>;
+  handleUpdateItemJob: (
+    item: ItemJobSection,
+    section: JobSection
+  ) => Promise<void>;
+  dataDetail: Document;
 }
 
 export default function Table({
   handleCreateSection,
-  jobSections,
   handleUpdateSection,
+  handleDeleteSection,
+  handleCreateItemJob,
+  handleUpdateItemJob,
+  dataDetail,
 }: TableProps) {
-  console.log(jobSections);
-  // const [jobSections, setJobSections] = useState([]);
-
-  // Handler to add a new item to a specific job section
-  // const handleAddItem = (jobSectionId) => {
-  //   // Get data for the new item (simulate a form input or prompt)
-  //   const itemName = prompt("Enter job item name:");
-  //   const materialPrice = parseFloat(
-  //     prompt("Enter material price per volume:")
-  //   );
-  //   const feePrice = parseFloat(prompt("Enter fee per volume:"));
-  //   const volume = parseInt(prompt("Enter volume:"));
-  //   const info = prompt("Enter item information:");
-
-  //   const newItem = {
-  //     id: Date.now(), // Unique ID based on timestamp
-  //     description: itemName,
-  //     volume: volume,
-  //     materialPrice: materialPrice,
-  //     feePrice: feePrice,
-  //     info: info,
-  //   };
-
-  //   // Update the job section with the new item and recalculate total prices
-  //   setJobSections((prevState) =>
-  //     prevState.map((section) => {
-  //       if (section.id === jobSectionId) {
-  //         // Recalculate total prices
-  //         const updatedItems = [...section.items, newItem];
-  //         const newTotalMaterialPrice = updatedItems.reduce(
-  //           (acc, item) => acc + item.materialPrice * item.volume,
-  //           0
-  //         );
-  //         const newTotalFeePrice = updatedItems.reduce(
-  //           (acc, item) => acc + item.feePrice * item.volume,
-  //           0
-  //         );
-
-  //         return {
-  //           ...section,
-  //           items: updatedItems,
-  //           totalMaterialPrice: newTotalMaterialPrice,
-  //           totalFeePrice: newTotalFeePrice,
-  //         };
-  //       }
-  //       return section;
-  //     })
-  //   );
-  // };
-
-  // Handler to add a new job section
-  // const handleAddJobSection = () => {
-  //   const jobSectionName = prompt("Enter job section name:");
-
-  //   const newJobSection = {
-  //     id: Date.now(),
-  //     description: jobSectionName,
-  //     totalMaterialPrice: 0,
-  //     totalFeePrice: 0,
-  //     items: [],
-  //   };
-
-  //   setJobSections((prevState) => [...prevState, newJobSection]);
-  // };
-
   return (
     <div>
       <div className="relative overflow-x-auto sm:rounded-lg">
@@ -120,91 +70,123 @@ export default function Table({
               </th>
             </tr>
           </thead>
-          <tbody>
-            {jobSections.length === 0 ? (
+          <tbody className="text-nowrap">
+            {dataDetail.jobSections.length === 0 ? (
               <tr>
                 <td colSpan={9} className="text-center py-3">
                   No job sections available. Add a job section to start.
                 </td>
               </tr>
             ) : (
-              jobSections.map((jobSection, index) => (
-                <React.Fragment key={jobSection.id}>
-                  <tr className="bg-blue-100 border-b border-gray-200 font-semibold">
-                    <td className="px-6 py-3">
-                      {String.fromCharCode(65 + index)}
-                    </td>
-                    <td className="px-6 py-3">{jobSection.name}</td>
-                    <td className="px-6 py-3"></td>
-                    <td className="px-6 py-3"></td>
-                    <td className="px-6 py-1.5"></td>
-                    <td className="px-6 py-3">
-                      {jobSection.totalMaterialPrice}
-                    </td>
-                    <td className="px-6 py-3">{jobSection.totalFeePrice}</td>
-                    <td className="px-6 py-3"></td>
-                    <td className="px-6 py-3 flex items-center gap-2 justify-center">
-                      <button
-                        onClick={() => handleUpdateSection(jobSection)}
-                        className="text-white bg-primaryGreen disabled:bg-primaryGreenLighter hover:bg-primaryGreenDarker rounded-md px-2 py-0.5 duration-300  cursor-pointer"
-                      >
-                        <div className="w-4 h-4">
-                          <IoPencil className="w-full h-full" />
-                        </div>
-                      </button>
-                      <button
-                        //  onClick={() => handleDelete(category)}
-                        className="text-white bg-primaryRed disabled:bg-primaryRedLighter hover:bg-primaryRedDarker rounded-md px-2 py-0.5 duration-300  cursor-pointer"
-                      >
-                        <div className="w-4 h-4">
-                          <IoTrash className="w-full h-full" />
-                        </div>
-                      </button>
-                    </td>
-                  </tr>
-                  {/* {jobSection.items.map((item, idx) => (
-                    <tr
-                      key={item.id}
-                      className="odd:bg-gray-100 even:bg-gray-50 border-b border-gray-200"
-                    >
-                      <td className="px-6 py-3">{idx + 1}</td>
-                      <td className="px-6 py-3">{item.description}</td>
-                      <td className="px-6 py-3">{item.volume}</td>
-                      <td className="px-6 py-3">{item.materialPrice}</td>
-                      <td className="px-6 py-3">{item.feePrice}</td>
+              dataDetail.jobSections.map(
+                (jobSection: JobSection, index: number) => (
+                  <React.Fragment key={jobSection.id}>
+                    <tr className="bg-blue-200 border-b border-gray-200 font-semibold">
                       <td className="px-6 py-3">
-                        {item.materialPrice * item.volume}
+                        {String.fromCharCode(65 + index)}
                       </td>
-                      <td className="px-6 py-3">
-                        {item.feePrice * item.volume}
-                      </td>
-                      <td className="px-6 py-3">{item.info}</td>
+                      <td className="px-6 py-3">{jobSection.name}</td>
                       <td className="px-6 py-3"></td>
+                      <td className="px-6 py-3"></td>
+                      <td className="px-6 py-1.5"></td>
+                      <td className="px-6 py-3">
+                        {formatRupiah(jobSection.totalMaterialPrice)}
+                      </td>
+                      <td className="px-6 py-3">
+                        {formatRupiah(jobSection.totalFeePrice)}
+                      </td>
+                      <td className="px-6 py-3"></td>
+                      <td className="px-6 py-3 flex items-center gap-2 justify-center">
+                        <button
+                          onClick={() => handleUpdateSection(jobSection)}
+                          className="text-white bg-primaryGreen disabled:bg-primaryGreenLighter hover:bg-primaryGreenDarker rounded-md px-2 py-0.5 duration-300  cursor-pointer"
+                        >
+                          <div className="w-4 h-4">
+                            <IoPencil className="w-full h-full" />
+                          </div>
+                        </button>
+                        <button
+                          onClick={() => handleDeleteSection(jobSection)}
+                          className="text-white bg-primaryRed disabled:bg-primaryRedLighter hover:bg-primaryRedDarker rounded-md px-2 py-0.5 duration-300  cursor-pointer"
+                        >
+                          <div className="w-4 h-4">
+                            <IoTrash className="w-full h-full" />
+                          </div>
+                        </button>
+                      </td>
                     </tr>
-                  ))} */}
-                  <tr className="odd:bg-gray-100 even:bg-gray-50 border-b border-gray-200">
-                    <td className="px-6 py-3"></td>
-                    <td className="px-6 py-3 flex justify-center">
-                      <button
-                        className="flex items-center gap-2 text-white bg-primaryBlue hover:bg-primaryBlueDarker duration-300 cursor-pointer font-medium text-xs px-3 py-1.5 rounded-md"
-                        // onClick={() => handleAddItem(jobSection.id)}
-                      >
-                        <div className="w-4 h-4">
-                          <IoAdd className="w-full h-full" />
-                        </div>
-                        <span className="text-xs font-semibold">Add Item</span>
-                      </button>
-                    </td>
-                    <td className="px-6 py-3"></td>
-                    <td className="px-6 py-3"></td>
-                    <td className="px-6 py-3"></td>
-                    <td className="px-6 py-3"></td>
-                    <td className="px-6 py-3"></td>
-                    <td className="px-6 py-3"></td>
-                    <td className="px-6 py-3"></td>
-                  </tr>
-                </React.Fragment>
-              ))
+                    {jobSection.itemJobSections.length > 0 &&
+                      jobSection.itemJobSections.map((item, index: number) => (
+                        <tr
+                          key={item.id}
+                          className="odd:bg-gray-100 even:bg-gray-50 font-normal"
+                        >
+                          <td className="px-6 py-3">{index + 1}</td>
+                          <td className="px-6 py-3">{item.name}</td>
+                          <td className="px-6 py-3">
+                            {item.volume} {item.unit}
+                          </td>
+                          <td className="px-6 py-3">
+                            {formatRupiah(item.materialPricePerUnit)}
+                          </td>
+                          <td className="px-6 py-1.5">
+                            {formatRupiah(item.feePricePerUnit)}
+                          </td>
+                          <td className="px-6 py-3">
+                            {formatRupiah(item.totalMaterialPrice)}
+                          </td>
+                          <td className="px-6 py-3">
+                            {formatRupiah(item.totalFeePrice)}
+                          </td>
+                          <td className="px-6 py-3">{item.information}</td>
+                          <td className="px-6 py-3 flex items-center gap-2 justify-center">
+                            <button
+                              onClick={() =>
+                                handleUpdateItemJob(item, jobSection)
+                              }
+                              className="text-white bg-primaryGreen disabled:bg-primaryGreenLighter hover:bg-primaryGreenDarker rounded-md px-2 py-0.5 duration-300  cursor-pointer"
+                            >
+                              <div className="w-4 h-4">
+                                <IoPencil className="w-full h-full" />
+                              </div>
+                            </button>
+                            <button
+                              onClick={() => handleDeleteSection(jobSection)}
+                              className="text-white bg-primaryRed disabled:bg-primaryRedLighter hover:bg-primaryRedDarker rounded-md px-2 py-0.5 duration-300  cursor-pointer"
+                            >
+                              <div className="w-4 h-4">
+                                <IoTrash className="w-full h-full" />
+                              </div>
+                            </button>
+                          </td>
+                        </tr>
+                      ))}
+                    <tr className="odd:bg-gray-100 even:bg-gray-50 border-b border-gray-200">
+                      <td></td>
+                      <td className="px-6 py-3 flex justify-center  w-full">
+                        <button
+                          className="flex items-center gap-2 text-white bg-primaryBlue hover:bg-primaryBlueDarker duration-300 cursor-pointer font-medium text-xs px-3 py-1.5 rounded-md"
+                          onClick={() => handleCreateItemJob(jobSection)}
+                        >
+                          <div className="w-4 h-4">
+                            <IoAdd className="w-full h-full" />
+                          </div>
+                          <span className="text-xs font-semibold">
+                            Add Item
+                          </span>
+                        </button>
+                      </td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                    </tr>
+                  </React.Fragment>
+                )
+              )
             )}
             <tr className="bg-blue-100 border-b border-gray-200 font-semibold">
               <td className="px-6 py-3"></td>
@@ -227,79 +209,223 @@ export default function Table({
               <td className="px-6 py-3"></td>
               <td className="px-6 py-3"></td>
             </tr>
+            <tr className="bg-blue-200 border-b border-gray-200 font-semibold">
+              <td className="px-6 py-3"></td>
+              <td className="px-6 py-3">Rekapitulasi</td>
+              <td className="px-6 py-3"></td>
+              <td className="px-6 py-3"></td>
+              <td className="px-6 py-3"></td>
+              <td className="px-6 py-3"></td>
+              <td className="px-6 py-3"></td>
+              <td className="px-6 py-3"></td>
+              <td className="px-6 py-3"></td>
+            </tr>
+            {dataDetail.jobSections.map(
+              (jobSection: JobSection, index: number) => (
+                <React.Fragment key={jobSection.id}>
+                  <tr className="bg-blue-200 border-b border-gray-200 font-semibold">
+                    <td className="px-6 py-3">
+                      {String.fromCharCode(65 + index)}
+                    </td>
+                    <td className="px-6 py-3">{jobSection.name}</td>
+                    <td className="px-6 py-3"></td>
+                    <td className="px-6 py-3"></td>
+                    <td className="px-6 py-3"></td>
+                    <td className="px-6 py-3">
+                      {formatRupiah(jobSection.totalMaterialPrice)}
+                    </td>
+                    <td className="px-6 py-3">
+                      {formatRupiah(jobSection.totalFeePrice)}
+                    </td>
+                    <td className="px-6 py-3"></td>
+                    <td className="px-6 py-3"></td>
+                  </tr>
+                </React.Fragment>
+              )
+            )}
+            <tr className="bg-blue-200 border-b border-gray-200 font-semibold">
+              <td className="px-6 py-3"></td>
+              <td className="px-6 py-3">TOTAL MATERIAL / FEE</td>
+              <td className="px-6 py-3"></td>
+              <td className="px-6 py-3"></td>
+              <td className="px-6 py-3"></td>
+              <td className="px-6 py-3">
+                {formatRupiah(dataDetail.totalMaterialPrice)}
+              </td>
+              <td className="px-6 py-3">
+                {formatRupiah(dataDetail.totalFeePrice)}
+              </td>
+
+              <td className="px-6 py-3"></td>
+              <td className="px-6 py-3"></td>
+            </tr>
+            <tr className="bg-blue-200 border-b border-gray-200 font-semibold">
+              <td className="px-6 py-3"></td>
+              <td className="px-6 py-3">TOTAL MATERIAL + FEE</td>
+              <td className="px-6 py-3"></td>
+              <td className="px-6 py-3"></td>
+              <td className="px-6 py-3"></td>
+              <td className="px-6 py-3"></td>
+              <td className="px-6 py-3">
+                {formatRupiah(dataDetail.totalPrice)}
+              </td>
+              <td className="px-6 py-3"></td>
+              <td className="px-6 py-3"></td>
+            </tr>
+            <tr className="bg-blue-200 border-b border-gray-200 font-semibold">
+              <td className="px-6 py-3"></td>
+              <td className="px-6 py-3">PEMBULATAN</td>
+              <td className="px-6 py-3"></td>
+              <td className="px-6 py-3"></td>
+              <td className="px-6 py-3"></td>
+              <td className="px-6 py-3"></td>
+              <td className="px-6 py-3"></td>
+              <td className="px-6 py-3"></td>
+              <td className="px-6 py-3"></td>
+            </tr>
+            <tr className="bg-blue-200 border-b border-gray-200 font-semibold">
+              <td className="px-6 py-3"></td>
+              <td className="px-6 py-3">K&R (KEUNTUNGAN & RISIKO)</td>
+              <td className="px-6 py-3"></td>
+              <td className="px-6 py-3"></td>
+              <td className="px-6 py-3"></td>
+              <td className="px-6 py-3"></td>
+              <td className="px-6 py-3"></td>
+              <td className="px-6 py-3"></td>
+              <td className="px-6 py-3"></td>
+            </tr>
+            <tr className="bg-blue-200 border-b border-gray-200 font-semibold">
+              <td className="px-6 py-3"></td>
+              <td className="px-6 py-3">
+                INSPEKSI DAN VERIFIKASI TKDN OLEH SURVEYOR INDEPENDEN
+              </td>
+              <td className="px-6 py-3"></td>
+              <td className="px-6 py-3"></td>
+              <td className="px-6 py-3"></td>
+              <td className="px-6 py-3"></td>
+              <td className="px-6 py-3"></td>
+              <td className="px-6 py-3"></td>
+              <td className="px-6 py-3"></td>
+            </tr>
+            <tr className="bg-blue-200 border-b border-gray-200 font-semibold">
+              <td className="px-6 py-3"></td>
+              <td className="px-6 py-3">TOTAL MATERIAL + JASA + K&R</td>
+              <td className="px-6 py-3"></td>
+              <td className="px-6 py-3"></td>
+              <td className="px-6 py-3"></td>
+              <td className="px-6 py-3"></td>
+              <td className="px-6 py-3"></td>
+              <td className="px-6 py-3"></td>
+              <td className="px-6 py-3"></td>
+            </tr>
+            <tr className="bg-blue-200 border-b border-gray-200 font-semibold">
+              <td className="px-6 py-3"></td>
+              <td className="px-6 py-3">TERBILANG</td>
+              <td className="px-6 py-3"></td>
+              <td className="px-6 py-3"></td>
+              <td className="px-6 py-3"></td>
+              <td className="px-6 py-3"></td>
+              <td className="px-6 py-3"></td>
+              <td className="px-6 py-3"></td>
+              <td className="px-6 py-3"></td>
+            </tr>
           </tbody>
         </table>
       </div>
     </div>
   );
 }
+// const handleExportExcel = () => {
+//   const sheetData = [];
 
-// {jobSections.length === 0 ? (
-//         <tr>
-//           <td colSpan={9} className="text-center py-3">
-//             No job sections available. Add a job section to start.
-//           </td>
-//         </tr>
-//       ) : (
-//         jobSections.map((jobSection, index) => (
-//           <React.Fragment key={jobSection.id}>
-//             <tr className="bg-blue-100 border-b border-gray-200 font-semibold">
-//               <td className="px-6 py-3">
-//                 {String.fromCharCode(65 + index)}
-//               </td>
-//               <td className="px-6 py-3">{jobSection.description}</td>
-//               <td className="px-6 py-3"></td>
-//               <td className="px-6 py-3"></td>
-//               <td className="px-6 py-1.5"></td>
-//               <td className="px-6 py-3">
-//                 {jobSection.totalMaterialPrice}
-//               </td>
-//               <td className="px-6 py-3">{jobSection.totalFeePrice}</td>
-//               <td className="px-6 py-3"></td>
-//               <td className="px-6 py-3"></td>
-//             </tr>
-//             {jobSection.items.map((item, idx) => (
-//               <tr
-//                 key={item.id}
-//                 className="odd:bg-gray-100 even:bg-gray-50 border-b border-gray-200"
-//               >
-//                 <td className="px-6 py-3">{idx + 1}</td>
-//                 {/* Use idx to display the correct item number */}
-//                 <td className="px-6 py-3">{item.description}</td>
-//                 <td className="px-6 py-3">{item.volume}</td>
-//                 <td className="px-6 py-3">{item.materialPrice}</td>
-//                 <td className="px-6 py-3">{item.feePrice}</td>
-//                 <td className="px-6 py-3">
-//                   {item.materialPrice * item.volume}
-//                 </td>
-//                 <td className="px-6 py-3">
-//                   {item.feePrice * item.volume}
-//                 </td>
-//                 <td className="px-6 py-3">{item.info}</td>
-//                 <td className="px-6 py-3"></td>
-//               </tr>
-//             ))}
-//             <tr className="odd:bg-gray-100 even:bg-gray-50 border-b border-gray-200">
-//               <td className="px-6 py-3"></td>
-//               <td className="px-6 py-3 flex justify-center">
-//                 <button
-//                   className="flex items-center gap-2 text-white bg-primaryBlue hover:bg-primaryBlueDarker duration-300 cursor-pointer font-medium text-xs px-3 py-1.5 rounded-md"
-//                   onClick={() => handleAddItem(jobSection.id)}
-//                 >
-//                   <div className="w-4 h-4">
-//                     <IoAdd className="w-full h-full" />
-//                   </div>
-//                   <span className="text-xs font-semibold">Add Item</span>
-//                 </button>
-//               </td>
-//               <td className="px-6 py-3"></td>
-//               <td className="px-6 py-3"></td>
-//               <td className="px-6 py-3"></td>
-//               <td className="px-6 py-3"></td>
-//               <td className="px-6 py-3"></td>
-//               <td className="px-6 py-3"></td>
-//               <td className="px-6 py-3"></td>
-//             </tr>
-//           </React.Fragment>
-//         ))
-//       )}
+//   // Header tabel dengan 2 sub-kolom di bawah Harga Satuan dan Jumlah Harga
+//   const headers = [
+//     "No",
+//     "Uraian Pekerjaan",
+//     "Volume",
+//     "Harga Satuan",
+//     "Jumlah Harga",
+//   ];
+
+//   // Menambahkan baris pertama (header) ke dalam sheetData
+//   sheetData.push(headers);
+
+//   // Data untuk job sections dan items
+//   dataDetail.jobSections.forEach((jobSection, index) => {
+//     // Menambahkan data job section
+//     const row = [
+//       String.fromCharCode(65 + index),
+//       jobSection.name,
+//       "", // Volume
+//       "", // Harga Satuan (Material)
+//       "", // Harga Satuan (Jasa)
+//       formatRupiah(jobSection.totalMaterialPrice),
+//       formatRupiah(jobSection.totalFeePrice),
+//       "", // Information
+//     ];
+//     sheetData.push(row);
+
+//     // Menambahkan data item di dalam job section
+//     jobSection.itemJobSections.forEach((item: Item | MaterialItem) => {
+//       const itemRow = [
+//         "", // No (biarkan kosong karena sudah ada pada job section)
+//         item.name,
+//         item.volume,
+//         formatRupiah(item.materialPricePerUnit), // Harga Satuan (Material)
+//         formatRupiah(item.feePricePerUnit), // Harga Satuan (Jasa)
+//         formatRupiah(item.totalMaterialPrice), // Jumlah Harga (Material)
+//         formatRupiah(item.totalFeePrice), // Jumlah Harga (Jasa)
+//         item.information,
+//       ];
+//       sheetData.push(itemRow);
+//     });
+//   });
+
+//   // Membuat worksheet dari data
+//   const ws = XLSX.utils.aoa_to_sheet(sheetData);
+
+//   // Menyusun pengaturan kolom dan lebar
+//   ws["!cols"] = [
+//     { wch: 5 }, // Kolom No
+//     { wch: 30 }, // Kolom Uraian Pekerjaan
+//     { wch: 10 }, // Kolom Volume
+//     { wch: 15 }, // Kolom Harga Satuan (Material)
+//     { wch: 15 }, // Kolom Harga Satuan (Jasa)
+//     { wch: 20 }, // Kolom Jumlah Harga (Material)
+//     { wch: 20 }, // Kolom Jumlah Harga (Jasa)
+//     { wch: 25 }, // Kolom Information
+//   ];
+
+//   // Menambahkan merge cell untuk header agar sub-kolom Material dan Jasa berada di bawah Harga Satuan dan Jumlah Harga
+//   ws["!merges"] = [
+//     { s: { r: 0, c: 3 }, e: { r: 0, c: 4 } }, // Menggabungkan Harga Satuan (Material) dan (Jasa)
+//     { s: { r: 0, c: 5 }, e: { r: 0, c: 6 } }, // Menggabungkan Jumlah Harga (Material) dan (Jasa)
+//   ];
+
+//   // Menambahkan styling untuk header
+//   const headerStyle = {
+//     font: { bold: true },
+//     alignment: { horizontal: "center" },
+//   };
+//   for (let col = 0; col < headers.length; col++) {
+//     ws[XLSX.utils.encode_cell({ r: 0, c: col })].s = headerStyle; // Styling header
+//   }
+
+//   // Membuat workbook dan menambah sheet
+//   const wb = XLSX.utils.book_new();
+//   XLSX.utils.book_append_sheet(wb, ws, "Job Sections");
+
+//   // Menyimpan file Excel
+//   XLSX.writeFile(wb, "Job_Sections.xlsx");
+// };
+
+{
+  /* <div className="flex justify-center mt-4">
+          <button
+            onClick={handleExportExcel}
+            className="text-white bg-primaryBlue hover:bg-primaryBlueDarker duration-300 cursor-pointer font-medium text-xs px-3 py-1.5 rounded-md"
+          >
+            Export to Excel
+          </button>
+        </div> */
+}

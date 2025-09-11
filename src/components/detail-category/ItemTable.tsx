@@ -2,6 +2,7 @@ import React from "react";
 import { IoAdd, IoPencil, IoTrash } from "react-icons/io5";
 import { Item } from "../../../types/Items.type";
 import { Sector } from "../../../types/Sectors.type";
+import formatRupiah from "../../../utils/formatRupiah";
 
 interface ItemTableProps {
   data: Item[];
@@ -73,8 +74,12 @@ export default function ItemTable({
                 <td className="px-2 py-1.5">
                   {item.minimum} {item.unit}
                 </td>
-                <td className="px-2 py-1.5">{item.materialPricePerUnit}</td>
-                <td className="px-2 py-1.5">{item.feePerUnit}</td>
+                <td className="px-2 py-1.5">
+                  {formatRupiah(item.materialPricePerUnit)}
+                </td>
+                <td className="px-2 py-1.5">
+                  {formatRupiah(item.feePricePerUnit)}
+                </td>
                 <td className="px-2 py-1.5 flex items-center gap-2 justify-center">
                   <button
                     onClick={() => handleEdit(item, selectedSector)}

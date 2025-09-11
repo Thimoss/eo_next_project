@@ -7,6 +7,8 @@ import Table from "./Table";
 import CreateModalSection from "./CreateModalSection";
 import UpdateModalSection from "./UpdateModalSection";
 import DeleteModalSection from "./DeleteModalSection";
+import CreateModalItem from "./CreateModalItem";
+import UpdateModalItem from "./UpdateModalItem";
 
 interface DetailDocumentProps {
   slug: string;
@@ -14,19 +16,44 @@ interface DetailDocumentProps {
 export default function ClientSide({ slug }: DetailDocumentProps) {
   const {
     dataDetail,
-    errorDetail,
     isLoadingDetail,
     mutateDetail,
     openCreateSection,
     setOpenCreateSection,
-    // openDeleteSection,
-    // setOpenDeleteSection,
+    openDeleteSection,
+    setOpenDeleteSection,
     openUpdateSection,
     setOpenUpdateSection,
     handleUpdateSection,
     selectedJobSection,
     handleCreateSection,
+    handleDeleteSection,
+    openCreateItem,
+    setOpenCreateItem,
+    openUpdateItem,
+    setOpenUpdateItem,
+    handleCreateItemJob,
+    dataSearch,
+    isLoadingSearch,
+    handleSelectItem,
+    keyword,
+    handleSearch,
+    openSearchDropDown,
+    handleShowList,
+    selectedNewItemJob,
+    selectedOldItemJob,
+    setSelectedNewItemJob,
+    setSelectedOldItemJob,
+    setKeyword,
+    handleVolumeChange,
+    volume,
+    itemRef,
+    handleUpdateItemJob,
+    selectedIdItemJob,
+    setSelectedIdItemJob,
   } = UseDetailDocument({ slug });
+
+  console.log(dataDetail);
 
   return (
     <>
@@ -44,8 +71,11 @@ export default function ClientSide({ slug }: DetailDocumentProps) {
             />
             <Table
               handleCreateSection={handleCreateSection}
-              jobSections={dataDetail.jobSections}
               handleUpdateSection={handleUpdateSection}
+              handleDeleteSection={handleDeleteSection}
+              handleCreateItemJob={handleCreateItemJob}
+              handleUpdateItemJob={handleUpdateItemJob}
+              dataDetail={dataDetail}
             />
           </div>
           <CreateModalSection
@@ -61,7 +91,54 @@ export default function ClientSide({ slug }: DetailDocumentProps) {
             selectedJobSection={selectedJobSection}
             documentId={dataDetail?.id}
           />
-          <DeleteModalSection />
+          <DeleteModalSection
+            open={openDeleteSection}
+            setOpen={setOpenDeleteSection}
+            mutate={mutateDetail}
+            selectedJobSection={selectedJobSection}
+          />
+          <CreateModalItem
+            open={openCreateItem}
+            setOpen={setOpenCreateItem}
+            dataSearch={dataSearch}
+            isLoadingSearch={isLoadingSearch}
+            handleSelectItem={handleSelectItem}
+            keyword={keyword}
+            handleSearch={handleSearch}
+            handleShowList={handleShowList}
+            openSearchDropDown={openSearchDropDown}
+            selectedNewItemJob={selectedNewItemJob}
+            mutateDetail={mutateDetail}
+            setSelectedNewItemJob={setSelectedNewItemJob}
+            setKeyword={setKeyword}
+            handleVolumeChange={handleVolumeChange}
+            volume={volume}
+            itemRef={itemRef}
+            selectedJobSection={selectedJobSection}
+          />
+          <UpdateModalItem
+            open={openUpdateItem}
+            setOpen={setOpenUpdateItem}
+            dataSearch={dataSearch}
+            isLoadingSearch={isLoadingSearch}
+            handleSelectItem={handleSelectItem}
+            keyword={keyword}
+            handleSearch={handleSearch}
+            handleShowList={handleShowList}
+            openSearchDropDown={openSearchDropDown}
+            mutateDetail={mutateDetail}
+            setKeyword={setKeyword}
+            handleVolumeChange={handleVolumeChange}
+            volume={volume}
+            itemRef={itemRef}
+            selectedJobSection={selectedJobSection}
+            selectedOldItemJob={selectedOldItemJob}
+            selectedNewItemJob={selectedNewItemJob}
+            setSelectedNewItemJob={setSelectedNewItemJob}
+            setSelectedOldItemJob={setSelectedOldItemJob}
+            selectedIdItemJob={selectedIdItemJob}
+            setSelectedIdItemJob={setSelectedIdItemJob}
+          />
         </>
       ) : (
         <div>Data Tidak ada</div>

@@ -6,7 +6,7 @@ export interface Item {
   minimum?: number;
   unit?: string;
   materialPricePerUnit?: number;
-  feePerUnit?: number;
+  feePricePerUnit?: number;
   singleItem: boolean;
   categoryCode: string;
   sectorNo: string;

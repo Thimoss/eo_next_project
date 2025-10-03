@@ -95,6 +95,7 @@ export const UseDetailDocument = ({ slug }: UseDetailDocumentProps) => {
 
   const handleCreateItemJob = async (section: JobSection) => {
     setSelectedJobSection(section);
+    setSelectedNewItemJob(null);
     setOpenCreateItem(true);
   };
 
@@ -102,12 +103,18 @@ export const UseDetailDocument = ({ slug }: UseDetailDocumentProps) => {
     item: ItemJobSection,
     section: JobSection
   ) => {
+    setSelectedNewItemJob(null);
     setSelectedIdItemJob(item.id);
     setSelectedOldItemJob(item);
     setSelectedJobSection(section);
     setKeyword(item.name);
     setVolume(item.volume);
     setOpenUpdateItem(true);
+  };
+
+  const handleDeleteItemJob = async (item: ItemJobSection) => {
+    setSelectedOldItemJob(item);
+    setOpenDeleteItem(true);
   };
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -189,5 +196,6 @@ export const UseDetailDocument = ({ slug }: UseDetailDocumentProps) => {
     handleUpdateItemJob,
     selectedIdItemJob,
     setSelectedIdItemJob,
+    handleDeleteItemJob,
   };
 };

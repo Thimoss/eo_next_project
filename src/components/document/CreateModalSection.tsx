@@ -76,14 +76,24 @@ export default function CreateModalSection({
   return (
     <Modal onClose={() => setOpen(false)} open={open}>
       <div className="flex flex-col gap-5">
-        <span className="text-sm font-bold text-left">Add Job Section</span>
+        <span className="text-sm font-bold text-left">
+          Tambah Sektor Pekerjaan
+        </span>
         <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-5">
           <div className="flex flex-col items-start gap-2">
-            <span className="text-xs font-semibold">Name</span>
+            <div className="flex items-center gap-2">
+              <span className="text-xs font-semibold">
+                Nama Sektor Pekerjaan
+              </span>
+              <span className="text-md font-semibold text-primaryRed">*</span>
+            </div>
+
             <input
               type="text"
-              placeholder="Input job section name"
-              {...register("name", { required: "Name is required" })}
+              placeholder="Masukkan nama sektor pekerjaan"
+              {...register("name", {
+                required: "Nama sektor pekerjaan diperlukan",
+              })}
               className="text-xs px-3 bg-gray-200 rounded-md py-1 border border-gray-300 focus:outline-none w-full"
             />
             {errors.name && (
@@ -100,7 +110,7 @@ export default function CreateModalSection({
               type="button"
               className="px-3 py-1.5 rounded-md text-xs font-semibold text-white duration-300 bg-primaryRed disabled:bg-primaryRedLighter hover:bg-primaryRedDarker cursor-pointer flex items-center justify-between"
             >
-              Cancel
+              Batal
             </button>
             <button
               disabled={loading}
@@ -112,7 +122,7 @@ export default function CreateModalSection({
                   <CgSpinner className="w-3 h-3 text-center animate-spin" />
                 </div>
               )}
-              Create
+              Tambah
             </button>
           </div>
         </form>

@@ -141,7 +141,7 @@ export default function UpdateModalItem({
     <Modal onClose={() => setOpen(false)} open={open}>
       <div className="flex flex-col gap-5">
         <span className="text-sm font-bold text-left">
-          Update Item for {selectedSector?.name}
+          Perbarui pekerjaan {selectedSector?.name}
         </span>
         <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-5">
           <div className="flex flex-col items-start gap-2">

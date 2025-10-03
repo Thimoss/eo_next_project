@@ -81,14 +81,17 @@ export default function CreateModal({
   return (
     <Modal onClose={() => setOpen(false)} open={open}>
       <div className="flex flex-col gap-5">
-        <span className="text-sm font-bold text-left">Add Category</span>
+        <span className="text-sm font-bold text-left">Tambah Kategori</span>
         <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-5">
           <div className="flex flex-col items-start gap-2">
-            <span className="text-xs font-semibold">Name</span>
+            <div className="flex items-center gap-2">
+              <span className="text-xs font-semibold">Nama Kategori</span>
+              <span className="text-md font-semibold text-primaryRed">*</span>
+            </div>
             <input
               type="text"
-              placeholder="Input category name"
-              {...register("name", { required: "Name is required" })}
+              placeholder="Masukkan nama kategori"
+              {...register("name", { required: "Nama kategori diperlukan" })}
               className="text-xs px-3 bg-gray-200 rounded-md py-1 border border-gray-300 focus:outline-none w-full"
             />
             {errors.name && (
@@ -96,11 +99,14 @@ export default function CreateModal({
             )}
           </div>
           <div className="flex flex-col items-start gap-2">
-            <span className="text-xs font-semibold">Code</span>
+            <div className="flex items-center gap-2">
+              <span className="text-xs font-semibold">Kode Kategori</span>
+              <span className="text-md font-semibold text-primaryRed">*</span>
+            </div>
             <input
               type="text"
-              placeholder="Input category code"
-              {...register("code", { required: "Code is required" })}
+              placeholder="Masukkan kode kategori"
+              {...register("code", { required: "Kode kategori diperlukan" })}
               className="text-xs px-3 bg-gray-200 rounded-md py-1 border border-gray-300 focus:outline-none w-full"
             />
             {errors.code && (
@@ -108,11 +114,16 @@ export default function CreateModal({
             )}
           </div>
           <div className="flex flex-col items-start gap-2">
-            <span className="text-xs font-semibold">Reference</span>
+            <div className="flex items-center gap-2">
+              <span className="text-xs font-semibold">Referensi</span>
+              <span className="text-md font-semibold text-primaryRed">*</span>
+            </div>
             <input
               type="text"
-              placeholder="Input category reference"
-              {...register("reference", { required: "Reference is required" })}
+              placeholder="Masukkan referensi kategori"
+              {...register("reference", {
+                required: "Referensi kategori diperlukan",
+              })}
               className="text-xs px-3 bg-gray-200 rounded-md py-1 border border-gray-300 focus:outline-none w-full"
             />
           </div>
@@ -122,11 +133,14 @@ export default function CreateModal({
             </p>
           )}
           <div className="flex flex-col items-start gap-2">
-            <span className="text-xs font-semibold">Location</span>
+            <div className="flex items-center gap-2">
+              <span className="text-xs font-semibold">Lokasi</span>
+              <span className="text-md font-semibold text-primaryRed">*</span>
+            </div>
             <input
               type="text"
-              placeholder="Input category location"
-              {...register("location", { required: "Location is required" })}
+              placeholder="Masukkan lokasi"
+              {...register("location", { required: "Lokasi diperlukan" })}
               className="text-xs px-3 bg-gray-200 rounded-md py-1 border border-gray-300 focus:outline-none w-full"
             />
             {errors.location && (
@@ -144,7 +158,7 @@ export default function CreateModal({
               type="button"
               className="px-3 py-1.5 rounded-md text-xs font-semibold text-white duration-300 bg-primaryRed disabled:bg-primaryRedLighter hover:bg-primaryRedDarker cursor-pointer flex items-center justify-between"
             >
-              Cancel
+              Batal
             </button>
             <button
               disabled={loading}
@@ -156,7 +170,7 @@ export default function CreateModal({
                   <CgSpinner className="w-3 h-3 text-center animate-spin" />
                 </div>
               )}
-              Create
+              Tambah
             </button>
           </div>
         </form>

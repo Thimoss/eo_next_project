@@ -36,17 +36,17 @@ export default function DocumentInformation({
     if (editMode) {
       if (job || location || base) {
         reset({
-          job: job || "-",
-          location: location || "-",
-          base: base || "-",
+          job: job,
+          location: location,
+          base: base,
         });
       }
     }
     if (job || location || base) {
       reset({
-        job: job || "-",
-        location: location || "-",
-        base: base || "-",
+        job: job,
+        location: location,
+        base: base,
       });
     }
   }, [editMode, job, location, base, reset]);
@@ -92,46 +92,58 @@ export default function DocumentInformation({
   };
 
   return (
-    <div className="flex justify-between">
-      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-2">
-        <div className="flex flex-col gap-1 text-xs">
+    <div className="flex justify-between gap-10">
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="flex flex-col gap-2 w-1/2"
+      >
+        <div className="flex flex-col gap-1 text-xs w-full">
           <span className="font-semibold underline">OWNER ESTIMATE (OE)</span>
           <div className="font-medium flex gap-2 pt-2">
-            <span>JOB</span>
+            <span>PEKERJAAN</span>
             <span>:</span>
-            <input
-              readOnly={!editMode}
-              type="text"
-              className={`focus:outline-0 ${editMode && "border-b"} `}
-              placeholder="Job"
-              {...register("job")}
-            />
+            {editMode ? (
+              <input
+                readOnly={!editMode}
+                type="text"
+                className={`focus:outline-0 w-full ${editMode && "border-b"} `}
+                {...register("job")}
+              />
+            ) : (
+              <div>{job || "-"}</div>
+            )}
           </div>
           <div className="font-medium flex gap-2">
-            <span>LOCATION</span>
+            <span>LOKASI</span>
             <span>:</span>
-            <input
-              readOnly={!editMode}
-              type="text"
-              className={`focus:outline-0 ${editMode && "border-b"} `}
-              placeholder="Location"
-              {...register("location")}
-            />
+            {editMode ? (
+              <input
+                readOnly={!editMode}
+                type="text"
+                className={`focus:outline-0 w-full ${editMode && "border-b"} `}
+                {...register("location")}
+              />
+            ) : (
+              <div>{location || "-"}</div>
+            )}
           </div>
           <div className="font-medium flex gap-2">
-            <span>BASE</span>
+            <span>DASAR</span>
             <span>:</span>
-            <input
-              readOnly={!editMode}
-              type="text"
-              className={`focus:outline-0 ${editMode && "border-b"} `}
-              placeholder="Base"
-              {...register("base")}
-            />
+            {editMode ? (
+              <input
+                readOnly={!editMode}
+                type="text"
+                className={`focus:outline-0 w-full ${editMode && "border-b"} `}
+                {...register("base")}
+              />
+            ) : (
+              <div>{base || "-"}</div>
+            )}
           </div>
         </div>
       </form>
-      <div className="flex flex-col gap-5 ">
+      <div className="flex flex-col gap-5 justify-end ">
         {editMode ? (
           <>
             {/* Save */}
@@ -146,7 +158,7 @@ export default function DocumentInformation({
                   <CgSpinner className="w-3 h-3 text-center animate-spin" />
                 </div>
               )}
-              Save
+              Simpan
             </button>
             {/* Cancel */}
             <button
@@ -155,7 +167,7 @@ export default function DocumentInformation({
               onClick={handleCancel}
               className="flex w-full items-center justify-center gap-2 text-white bg-primaryRed disabled:bg-primaryRedLighter hover:bg-primaryRedDarker duration-300 cursor-pointer font-medium text-xs px-3 py-1.5 rounded-md"
             >
-              <span className="text-xs font-semibold">Cancel</span>
+              <span className="text-xs font-semibold">Batal</span>
             </button>
           </>
         ) : (
@@ -166,7 +178,7 @@ export default function DocumentInformation({
               onClick={() => setEditMode(true)}
               className="flex w-full items-center justify-center gap-2 text-white bg-primaryGreen hover:bg-primaryGreenDarker duration-300 cursor-pointer font-medium text-xs px-3 py-1.5 rounded-md"
             >
-              <span className="text-xs font-semibold">Edit</span>
+              <span className="text-xs font-semibold">Perbarui</span>
             </button>
           </>
         )}

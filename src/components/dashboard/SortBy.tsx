@@ -23,7 +23,7 @@ export default function SortBy({
         onClick={toggleDropdown}
         className="bg-white rounded-md px-3 py-1.5 flex items-center gap-2 justify-between"
       >
-        <span className="text-xs">Sort By: {sortBy.label}</span>
+        <span className="text-xs">Urutkan: {sortBy.label}</span>
         <div className="w-4 h-4">
           <IoChevronDown
             className={`w-full h-full ${isSortByOpen ? "rotate-180" : ""}`}

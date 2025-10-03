@@ -37,6 +37,9 @@ export interface Document {
   totalMaterialPrice: number;
   totalFeePrice: number;
   totalPrice: number;
+  totalBenefitsAndRisks: number;
+  totalMaterialAndFee: number;
+  percentageBenefitsAndRisks: number;
   createdAt: string;
   updatedAt: string;
   deletedAt: string | null;

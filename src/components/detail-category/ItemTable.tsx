@@ -26,22 +26,22 @@ export default function ItemTable({
         <thead className="text-xs text-white uppercase bg-primaryBlue">
           <tr>
             <th scope="col" rowSpan={2} className="px-2 py-1.5">
-              Source
+              Sumber
             </th>
             <th scope="col" rowSpan={2} className="px-2 py-1.5">
               No
             </th>
             <th scope="col" rowSpan={2} className="px-2 py-1.5">
-              Job Types
+              Jenis Pekerjaan
             </th>
             <th scope="col" rowSpan={2} className="px-2 py-1.5">
               Unit
             </th>
             <th scope="col" colSpan={2} className="px-2 py-1.5">
-              Price
+              Harga
             </th>
             <th scope="col" rowSpan={2} className="px-2 py-1.5">
-              Action
+              Aksi
             </th>
           </tr>
           <tr>
@@ -49,7 +49,7 @@ export default function ItemTable({
               Material
             </th>
             <th scope="col" className="px-2 py-1.5">
-              Fee
+              Jasa
             </th>
           </tr>
         </thead>
@@ -110,7 +110,7 @@ export default function ItemTable({
                   <div className="w-4 h-4">
                     <IoAdd className="w-full h-full" />
                   </div>
-                  <span>Add Item</span>
+                  <span>Tambah Pekerjaan</span>
                 </button>
               </div>
             </td>

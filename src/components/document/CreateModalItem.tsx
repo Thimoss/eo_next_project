@@ -95,19 +95,23 @@ export default function CreateModalItem({
 
   const handleCancel = () => {
     setOpen(false);
+    setSelectedNewItemJob(null);
   };
 
   return (
     <Modal onClose={() => setOpen(false)} open={open}>
       <div className="flex flex-col gap-5">
-        <span className="text-sm font-bold text-left">Add Item</span>
+        <span className="text-sm font-bold text-left">Tambah Pekerjaan</span>
         <div className="flex flex-col gap-5">
           <div ref={itemRef} className="flex flex-col items-start gap-2">
-            <span className="text-xs font-semibold">Name</span>
+            <div className="flex items-center gap-2">
+              <span className="text-xs font-semibold">Nama Pekerjaan</span>
+              <span className="text-md font-semibold text-primaryRed">*</span>
+            </div>
             <div className="relative w-full">
               <input
                 type="text"
-                placeholder="Search job name"
+                placeholder="Cari nama pekerjaan"
                 className="text-xs px-3 bg-gray-200 rounded-md py-1 border border-gray-300 focus:outline-none w-full"
                 value={keyword}
                 onChange={(e) => handleSearch(e)}
@@ -121,7 +125,7 @@ export default function CreateModalItem({
                     </div>
                   ) : dataSearch.length === 0 ? (
                     <div className="text-center text-xs font-semibold p-2">
-                      No results found.
+                      Hasil pencarian tidak ditemukan.
                     </div>
                   ) : (
                     dataSearch.map((item) => (
@@ -152,12 +156,17 @@ export default function CreateModalItem({
           {selectedNewItemJob && (
             <>
               <div className="flex flex-col items-start gap-2">
-                <span className="text-xs font-semibold">Volume</span>
+                <div className="flex items-center gap-2">
+                  <span className="text-xs font-semibold">Volume</span>
+                  <span className="text-md font-semibold text-primaryRed">
+                    *
+                  </span>
+                </div>
                 <div className="relative w-full">
                   <input
                     type="number"
                     min={0}
-                    placeholder="Input Volume"
+                    placeholder="Masukkan volume"
                     defaultValue={volume}
                     onChange={handleVolumeChange}
                     className="text-xs px-3 bg-gray-200 rounded-md py-1 border border-gray-300 focus:outline-none w-full"
@@ -167,34 +176,34 @@ export default function CreateModalItem({
               <div className="flex justify-between items-center gap-5">
                 <div className="text-xs font-semibold flex flex-col gap-2">
                   <p>
-                    Material Price:{" "}
+                    Harga Material:{" "}
                     {formatRupiah(selectedNewItemJob.materialPricePerUnit)}/
                     {selectedNewItemJob.minimum} {selectedNewItemJob.unit}
                   </p>
                   <p>
-                    Fee Price:{" "}
+                    Harga Jasa:{" "}
                     {formatRupiah(selectedNewItemJob.feePricePerUnit)}/
                     {selectedNewItemJob.minimum} {selectedNewItemJob.unit}
                   </p>
                 </div>
                 <div className="text-xs font-semibold flex flex-col gap-2">
                   <p>
-                    Total Material Price:{" "}
+                    Total Harga Material:{" "}
                     {formatRupiah(
                       (selectedNewItemJob.materialPricePerUnit /
                         selectedNewItemJob.minimum) *
                         volume
                     )}
-                    /{volume} KG
+                    /{volume} {selectedNewItemJob.unit}
                   </p>
                   <p>
-                    Total Fee Price:{" "}
+                    Total Harga Jasa:{" "}
                     {formatRupiah(
                       (selectedNewItemJob.feePricePerUnit /
                         selectedNewItemJob.minimum) *
                         volume
                     )}
-                    /{volume} KG
+                    /{volume} {selectedNewItemJob.unit}
                   </p>
                 </div>
               </div>
@@ -210,7 +219,7 @@ export default function CreateModalItem({
               onClick={handleCancel}
               className="px-3 py-1.5 rounded-md text-xs font-semibold text-white duration-300 bg-primaryRed disabled:bg-primaryRedLighter hover:bg-primaryRedDarker cursor-pointer flex items-center justify-between"
             >
-              Cancel
+              Batal
             </button>
             <button
               type="submit"
@@ -223,7 +232,7 @@ export default function CreateModalItem({
                   <CgSpinner className="w-3 h-3 text-center animate-spin" />
                 </div>
               )}
-              Create
+              Tambah
             </button>
           </div>
         </div>

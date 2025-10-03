@@ -28,16 +28,16 @@ export default function Table({
               No
             </th>
             <th scope="col" className="px-6 py-3">
-              Name
+              Nam Kategori
             </th>
             <th scope="col" className="px-6 py-3">
-              Code
+              Koe
             </th>
             <th scope="col" className="px-6 py-3">
-              Location
+              Lokasi
             </th>
             <th scope="col" className="px-6 py-3">
-              Action
+              Aksi
             </th>
           </tr>
         </thead>

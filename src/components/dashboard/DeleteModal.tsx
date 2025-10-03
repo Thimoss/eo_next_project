@@ -1,24 +1,24 @@
 import React, { useState } from "react";
-import Api from "../../../service/Api";
-import { toast } from "react-toastify";
 import Modal from "../global/Modal";
 import { CgSpinner } from "react-icons/cg";
+import Api from "../../../service/Api";
+import { toast } from "react-toastify";
 import { KeyedMutator } from "swr";
-import { JobSection } from "../../../types/Documents.type";
+import { Document } from "../../../types/Documents.type";
 
 interface DeleteModalProps {
   open: boolean;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  selectedJobSection: JobSection | null | undefined;
+  selectedDocument: Document | null | undefined;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   mutate: KeyedMutator<any>;
 }
 
-export default function DeleteModalSection({
+export default function DeleteModal({
   open,
   setOpen,
   mutate,
-  selectedJobSection,
+  selectedDocument,
 }: DeleteModalProps) {
   const [loading, setLoading] = useState(false);
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -32,7 +32,7 @@ export default function DeleteModalSection({
 
     const api = new Api();
     api.method = "DELETE";
-    api.url = `job-section/delete/${selectedJobSection?.id}`;
+    api.url = `document/delete/${selectedDocument?.id}`;
 
     try {
       const res = await api.call();
@@ -42,7 +42,7 @@ export default function DeleteModalSection({
         mutate();
         setOpen(false);
       } else {
-        toast.error(res.message || "Gagal menghapus job section. Coba lagi.");
+        toast.error(res.message || "Gagal menghapus dokumen. Coba lagi.");
       }
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
@@ -57,11 +57,11 @@ export default function DeleteModalSection({
   return (
     <Modal onClose={() => setOpen(false)} open={open}>
       <div className="flex flex-col gap-5">
-        <span className="text-sm font-bold text-left">Delete Job Section</span>
+        <span className="text-sm font-bold text-left">Delete Dokumen</span>
         <div className="flex flex-col gap-5">
           <p className="text-xs">
             Are you sure you want to delete the{" "}
-            <strong>{selectedJobSection?.name}</strong>?
+            <strong>{selectedDocument?.name}</strong>??
           </p>
 
           <div

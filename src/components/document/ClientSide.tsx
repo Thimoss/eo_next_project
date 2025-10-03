@@ -9,6 +9,7 @@ import UpdateModalSection from "./UpdateModalSection";
 import DeleteModalSection from "./DeleteModalSection";
 import CreateModalItem from "./CreateModalItem";
 import UpdateModalItem from "./UpdateModalItem";
+import DeleteModalItem from "./DeleteModalItem";
 
 interface DetailDocumentProps {
   slug: string;
@@ -32,6 +33,8 @@ export default function ClientSide({ slug }: DetailDocumentProps) {
     setOpenCreateItem,
     openUpdateItem,
     setOpenUpdateItem,
+    openDeleteItem,
+    setOpenDeleteItem,
     handleCreateItemJob,
     dataSearch,
     isLoadingSearch,
@@ -51,6 +54,7 @@ export default function ClientSide({ slug }: DetailDocumentProps) {
     handleUpdateItemJob,
     selectedIdItemJob,
     setSelectedIdItemJob,
+    handleDeleteItemJob,
   } = UseDetailDocument({ slug });
 
   console.log(dataDetail);
@@ -75,8 +79,41 @@ export default function ClientSide({ slug }: DetailDocumentProps) {
               handleDeleteSection={handleDeleteSection}
               handleCreateItemJob={handleCreateItemJob}
               handleUpdateItemJob={handleUpdateItemJob}
+              handleDeleteItemJob={handleDeleteItemJob}
               dataDetail={dataDetail}
+              mutateDetail={mutateDetail}
             />
+            <div className="text-xs flex flex-col gap-5">
+              <p>Medan, 1 Agustus 2025</p>
+              <div className="grid grid-cols-3">
+                <div className="flex flex-col gap-12">
+                  <div className="flex flex-col gap-0.5">
+                    <p>Disiapkan oleh,</p>
+                    <p className="font-semibold">Jabatan</p>
+                  </div>
+
+                  <p className="font-semibold">Nama</p>
+                </div>
+
+                <div className="flex flex-col gap-12">
+                  <div className="flex flex-col gap-0.5">
+                    <p>Disiapkan oleh,</p>
+                    <p className="font-semibold">Jabatan</p>
+                  </div>
+
+                  <p className="font-semibold">Nama</p>
+                </div>
+
+                <div className="flex flex-col gap-12">
+                  <div className="flex flex-col gap-0.5">
+                    <p>Disiapkan oleh,</p>
+                    <p className="font-semibold">Jabatan</p>
+                  </div>
+
+                  <p className="font-semibold">Nama</p>
+                </div>
+              </div>
+            </div>
           </div>
           <CreateModalSection
             mutate={mutateDetail}
@@ -138,6 +175,12 @@ export default function ClientSide({ slug }: DetailDocumentProps) {
             setSelectedOldItemJob={setSelectedOldItemJob}
             selectedIdItemJob={selectedIdItemJob}
             setSelectedIdItemJob={setSelectedIdItemJob}
+          />
+          <DeleteModalItem
+            mutate={mutateDetail}
+            open={openDeleteItem}
+            setOpen={setOpenDeleteItem}
+            selectedOldItemJob={selectedOldItemJob}
           />
         </>
       ) : (

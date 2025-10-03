@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import Search from "./Search";
+// import Search from "./Search";
 import ItemTable from "./ItemTable";
 import { useDetailCategories } from "../../../hooks/DetailCategories";
 import { IoAdd, IoPencil, IoTrash } from "react-icons/io5";
@@ -62,13 +62,13 @@ export default function ClientSide({ id }: ClientSideDetailCategoryProps) {
                 INFRASTRUCTURE MANAGEMENT & PROJECT - DIREKTORAT REKAYASA &
                 INFRASTRUKTUR DARAT
               </p>
-              <p>Category: {dataDetail?.name}</p>
-              <p>Location: {dataDetail?.location}</p>
+              <p>Kategori: {dataDetail?.name}</p>
+              <p>Lokasi: {dataDetail?.location}</p>
               <p>Kode: {dataDetail?.code}</p>
             </div>
 
             <div className="flex flex-col sm:flex-row items-center justify-between gap-5">
-              <Search />
+              {/* <Search /> */}
 
               <div className="flex justify-end w-full">
                 <button
@@ -78,7 +78,7 @@ export default function ClientSide({ id }: ClientSideDetailCategoryProps) {
                   <div className="w-4 h-4">
                     <IoAdd className="w-full h-full" />
                   </div>
-                  <span className="text-xs font-semibold">Add Sector</span>
+                  <span className="text-xs font-semibold">Tambah</span>
                 </button>
               </div>
             </div>
@@ -110,7 +110,7 @@ export default function ClientSide({ id }: ClientSideDetailCategoryProps) {
                         </button>
                       </div>
                       <span className="text-xs">
-                        Source: {sector.source ? sector.source : "-"}
+                        Sumber: {sector.source ? sector.source : "-"}
                       </span>
                     </div>
                     <ItemTable

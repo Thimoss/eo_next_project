@@ -1,11 +1,11 @@
 "use client";
 import React from "react";
-import Search from "./Search";
+// import Search from "./Search";
 import { useCategories } from "../../../hooks/Categories";
 import { IoAdd } from "react-icons/io5";
 import Loading from "../global/Loading";
 import Table from "./Table";
-import Pagination from "../global/Pagination";
+// import Pagination from "../global/Pagination";
 import EmptyData from "../global/EmptyData";
 import CreateModal from "./CreateModal";
 import UpdateModal from "./UpdateModal";
@@ -38,9 +38,9 @@ export default function ClientSide() {
   return (
     <>
       <div className="flex flex-col gap-5">
-        <h1 className="text-black font-bold">List Category</h1>
+        <h1 className="text-black font-bold">Daftar Kategori</h1>
         <div className="flex flex-col sm:flex-row items-center justify-between gap-5 ">
-          <Search />
+          {/* <Search /> */}
 
           <div className="flex justify-end w-full">
             <button
@@ -50,7 +50,7 @@ export default function ClientSide() {
               <div className="w-4 h-4">
                 <IoAdd className="w-full h-full" />
               </div>
-              <span className="text-xs font-semibold">Add</span>
+              <span className="text-xs font-semibold">Tambah</span>
             </button>
           </div>
         </div>
@@ -66,7 +66,7 @@ export default function ClientSide() {
               handleDelete={handleDelete}
             />
 
-            <Pagination />
+            {/* <Pagination /> */}
           </div>
         ) : (
           <div>

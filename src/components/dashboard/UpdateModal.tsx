@@ -1,31 +1,28 @@
 import React, { useEffect, useState } from "react";
-import { KeyedMutator } from "swr";
 import Modal from "../global/Modal";
-import { CgSpinner } from "react-icons/cg";
-import { toast } from "react-toastify";
-import Api from "../../../service/Api";
 import { useForm } from "react-hook-form";
-import { JobSection } from "../../../types/Documents.type";
+import Api from "../../../service/Api";
+import { toast } from "react-toastify";
+import { KeyedMutator } from "swr";
+import { CgSpinner } from "react-icons/cg";
+import { Document } from "../../../types/Documents.type";
 
 interface FormData {
   name: string;
 }
-
 interface UpdateModalProps {
   open: boolean;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   mutate: KeyedMutator<any>;
-  selectedJobSection: JobSection | null | undefined;
-  documentId: number;
+  selectedDocument: Document | null | undefined;
 }
 
-export default function UpdateModalSection({
+export default function UpdateModal({
   open,
   setOpen,
   mutate,
-  selectedJobSection,
-  documentId,
+  selectedDocument,
 }: UpdateModalProps) {
   const [loading, setLoading] = useState(false);
   const {
@@ -35,28 +32,31 @@ export default function UpdateModalSection({
     formState: { errors },
     reset,
     clearErrors,
-  } = useForm<FormData>({});
+  } = useForm<FormData>();
 
   useEffect(() => {
-    if (selectedJobSection) {
+    // Reset form jika selectedCategory berubah
+    if (selectedDocument) {
       reset({
-        name: selectedJobSection.name || "",
+        name: selectedDocument?.name || "",
       });
     }
-  }, [selectedJobSection, reset]);
+  }, [selectedDocument, reset]);
 
   const onSubmit = async (data: FormData) => {
     try {
       setLoading(true);
+
       const api = new Api();
-      api.url = `job-section/update/${selectedJobSection?.id}`;
+      api.url = `document/update/${selectedDocument?.id}`;
       api.method = "PATCH";
       api.type = "json";
       api.body = {
         name: data.name,
-        documentId: documentId,
       };
+
       const response = await api.call();
+
       if (response.statusCode === 200) {
         toast.success(response.message);
         setOpen(false);
@@ -73,7 +73,7 @@ export default function UpdateModalSection({
       }
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
-      toast.error("Error updating sector: " + error.message);
+      toast.error("Error creating document: " + error.message);
     } finally {
       setLoading(false);
     }
@@ -87,33 +87,31 @@ export default function UpdateModalSection({
   return (
     <Modal onClose={() => setOpen(false)} open={open}>
       <div className="flex flex-col gap-5">
-        <span className="text-sm font-bold text-left">
-          Perbarui Sektor Pekerjaan
-        </span>
+        <span className="text-sm font-bold text-left">Edit Dokumen</span>
         <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-5">
           <div className="flex flex-col items-start gap-2">
-            <span className="text-xs font-semibold">Nama Sektor Pekerjaan</span>
+            <div className="flex items-center gap-2">
+              <span className="text-xs font-semibold">Nama Dokumen</span>
+              <span className="text-md font-semibold text-primaryRed">*</span>
+            </div>
             <input
               type="text"
-              placeholder="Masukkan nama sektor pekerjaan"
-              {...register("name", {
-                required: "Nama sektor pekerjaan diperlukan",
-              })}
+              placeholder="Masukkan nama dokumen"
+              {...register("name", { required: "Nama dokumen diperlukan" })}
               className="text-xs px-3 bg-gray-200 rounded-md py-1 border border-gray-300 focus:outline-none w-full"
             />
             {errors.name && (
-              <p className="text-xs text-red-500">{errors.name.message}</p>
+              <p className="text-xs text-primaryRed">{errors.name.message}</p>
             )}
           </div>
-
           <div
             className="flex gap-5 justify-end
-            "
+          "
           >
             <button
               onClick={handleCancel}
               type="button"
-              className="px-3 py-1.5 rounded-md text-xs font-semibold text-white duration-300 bg-primaryRed disabled:bg-primaryRedLighter hover:bg-primaryRedDarker cursor-pointer flex items-center justify-between"
+              className="px-3 py-1.5 rounded-md text-xs font-semibold text-white duration-300 bg-primaryRed disabled:bg-primaryRedLighter hover:bg-primaryRedDarker cursor-pointer  items-center justify-between flex"
             >
               Batal
             </button>
@@ -127,7 +125,7 @@ export default function UpdateModalSection({
                   <CgSpinner className="w-3 h-3 text-center animate-spin" />
                 </div>
               )}
-              Perbarui
+              Simpan
             </button>
           </div>
         </form>

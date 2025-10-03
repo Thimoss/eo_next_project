@@ -9,7 +9,7 @@ export default function Search() {
     >
       <input
         type="text"
-        placeholder="Search Document..."
+        placeholder="Cari kategori..."
         className="focus:outline-none text-xs w-full bg-white py-1.5 px-3 rounded-md  h-full"
       />
 
@@ -17,7 +17,7 @@ export default function Search() {
         <div className="w-4 h-4">
           <IoSearch className="w-full h-full" />
         </div>
-        <span className="text-xs font-semibold">Search</span>
+        <span className="text-xs font-semibold">Cari</span>
       </button>
     </div>
   );

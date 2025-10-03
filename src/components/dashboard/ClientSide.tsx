@@ -9,23 +9,29 @@ import EmptyData from "../global/EmptyData";
 import { Document } from "../../../types/Documents.type";
 import { IoAdd } from "react-icons/io5";
 import CreateModal from "./CreateModal";
+import UpdateModal from "./UpdateModal";
+import DeleteModal from "./DeleteModal";
 
 export default function ClientSide() {
   const {
     data,
-    error,
     isLoading,
     mutate,
     sortBy,
-    setSortBy,
     isSortByOpen,
-    setIsSortByOpen,
     handleSelect,
     toggleDropdown,
     dropdownRef,
     openCreate,
     setOpenCreate,
     handleDetail,
+    selectedDocument,
+    openEdit,
+    setOpenEdit,
+    openDelete,
+    setOpenDelete,
+    handleEdit,
+    handleDelete,
   } = useDashboard();
 
   return (
@@ -41,7 +47,7 @@ export default function ClientSide() {
               <div className="w-4 h-4">
                 <IoAdd className="w-full h-full" />
               </div>
-              <span className="text-xs font-semibold">Add</span>
+              <span className="text-xs font-semibold">Tambah</span>
             </button>
           </div>
           <SortBy
@@ -61,6 +67,8 @@ export default function ClientSide() {
                 document={document}
                 key={document.id}
                 handleDetail={handleDetail}
+                handleEdit={handleEdit}
+                handleDelete={handleDelete}
               />
             ))}
           </div>
@@ -69,6 +77,18 @@ export default function ClientSide() {
         )}
       </div>
       <CreateModal open={openCreate} setOpen={setOpenCreate} mutate={mutate} />
+      <UpdateModal
+        open={openEdit}
+        setOpen={setOpenEdit}
+        mutate={mutate}
+        selectedDocument={selectedDocument}
+      />
+      <DeleteModal
+        open={openDelete}
+        setOpen={setOpenDelete}
+        mutate={mutate}
+        selectedDocument={selectedDocument}
+      />
     </>
   );
 }

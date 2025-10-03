@@ -126,15 +126,18 @@ export default function CreateModalItem({
     <Modal onClose={() => setOpen(false)} open={open}>
       <div className="flex flex-col gap-5">
         <span className="text-sm font-bold text-left">
-          Add Item for {selectedSector?.name}
+          Tambah pekerjaan untuk {selectedSector?.name}
         </span>
         <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-5">
           <div className="flex flex-col items-start gap-2">
-            <span className="text-xs font-semibold">Name</span>
+            <div className="flex items-center gap-2">
+              <span className="text-xs font-semibold">Nama Pekerjaan</span>
+              <span className="text-md font-semibold text-primaryRed">*</span>
+            </div>
             <input
               type="text"
-              placeholder="Input item name"
-              {...register("name", { required: "Name is required" })}
+              placeholder="Masukkan nama pekerjaan"
+              {...register("name", { required: "Nama pekerjaan diperlukan" })}
               className="text-xs px-3 bg-gray-200 rounded-md py-1 border border-gray-300 focus:outline-none w-full"
             />
             {errors.name && (
@@ -142,11 +145,14 @@ export default function CreateModalItem({
             )}
           </div>
           <div className="flex flex-col items-start gap-2">
-            <span className="text-xs font-semibold">Number</span>
+            <div className="flex items-center gap-2">
+              <span className="text-xs font-semibold">Nomor Pekerjaan</span>
+              <span className="text-md font-semibold text-primaryRed">*</span>
+            </div>
             <input
               type="text"
-              placeholder="Input item number"
-              {...register("no", { required: "Number is required" })}
+              placeholder="Masukkan nomor pekerjaan"
+              {...register("no", { required: "Nomor pekerjaan diperlukan" })}
               className="text-xs px-3 bg-gray-200 rounded-md py-1 border border-gray-300 focus:outline-none w-full"
             />
             {errors.no && (
@@ -154,10 +160,10 @@ export default function CreateModalItem({
             )}
           </div>
           <div className="flex flex-col items-start gap-2">
-            <span className="text-xs font-semibold">Source</span>
+            <span className="text-xs font-semibold">Sumber</span>
             <input
               type="text"
-              placeholder="Input item source"
+              placeholder="Masukkan sumber"
               {...register("source")}
               className="text-xs px-3 bg-gray-200 rounded-md py-1 border border-gray-300 focus:outline-none w-full"
             />

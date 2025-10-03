@@ -9,7 +9,7 @@ interface ModalProps {
 export default function Modal({ open, onClose, children }: ModalProps) {
   return (
     <div
-      className={` fixed inset-0 flex justify-center items-center transition-colors z-10 ${
+      className={` fixed inset-0 flex justify-center items-center transition-colors z-50 ${
         open ? "visible bg-black/20" : "invisible"
       }`}
       onClick={onClose}

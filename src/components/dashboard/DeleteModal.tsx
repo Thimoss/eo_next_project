@@ -56,7 +56,7 @@ export default function DeleteModal({
   };
   return (
     <Modal onClose={() => setOpen(false)} open={open}>
-      <div className="flex flex-col gap-5">
+      <div className="flex flex-col gap-6">
         <span className="text-xl text-gray-700 font-bold text-left">
           Hapus Dokumen
         </span>

@@ -37,7 +37,7 @@ export default function ClientSide() {
   return (
     <>
       <div className="flex flex-col gap-10">
-        <div className="flex flex-col gap-5">
+        <div className="flex flex-col gap-6">
           <div className="flex flex-col md:flex-row items-center justify-between">
             <Search />
             <button

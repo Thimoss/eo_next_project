@@ -100,9 +100,11 @@ export default function CreateModalItem({
 
   return (
     <Modal onClose={() => setOpen(false)} open={open}>
-      <div className="flex flex-col gap-5">
-        <span className="text-sm font-bold text-left">Tambah Pekerjaan</span>
-        <div className="flex flex-col gap-5">
+      <div className="flex flex-col gap-6">
+        <span className="text-xl text-gray-700 font-bold text-left">
+          Tambah Pekerjaan
+        </span>
+        <div className="flex flex-col gap-6">
           <div ref={itemRef} className="flex flex-col items-start gap-2">
             <div className="flex items-center gap-2">
               <span className="text-xs font-semibold">Nama Pekerjaan</span>

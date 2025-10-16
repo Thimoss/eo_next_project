@@ -10,6 +10,7 @@ import CreateModal from "./CreateModal";
 import UpdateModal from "./UpdateModal";
 import DeleteModal from "./DeleteModal";
 import { FaPlus } from "react-icons/fa";
+import Search from "./Search";
 
 export default function ClientSide() {
   const {
@@ -37,10 +38,10 @@ export default function ClientSide() {
 
   return (
     <>
-      <div className="flex flex-col gap-5">
+      <div className="flex flex-col gap-6">
         <h1 className="text-xl text-gray-700 font-bold">Daftar Kategori</h1>
         <div className="flex flex-col sm:flex-row items-center justify-between gap-5 ">
-          {/* <Search /> */}
+          <Search />
 
           <div className="flex justify-end w-full">
             <button
@@ -59,7 +60,7 @@ export default function ClientSide() {
             <Loading />
           </div>
         ) : data.list.length > 0 ? (
-          <div className="flex flex-col gap-5">
+          <div className="flex flex-col gap-6">
             <Table
               categories={data.list}
               handleEdit={handleEdit}

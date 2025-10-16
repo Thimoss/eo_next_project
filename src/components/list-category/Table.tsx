@@ -20,7 +20,7 @@ export default function Table({
     route.push(`detail-category/${category.id}`);
   };
   return (
-    <div className="relative overflow-x-auto sm:rounded-lg shadow-sm">
+    <div className="relative overflow-x-auto rounded-lg shadow-sm">
       <table className="w-full text-center text-black text-xs" align="center">
         <thead className="text-sm text-white uppercase bg-primaryBlue">
           <tr>
@@ -31,7 +31,7 @@ export default function Table({
               Nama Kategori
             </th>
             <th scope="col" className="px-6 py-3">
-              Koe
+              Kode
             </th>
             <th scope="col" className="px-6 py-3">
               Lokasi

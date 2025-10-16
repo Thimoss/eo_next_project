@@ -56,10 +56,12 @@ export default function DeleteModalSector({
   };
   return (
     <Modal onClose={() => setOpen(false)} open={open}>
-      <div className="flex flex-col gap-5">
-        <span className="text-sm font-bold text-left">Hapus Sektor</span>
-        <div className="flex flex-col gap-5">
-          <p className="text-xs">
+      <div className="flex flex-col gap-6">
+        <span className="text-xl text-gray-700 font-bold text-left">
+          Hapus Sektor
+        </span>
+        <div className="flex flex-col gap-6">
+          <p className="text-sm text-gray-700">
             Apakah Anda yakin ingin menghapus{" "}
             <strong>{selectedSector?.name}</strong>??
           </p>
@@ -70,14 +72,14 @@ export default function DeleteModalSector({
           >
             <button
               onClick={() => setOpen(false)}
-              className="px-3 py-1.5 rounded-md text-xs font-semibold text-white duration-300 bg-primaryBlue disabled:bg-primaryBlueLighter hover:bg-primaryBlueDarker cursor-pointer"
+              className="text-sm px-4 py-2 bg-primaryBlue text-white font-bold rounded-md hover:bg-primaryBlueDarker disabled:bg-primaryBlueLighter transition duration-300 ease-in-out cursor-pointer flex items-center gap-2 shadow-sm"
             >
               Batal
             </button>
             <button
               disabled={loading}
               onClick={handleDelete}
-              className="text-sm px-4 py-2 bg-primaryGreen text-white font-bold rounded-md hover:bg-primaryGreenDarker disabled:bg-primaryGreenLighter transition duration-300 ease-in-out cursor-pointer flex items-center gap-2 shadow-sm"
+              className="text-sm px-4 py-2 bg-primaryRed text-white font-bold rounded-md hover:bg-primaryRedDarker disabled:bg-primaryRedLighter transition duration-300 ease-in-out cursor-pointer flex items-center gap-2 shadow-sm"
             >
               {loading && (
                 <div>

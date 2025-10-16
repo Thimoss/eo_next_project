@@ -66,7 +66,7 @@ export default function ClientSide({ slug }: DetailDocumentProps) {
         <Loading />
       ) : dataDetail ? (
         <>
-          <div className="flex flex-col gap-5">
+          <div className="flex flex-col gap-6">
             <DocumentInformation
               location={dataDetail.location}
               base={dataDetail.base}

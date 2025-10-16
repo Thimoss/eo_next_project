@@ -92,53 +92,72 @@ export default function UpdateModalSector({
   };
   return (
     <Modal onClose={() => setOpen(false)} open={open}>
-      <div className="flex flex-col gap-5">
-        <span className="text-sm font-bold text-left">Perbarui Sektor</span>
-        <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-5">
-          <div className="flex flex-col items-start gap-2">
+      <div className="flex flex-col gap-6">
+        <span className="text-xl text-gray-700 font-bold text-left">
+          Perbarui Sektor
+        </span>
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+          <div className="flex flex-col gap-1">
             <div className="flex items-center gap-2">
-              <span className="text-xs font-semibold">Nama Sektor</span>
+              <label
+                htmlFor="name"
+                className="block text-sm font-medium text-gray-600"
+              >
+                Nama Sektor
+              </label>
               <span className="text-sm font-semibold text-primaryRed">*</span>
             </div>
             <input
               type="text"
-              placeholder="Masukkan nama sektor"
+              id="name"
+              placeholder="Input nama sektor"
               {...register("name", { required: "Nama sektor diperlukan" })}
-              className="text-xs px-3 bg-gray-200 rounded-md py-1 border border-gray-300 focus:outline-none w-full"
+              className="text-sm block w-full px-4 py-2 rounded-md border border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-primaryBlue focus:border-primaryBlue text-gray-700"
             />
             {errors.name && (
-              <p className="text-xs text-red-500">{errors.name.message}</p>
+              <p className="text-sm text-red-500">{errors.name.message}</p>
             )}
           </div>
-          <div className="flex flex-col items-start gap-2">
+          <div className="flex flex-col gap-1">
             <div className="flex items-center gap-2">
-              <span className="text-xs font-semibold">Nomor Sektor</span>
+              <label
+                htmlFor="no"
+                className="block text-sm font-medium text-gray-600"
+              >
+                Nomor Sektor
+              </label>
               <span className="text-sm font-semibold text-primaryRed">*</span>
             </div>
             <input
               type="text"
+              id="no"
               placeholder="Masukkan nomor sektor"
               {...register("no", { required: "Nomor sektor diperlukan" })}
-              className="text-xs px-3 bg-gray-200 rounded-md py-1 border border-gray-300 focus:outline-none w-full"
+              className="text-sm block w-full px-4 py-2 rounded-md border border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-primaryBlue focus:border-primaryBlue text-gray-700"
             />
             {errors.no && (
-              <p className="text-xs text-red-500">{errors.no.message}</p>
+              <p className="text-sm text-red-500">{errors.no.message}</p>
             )}
           </div>
-          <div className="flex flex-col items-start gap-2">
-            <div className="flex items-center gap-2">
-              <span className="text-xs font-semibold">Sumber</span>
-            </div>
+          <div className="flex flex-col gap-1">
+            <label
+              htmlFor="source"
+              className="block text-sm font-medium text-gray-600"
+            >
+              Sumber
+            </label>
             <input
               type="text"
-              placeholder="Masukkan sumber"
+              id="source"
+              placeholder="Masukkan sumber sektor"
               {...register("source")}
-              className="text-xs px-3 bg-gray-200 rounded-md py-1 border border-gray-300 focus:outline-none w-full"
+              className="text-sm block w-full px-4 py-2 rounded-md border border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-primaryBlue focus:border-primaryBlue text-gray-700"
             />
             {errors.source && (
-              <p className="text-xs text-red-500">{errors.source.message}</p>
+              <p className="text-sm text-red-500">{errors.source.message}</p>
             )}
           </div>
+
           <div
             className="flex gap-5 justify-end
           "

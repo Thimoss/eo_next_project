@@ -13,7 +13,7 @@ export default function Search() {
         // value={email}
         // onChange={(e) => setEmail(e.target.value)}
         className="text-sm block w-full px-4 py-2 rounded-md border border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-primaryBlue focus:border-primaryBlue bg-white text-gray-700"
-        placeholder="Cari Dokumen..."
+        placeholder="Cari dokumen..."
         required
       />
       <button className="px-4 py-2 bg-primaryBlue text-white font-bold rounded-md hover:bg-primaryBlueDarker transition duration-300 ease-in-out cursor-pointer items-center justify-center flex gap-2 shadow-sm">

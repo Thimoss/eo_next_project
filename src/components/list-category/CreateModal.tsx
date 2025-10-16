@@ -80,7 +80,7 @@ export default function CreateModal({
   };
   return (
     <Modal onClose={() => setOpen(false)} open={open}>
-      <div className="flex flex-col gap-5">
+      <div className="flex flex-col gap-6">
         <span className="text-xl text-gray-700 font-bold text-left">
           Tambah Kategori
         </span>
@@ -152,7 +152,6 @@ export default function CreateModal({
               </p>
             )}
           </div>
-
           <div className="flex flex-col gap-1">
             <div className="flex items-center gap-2">
               <label
@@ -176,6 +175,7 @@ export default function CreateModal({
               </p>
             )}
           </div>
+
           <div
             className="flex gap-5 justify-end
           "

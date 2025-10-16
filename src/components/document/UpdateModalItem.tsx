@@ -131,9 +131,11 @@ export default function UpdateModalItem({
 
   return (
     <Modal onClose={() => setOpen(false)} open={open}>
-      <div className="flex flex-col gap-5">
-        <span className="text-sm font-bold text-left">Perbarui Pekerjaan</span>
-        <div className="flex flex-col gap-5">
+      <div className="flex flex-col gap-6">
+        <span className="text-xl text-gray-700 font-bold text-left">
+          Perbarui Pekerjaan
+        </span>
+        <div className="flex flex-col gap-6">
           <div ref={itemRef} className="flex flex-col items-start gap-2">
             <span className="text-xs font-semibold">Nama Pekerjaan</span>
             <div className="relative w-full">

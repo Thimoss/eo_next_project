@@ -56,9 +56,11 @@ export default function DeleteModalSection({
   };
   return (
     <Modal onClose={() => setOpen(false)} open={open}>
-      <div className="flex flex-col gap-5">
-        <span className="text-sm font-bold text-left">Delete Job Section</span>
-        <div className="flex flex-col gap-5">
+      <div className="flex flex-col gap-6">
+        <span className="text-xl text-gray-700 font-bold text-left">
+          Delete Job Section
+        </span>
+        <div className="flex flex-col gap-6">
           <p className="text-xs">
             Are you sure you want to delete the{" "}
             <strong>{selectedJobSection?.name}</strong>?

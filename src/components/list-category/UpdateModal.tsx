@@ -94,76 +94,110 @@ export default function UpdateModal({
   };
   return (
     <Modal onClose={() => setOpen(false)} open={open}>
-      <div className="flex flex-col gap-5">
-        <span className="text-sm font-bold text-left">Perbarui Kategori</span>
-        <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-5">
-          <div className="flex flex-col items-start gap-2">
+      <div className="flex flex-col gap-6">
+        <span className="text-xl text-gray-700 font-bold text-left">
+          Perbarui Kategori
+        </span>
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+          <div className="flex flex-col gap-1">
             <div className="flex items-center gap-2">
-              <span className="text-xs font-semibold">Nama Kategori</span>
-              <span className="text-sm font-semibold text-primaryRed">*</span>
+              <label
+                htmlFor="name"
+                className="block text-sm font-medium text-gray-600"
+              >
+                Nama Kategori
+              </label>
+              <span className="text-sm font-medium text-primaryRed">*</span>
             </div>
             <input
               type="text"
+              id="name"
               placeholder="Masukkan nama kategori"
               {...register("name", { required: "Nama kategori diperlukan" })}
-              className="text-xs px-3 bg-gray-200 rounded-md py-1 border border-gray-300 focus:outline-none w-full"
+              className="text-sm block w-full px-4 py-2 rounded-md border border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-primaryBlue focus:border-primaryBlue text-gray-700"
             />
             {errors.name && (
-              <p className="text-xs text-red-500">{errors.name.message}</p>
+              <p className="text-xs text-primaryRed">{errors.name.message}</p>
             )}
           </div>
-          <div className="flex flex-col items-start gap-2">
+          <div className="flex flex-col gap-1">
             <div className="flex items-center gap-2">
-              <span className="text-xs font-semibold">Kode Kategori</span>
-              <span className="text-sm font-semibold text-primaryRed">*</span>
+              <label
+                htmlFor="code"
+                className="block text-sm font-medium text-gray-600"
+              >
+                Kode Kategori
+              </label>
+              <span className="text-sm font-medium text-primaryRed">*</span>
             </div>
             <input
               type="text"
+              id="code"
               placeholder="Masukkan kode kategori"
               {...register("code", { required: "Kode kategori diperlukan" })}
-              className="text-xs px-3 bg-gray-200 rounded-md py-1 border border-gray-300 focus:outline-none w-full"
+              className="text-sm block w-full px-4 py-2 rounded-md border border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-primaryBlue focus:border-primaryBlue text-gray-700"
             />
             {errors.code && (
-              <p className="text-xs text-red-500">{errors.code.message}</p>
+              <p className="text-xs text-primaryRed">{errors.code.message}</p>
             )}
           </div>
-          <div className="flex flex-col items-start gap-2">
+          <div className="flex flex-col gap-1">
             <div className="flex items-center gap-2">
-              <span className="text-xs font-semibold">Referensi</span>
-              <span className="text-sm font-semibold text-primaryRed">*</span>
+              <label
+                htmlFor="reference "
+                className="block text-sm font-medium text-gray-600"
+              >
+                Referensi
+              </label>
+              <span className="text-sm font-medium text-primaryRed">*</span>
             </div>
             <input
               type="text"
+              id="reference"
               placeholder="Masukkan referensi kategori"
               {...register("reference", {
                 required: "Referensi kategori diperlukan",
               })}
-              className="text-xs px-3 bg-gray-200 rounded-md py-1 border border-gray-300 focus:outline-none w-full"
+              className="text-sm block w-full px-4 py-2 rounded-md border border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-primaryBlue focus:border-primaryBlue text-gray-700"
             />
+            {errors.reference && (
+              <p className="text-xs text-primaryRed">
+                {errors.reference.message}
+              </p>
+            )}
           </div>
-          {errors.reference && (
-            <p className="text-xs text-red-500">{errors.reference.message}</p>
-          )}
-          <div className="flex flex-col items-start gap-2">
+          <div className="flex flex-col gap-1">
             <div className="flex items-center gap-2">
-              <span className="text-xs font-semibold">Lokasi</span>
-              <span className="text-sm font-semibold text-primaryRed">*</span>
+              <label
+                htmlFor="location"
+                className="block text-sm font-medium text-gray-600"
+              >
+                Lokasi
+              </label>
+              <span className="text-sm font-medium text-primaryRed">*</span>
             </div>
             <input
               type="text"
+              id="location"
               placeholder="Masukkan lokasi"
               {...register("location", { required: "Lokasi diperlukan" })}
-              className="text-xs px-3 bg-gray-200 rounded-md py-1 border border-gray-300 focus:outline-none w-full"
+              className="text-sm block w-full px-4 py-2 rounded-md border border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-primaryBlue focus:border-primaryBlue text-gray-700"
             />
             {errors.location && (
-              <p className="text-xs text-red-500">{errors.location.message}</p>
+              <p className="text-xs text-primaryRed">
+                {errors.location.message}
+              </p>
             )}
           </div>
-          <div className="flex gap-5 justify-end">
+
+          <div
+            className="flex gap-5 justify-end
+          "
+          >
             <button
               onClick={handleCancel}
               type="button"
-              className="px-3 py-1.5 rounded-md  text-xs font-semibold text-white duration-300 bg-primaryRed disabled:bg-primaryRedLighter hover:bg-primaryRedDarker cursor-pointer"
+              className="text-sm px-4 py-2 bg-primaryRed text-white font-bold rounded-md hover:bg-primaryRedDarker disabled:bg-primaryRedLighter transition duration-300 ease-in-out cursor-pointer flex items-center gap-2 shadow-sm"
             >
               Batal
             </button>

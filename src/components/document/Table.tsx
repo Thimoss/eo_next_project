@@ -102,7 +102,7 @@ export default function Table({
   };
 
   return (
-    <div className="flex flex-col gap-5">
+    <div className="flex flex-col gap-6">
       <div>
         <div className="flex justify-end">
           <button

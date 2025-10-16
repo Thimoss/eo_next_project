@@ -75,8 +75,8 @@ export default function CreateModalSection({
   };
   return (
     <Modal onClose={() => setOpen(false)} open={open}>
-      <div className="flex flex-col gap-5">
-        <span className="text-sm font-bold text-left">
+      <div className="flex flex-col gap-6">
+        <span className="text-xl text-gray-700 font-bold text-left">
           Tambah Sektor Pekerjaan
         </span>
         <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-5">

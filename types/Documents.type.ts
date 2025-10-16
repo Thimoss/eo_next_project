@@ -40,6 +40,13 @@ export interface Document {
   totalBenefitsAndRisks: number;
   totalMaterialAndFee: number;
   percentageBenefitsAndRisks: number;
+  recapitulationLocation: string;
+  preparedByName: string;
+  preparedByPosition: string;
+  checkedByName: string;
+  checkedByPosition: string;
+  confirmedByName: string;
+  confirmedByPosition: string;
   createdAt: string;
   updatedAt: string;
   deletedAt: string | null;

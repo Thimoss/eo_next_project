@@ -18,12 +18,12 @@ export default function SortBy({
   handleSelect,
 }: SortByProps) {
   return (
-    <div className="relative w-full max-w-[12rem]" ref={dropdownRef}>
+    <div className="relative  max-w-[17rem]" ref={dropdownRef}>
       <div
         onClick={toggleDropdown}
-        className="bg-white rounded-md px-3 py-1.5 flex items-center gap-2 justify-between"
+        className="bg-white rounded-md px-4 py-2 flex items-center gap-2 justify-between shadow-sm text-gray-700"
       >
-        <span className="text-xs">Urutkan: {sortBy.label}</span>
+        <span className="text-sm">Urutkan: {sortBy.label}</span>
         <div className="w-4 h-4">
           <IoChevronDown
             className={`w-full h-full ${isSortByOpen ? "rotate-180" : ""}`}
@@ -36,7 +36,7 @@ export default function SortBy({
             <div
               key={option.value}
               onClick={() => handleSelect(option)}
-              className="flex cursor-pointer items-center gap-2 text-xs justify-between hover:bg-gray-300 duration-300 p-1.5 rounded-md"
+              className="text-gray-700 flex cursor-pointer items-center gap-2 text-sm justify-between hover:bg-gray-300 duration-300 p-2 px-4 rounded-md"
             >
               <span>{option.label}</span>
               {sortBy.value === option.value && (

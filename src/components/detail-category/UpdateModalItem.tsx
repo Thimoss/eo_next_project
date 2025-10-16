@@ -145,11 +145,14 @@ export default function UpdateModalItem({
         </span>
         <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-5">
           <div className="flex flex-col items-start gap-2">
-            <span className="text-xs font-semibold">Name</span>
+            <div className="flex items-center gap-2">
+              <span className="text-xs font-semibold">Nama Pekerjaan</span>
+              <span className="text-md font-semibold text-primaryRed">*</span>
+            </div>
             <input
               type="text"
-              placeholder="Input item name"
-              {...register("name", { required: "Name is required" })}
+              placeholder="Masukkan nama pekerjaan"
+              {...register("name", { required: "Nama pekerjaan diperlukan" })}
               className="text-xs px-3 bg-gray-200 rounded-md py-1 border border-gray-300 focus:outline-none w-full"
             />
             {errors.name && (
@@ -157,11 +160,14 @@ export default function UpdateModalItem({
             )}
           </div>
           <div className="flex flex-col items-start gap-2">
-            <span className="text-xs font-semibold">Number</span>
+            <div className="flex items-center gap-2">
+              <span className="text-xs font-semibold">Nomor Pekerjaan</span>
+              <span className="text-md font-semibold text-primaryRed">*</span>
+            </div>
             <input
               type="text"
-              placeholder="Input item number"
-              {...register("no", { required: "Number is required" })}
+              placeholder="Masukkan nomor pekerjaan"
+              {...register("no", { required: "Nomor pekerjaan diperlukan" })}
               className="text-xs px-3 bg-gray-200 rounded-md py-1 border border-gray-300 focus:outline-none w-full"
             />
             {errors.no && (
@@ -169,10 +175,10 @@ export default function UpdateModalItem({
             )}
           </div>
           <div className="flex flex-col items-start gap-2">
-            <span className="text-xs font-semibold">Source</span>
+            <span className="text-xs font-semibold">Sumber</span>
             <input
               type="text"
-              placeholder="Input item source"
+              placeholder="Masukkan sumber"
               {...register("source")}
               className="text-xs px-3 bg-gray-200 rounded-md py-1 border border-gray-300 focus:outline-none w-full"
             />
@@ -197,11 +203,18 @@ export default function UpdateModalItem({
           {singleItem && (
             <div className="grid grid-cols-2 gap-5">
               <div className="flex flex-col items-start gap-2">
-                <span className="text-xs font-semibold">Minimum</span>
+                <div className="flex items-center gap-2">
+                  <span className="text-xs font-semibold">Minimum</span>
+                  <span className="text-md font-semibold text-primaryRed">
+                    *
+                  </span>
+                </div>
                 <input
                   type="number"
-                  placeholder="Input minimum quantity"
-                  {...register("minimum", { required: "Minimum is required" })}
+                  placeholder="Masukkan jumlah minimum"
+                  {...register("minimum", {
+                    required: "Jumlah minimum diperlukan",
+                  })}
                   className="text-xs px-3 bg-gray-200 rounded-md py-1 border border-gray-300 focus:outline-none w-full"
                 />
                 {errors.minimum && (
@@ -212,36 +225,53 @@ export default function UpdateModalItem({
               </div>
 
               <div className="flex flex-col items-start gap-2">
-                <span className="text-xs font-semibold">Unit</span>
+                <div className="flex items-center gap-2">
+                  <span className="text-xs font-semibold">Unit</span>
+                  <span className="text-md font-semibold text-primaryRed">
+                    *
+                  </span>
+                </div>
                 <input
                   type="text"
-                  placeholder="Input unit"
-                  {...register("unit", { required: "Unit is required" })}
+                  placeholder="Masukkan unit"
+                  {...register("unit", { required: "Unit diperlukan" })}
                   className="text-xs px-3 bg-gray-200 rounded-md py-1 border border-gray-300 focus:outline-none w-full"
                 />
               </div>
 
               <div className="flex flex-col items-start gap-2">
-                <span className="text-xs font-semibold">
-                  Material Price Per Unit
-                </span>
+                <div className="flex items-center gap-2">
+                  <span className="text-xs font-semibold">
+                    Harga Material per Unit
+                  </span>
+                  <span className="text-md font-semibold text-primaryRed">
+                    *
+                  </span>
+                </div>
                 <input
                   type="number"
-                  placeholder="Input material price per unit"
+                  placeholder="Masukkan harga material per unit"
                   {...register("materialPricePerUnit", {
-                    required: "Material price is required",
+                    required: "Harga material per unit diperlukan",
                   })}
                   className="text-xs px-3 bg-gray-200 rounded-md py-1 border border-gray-300 focus:outline-none w-full"
                 />
               </div>
 
               <div className="flex flex-col items-start gap-2">
-                <span className="text-xs font-semibold">Fee Per Unit</span>
+                <div className="flex items-center gap-2">
+                  <span className="text-xs font-semibold">
+                    Harga Jasa per Unit
+                  </span>
+                  <span className="text-md font-semibold text-primaryRed">
+                    *
+                  </span>
+                </div>
                 <input
                   type="number"
-                  placeholder="Input fee per unit"
+                  placeholder="Masukkan harga jasa per unit"
                   {...register("feePricePerUnit", {
-                    required: "Fee per unit is required",
+                    required: "Harga jasa per unit diperlukan",
                   })}
                   className="text-xs px-3 bg-gray-200 rounded-md py-1 border border-gray-300 focus:outline-none w-full"
                 />
@@ -258,7 +288,7 @@ export default function UpdateModalItem({
               type="button"
               className="px-3 py-1.5 rounded-md text-xs font-semibold text-white duration-300 bg-primaryRed disabled:bg-primaryRedLighter hover:bg-primaryRedDarker cursor-pointer flex items-center justify-between"
             >
-              Cancel
+              Batal
             </button>
             <button
               disabled={loading}
@@ -270,7 +300,7 @@ export default function UpdateModalItem({
                   <CgSpinner className="w-3 h-3 text-center animate-spin" />
                 </div>
               )}
-              Update
+              Perbarui
             </button>
           </div>
         </form>

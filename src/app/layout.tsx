@@ -20,7 +20,7 @@ export default function RootLayout({
           <link rel="icon" href="/icon.png" sizes="any" />
         </head>
         <body className={`antialiased`}>
-          <NextTopLoader />
+          <NextTopLoader showSpinner={false} color="#006eb6" />
           {children}
         </body>
       </html>

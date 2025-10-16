@@ -9,8 +9,8 @@ interface MasterProps {
 export default function Master({ children }: MasterProps) {
   return (
     <div className="min-h-screen flex flex-col">
-      <header className="w-full bg-white py-5 sticky top-0 z-50">
-        <div className="container mx-auto flex items-center justify-between">
+      <header className="w-full bg-white py-5 sticky top-0 z-50 shadow-sm ">
+        <div className="container mx-auto px-4 md:px-0 flex items-center justify-between">
           <div className="flex items-center gap-10">
             <div>
               <Link href={"/"}>
@@ -31,10 +31,10 @@ export default function Master({ children }: MasterProps) {
               <Link href={"/list-category"}>Kategori</Link>
             </div>
           </div>
-          <div>
+          {/* <div>
             <div className="flex items-center gap-2 text-xs">
               <h1 className="text-xs font-normal">User Example</h1>
-              {/* Avatar */}
+
               <div className="aspect-square rounded-full flex items-center justify-center h-[37px] border-2 border-primaryBlue overflow-hidden">
                 <Image
                   draggable={false}
@@ -45,14 +45,14 @@ export default function Master({ children }: MasterProps) {
                 />
               </div>
             </div>
-          </div>
+          </div> */}
         </div>
       </header>
       <main className="w-full  flex-1 py-5 bg-gray-200">
-        <div className="container mx-auto">{children}</div>
+        <div className="container mx-auto px-4 md:px-0">{children}</div>
       </main>
       <footer className="w-full bg-white py-2">
-        <div className="container mx-auto text-center text-xs">
+        <div className="container mx-auto px-4 md:px-0 text-center text-xs">
           © 2025 Pertamina. All rights reserved.
         </div>
       </footer>

@@ -7,7 +7,7 @@ import { useDashboard } from "../../../hooks/Dashboard";
 import Loading from "../global/Loading";
 import EmptyData from "../global/EmptyData";
 import { Document } from "../../../types/Documents.type";
-import { IoAdd } from "react-icons/io5";
+import { FaPlus } from "react-icons/fa";
 import CreateModal from "./CreateModal";
 import UpdateModal from "./UpdateModal";
 import DeleteModal from "./DeleteModal";
@@ -38,25 +38,36 @@ export default function ClientSide() {
     <>
       <div className="flex flex-col gap-10">
         <div className="flex flex-col gap-5">
-          <div className="flex items-center justify-between">
+          <div className="flex flex-col md:flex-row items-center justify-between">
             <Search />
             <button
               onClick={() => setOpenCreate(true)}
-              className="flex items-center gap-2 text-white bg-primaryGreen hover:bg-primaryGreenDarker duration-300 cursor-pointer font-medium text-xs px-3 py-1.5 rounded-md"
+              className="px-4 py-2 bg-primaryGreen text-white font-bold rounded-md hover:bg-primaryGreenDarker transition duration-300 ease-in-out cursor-pointer items-center justify-center hidden md:flex gap-2 shadow-sm"
             >
               <div className="w-4 h-4">
-                <IoAdd className="w-full h-full" />
+                <FaPlus className="w-full h-full" />
               </div>
-              <span className="text-xs font-semibold">Tambah</span>
+              <span className="text-sm font-semibold">Tambah</span>
             </button>
           </div>
-          <SortBy
-            sortBy={sortBy}
-            isSortByOpen={isSortByOpen}
-            handleSelect={handleSelect}
-            toggleDropdown={toggleDropdown}
-            dropdownRef={dropdownRef}
-          />
+          <div className="flex items-center justify-between ">
+            <SortBy
+              sortBy={sortBy}
+              isSortByOpen={isSortByOpen}
+              handleSelect={handleSelect}
+              toggleDropdown={toggleDropdown}
+              dropdownRef={dropdownRef}
+            />
+            <button
+              onClick={() => setOpenCreate(true)}
+              className="px-4 py-2 bg-primaryGreen text-white font-bold rounded-md hover:bg-primaryGreenDarker transition duration-300 ease-in-out cursor-pointer items-center justify-center flex md:hidden gap-2"
+            >
+              <div className="w-4 h-4">
+                <FaPlus className="w-full h-full" />
+              </div>
+              <span className="text-sm font-semibold">Tambah</span>
+            </button>
+          </div>
         </div>
         {isLoading ? (
           <Loading />

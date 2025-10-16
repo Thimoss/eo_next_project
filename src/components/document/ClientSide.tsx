@@ -10,6 +10,7 @@ import DeleteModalSection from "./DeleteModalSection";
 import CreateModalItem from "./CreateModalItem";
 import UpdateModalItem from "./UpdateModalItem";
 import DeleteModalItem from "./DeleteModalItem";
+import DocumentApproval from "./DocumentApproval";
 
 interface DetailDocumentProps {
   slug: string;
@@ -83,37 +84,17 @@ export default function ClientSide({ slug }: DetailDocumentProps) {
               dataDetail={dataDetail}
               mutateDetail={mutateDetail}
             />
-            <div className="text-xs flex flex-col gap-5">
-              <p>Medan, 1 Agustus 2025</p>
-              <div className="grid grid-cols-3">
-                <div className="flex flex-col gap-12">
-                  <div className="flex flex-col gap-0.5">
-                    <p>Disiapkan oleh,</p>
-                    <p className="font-semibold">Jabatan</p>
-                  </div>
-
-                  <p className="font-semibold">Nama</p>
-                </div>
-
-                <div className="flex flex-col gap-12">
-                  <div className="flex flex-col gap-0.5">
-                    <p>Disiapkan oleh,</p>
-                    <p className="font-semibold">Jabatan</p>
-                  </div>
-
-                  <p className="font-semibold">Nama</p>
-                </div>
-
-                <div className="flex flex-col gap-12">
-                  <div className="flex flex-col gap-0.5">
-                    <p>Disiapkan oleh,</p>
-                    <p className="font-semibold">Jabatan</p>
-                  </div>
-
-                  <p className="font-semibold">Nama</p>
-                </div>
-              </div>
-            </div>
+            <DocumentApproval
+              recapitulationLocation={dataDetail.recapitulationLocation}
+              confirmedByName={dataDetail.confirmedByName}
+              confirmedByPosition={dataDetail.confirmedByPosition}
+              checkedByPosition={dataDetail.checkedByPosition}
+              checkedByName={dataDetail.checkedByName}
+              preparedByPosition={dataDetail.preparedByPosition}
+              preparedByName={dataDetail.preparedByName}
+              mutate={mutateDetail}
+              slug={slug}
+            />
           </div>
           <CreateModalSection
             mutate={mutateDetail}

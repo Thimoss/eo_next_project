@@ -57,10 +57,12 @@ export default function DeleteModal({
   return (
     <Modal onClose={() => setOpen(false)} open={open}>
       <div className="flex flex-col gap-5">
-        <span className="text-sm font-bold text-left">Delete Dokumen</span>
-        <div className="flex flex-col gap-5">
-          <p className="text-xs">
-            Are you sure you want to delete the{" "}
+        <span className="text-xl text-gray-700 font-bold text-left">
+          Hapus Dokumen
+        </span>
+        <div className="flex flex-col gap-6">
+          <p className="text-sm text-gray-700">
+            Apakah Anda yakin ingin menghapus{" "}
             <strong>{selectedDocument?.name}</strong>??
           </p>
 
@@ -70,14 +72,14 @@ export default function DeleteModal({
           >
             <button
               onClick={() => setOpen(false)}
-              className="px-3 py-1.5 rounded-md text-xs font-semibold text-white duration-300 bg-primaryBlue disabled:bg-primaryBlueLighter hover:bg-primaryBlueDarker cursor-pointer"
+              className="text-sm px-4 py-2 bg-primaryBlue text-white font-bold rounded-md hover:bg-primaryBlueDarker disabled:bg-primaryBlueLighter transition duration-300 ease-in-out cursor-pointer flex items-center gap-2"
             >
               Cancel
             </button>
             <button
               disabled={loading}
               onClick={handleDelete}
-              className="px-3 py-1.5 rounded-md text-xs font-semibold text-white duration-300 bg-primaryRed disabled:bg-primaryRedLighter hover:bg-primaryRedDarker cursor-pointer flex items-center justify-between"
+              className="text-sm px-4 py-2 bg-primaryRed text-white font-bold rounded-md hover:bg-primaryRedDarker disabled:bg-primaryRedLighter transition duration-300 ease-in-out cursor-pointer flex items-center gap-2"
             >
               {loading && (
                 <div>

@@ -58,10 +58,10 @@ export default function DeleteModalItem({
   return (
     <Modal onClose={() => setOpen(false)} open={open}>
       <div className="flex flex-col gap-5">
-        <span className="text-sm font-bold text-left">Delete Item</span>
+        <span className="text-sm font-bold text-left">Hapus Pekerjaan</span>
         <div className="flex flex-col gap-5">
           <p className="text-xs">
-            Are you sure you want to delete the{" "}
+            Apakah Anda yakin ingin menghapus{" "}
             <strong>{selectedItem?.name}</strong>?
           </p>
 
@@ -73,7 +73,7 @@ export default function DeleteModalItem({
               onClick={() => setOpen(false)}
               className="px-3 py-1.5 rounded-md text-xs font-semibold text-white duration-300 bg-primaryBlue disabled:bg-primaryBlueLighter hover:bg-primaryBlueDarker cursor-pointer"
             >
-              Cancel
+              Batal
             </button>
             <button
               disabled={loading}
@@ -85,7 +85,7 @@ export default function DeleteModalItem({
                   <CgSpinner className="w-3 h-3 text-center animate-spin" />
                 </div>
               )}
-              Delete
+              Hapus
             </button>
           </div>
         </div>

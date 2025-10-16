@@ -86,43 +86,51 @@ export default function UpdateModal({
   };
   return (
     <Modal onClose={() => setOpen(false)} open={open}>
-      <div className="flex flex-col gap-5">
-        <span className="text-sm font-bold text-left">Edit Dokumen</span>
+      <div className="flex flex-col gap-6">
+        <span className="text-xl text-gray-700 font-bold text-left">
+          Edit Dokumen
+        </span>
         <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-5">
-          <div className="flex flex-col items-start gap-2">
+          <div className="flex flex-col gap-1">
             <div className="flex items-center gap-2">
-              <span className="text-xs font-semibold">Nama Dokumen</span>
-              <span className="text-md font-semibold text-primaryRed">*</span>
+              <label
+                htmlFor="name"
+                className="block text-sm font-medium text-gray-600"
+              >
+                Nama Dokumen
+              </label>
+              <span className="text-sm font-medium text-primaryRed">*</span>
             </div>
             <input
               type="text"
-              placeholder="Masukkan nama dokumen"
+              id="name"
               {...register("name", { required: "Nama dokumen diperlukan" })}
-              className="text-xs px-3 bg-gray-200 rounded-md py-1 border border-gray-300 focus:outline-none w-full"
+              className="text-sm block w-full px-4 py-2 rounded-md border border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-primaryBlue focus:border-primaryBlue text-gray-700"
+              placeholder="Masukkan nama dokumen"
             />
             {errors.name && (
-              <p className="text-xs text-primaryRed">{errors.name.message}</p>
+              <p className="text-sm text-primaryRed">{errors.name.message}</p>
             )}
           </div>
           <div
             className="flex gap-5 justify-end
-          "
+                 "
           >
             <button
               onClick={handleCancel}
               type="button"
-              className="px-3 py-1.5 rounded-md text-xs font-semibold text-white duration-300 bg-primaryRed disabled:bg-primaryRedLighter hover:bg-primaryRedDarker cursor-pointer  items-center justify-between flex"
+              className="text-sm px-4 py-2 bg-primaryRed text-white font-bold rounded-md hover:bg-primaryRedDarker disabled:bg-primaryRedLighter transition duration-300 ease-in-out cursor-pointer"
             >
               Batal
             </button>
             <button
               disabled={loading}
               type="submit"
-              className="px-3 py-1.5 rounded-md text-xs text-white font-semibold duration-300 bg-primaryGreen disabled:bg-primaryGreenLighter hover:bg-primaryGreenDarker flex items-center gap-2 transition-all cursor-pointer"
+              className="text-sm px-4 py-2 bg-primaryGreen text-white font-bold rounded-md hover:bg-primaryGreenDarker disabled:bg-primaryGreenLighter transition duration-300 ease-in-out cursor-pointer flex items-center gap-2"
             >
               {loading && (
                 <div>
-                  <CgSpinner className="w-3 h-3 text-center animate-spin" />
+                  <CgSpinner className="w-4 h-4 text-center animate-spin" />
                 </div>
               )}
               Simpan

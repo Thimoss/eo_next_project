@@ -99,7 +99,7 @@ export default function DocumentInformation({
       >
         <div className="flex flex-col gap-1 text-xs w-full">
           <span className="font-semibold underline">OWNER ESTIMATE (OE)</span>
-          <div className="font-medium flex gap-2 pt-2">
+          <div className="font-semibold flex gap-2 pt-2">
             <span>PEKERJAAN</span>
             <span>:</span>
             {editMode ? (
@@ -113,7 +113,7 @@ export default function DocumentInformation({
               <div>{job || "-"}</div>
             )}
           </div>
-          <div className="font-medium flex gap-2">
+          <div className="font-semibold flex gap-2">
             <span>LOKASI</span>
             <span>:</span>
             {editMode ? (
@@ -127,7 +127,7 @@ export default function DocumentInformation({
               <div>{location || "-"}</div>
             )}
           </div>
-          <div className="font-medium flex gap-2">
+          <div className="font-semibold flex gap-2">
             <span>DASAR</span>
             <span>:</span>
             {editMode ? (

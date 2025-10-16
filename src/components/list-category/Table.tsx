@@ -20,15 +20,15 @@ export default function Table({
     route.push(`detail-category/${category.id}`);
   };
   return (
-    <div className="relative overflow-x-auto sm:rounded-lg">
+    <div className="relative overflow-x-auto sm:rounded-lg shadow-sm">
       <table className="w-full text-center text-black text-xs" align="center">
-        <thead className="text-xs text-white uppercase bg-primaryBlue">
+        <thead className="text-sm text-white uppercase bg-primaryBlue">
           <tr>
             <th scope="col" className="px-6 py-3">
               No
             </th>
             <th scope="col" className="px-6 py-3">
-              Nam Kategori
+              Nama Kategori
             </th>
             <th scope="col" className="px-6 py-3">
               Koe
@@ -45,7 +45,7 @@ export default function Table({
           {categories.map((category, index) => (
             <tr
               key={category.id}
-              className="odd:bg-gray-100 even:bg-gray-50 border-b border-gray-200"
+              className="odd:bg-gray-100 even:bg-gray-50 border-b border-gray-200 text-gray-700 text-sm"
             >
               <td className="px-6 py-3">{index + 1}</td>
               <td className="px-6 py-3">
@@ -61,7 +61,7 @@ export default function Table({
               <td className="px-6 py-3 flex items-center gap-2 justify-center">
                 <button
                   onClick={() => handleEdit(category)}
-                  className="text-white bg-primaryGreen disabled:bg-primaryGreenLighter hover:bg-primaryGreenDarker rounded-md px-2 py-0.5 duration-300  cursor-pointer"
+                  className="text-white bg-primaryGreen disabled:bg-primaryGreenLighter hover:bg-primaryGreenDarker rounded-md px-2 py-1 duration-300 transition ease-in-out  cursor-pointer"
                 >
                   <div className="w-4 h-4">
                     <IoPencil className="w-full h-full" />
@@ -69,7 +69,7 @@ export default function Table({
                 </button>
                 <button
                   onClick={() => handleDelete(category)}
-                  className="text-white bg-primaryRed disabled:bg-primaryRedLighter hover:bg-primaryRedDarker rounded-md px-2 py-0.5 duration-300  cursor-pointer"
+                  className="text-white bg-primaryRed disabled:bg-primaryRedLighter hover:bg-primaryRedDarker rounded-md px-2 py-1 transition duration-300 ease-in-out  cursor-pointer"
                 >
                   <div className="w-4 h-4">
                     <IoTrash className="w-full h-full" />

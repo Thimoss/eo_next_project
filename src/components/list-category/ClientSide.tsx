@@ -2,7 +2,6 @@
 import React from "react";
 // import Search from "./Search";
 import { useCategories } from "../../../hooks/Categories";
-import { IoAdd } from "react-icons/io5";
 import Loading from "../global/Loading";
 import Table from "./Table";
 // import Pagination from "../global/Pagination";
@@ -10,6 +9,7 @@ import EmptyData from "../global/EmptyData";
 import CreateModal from "./CreateModal";
 import UpdateModal from "./UpdateModal";
 import DeleteModal from "./DeleteModal";
+import { FaPlus } from "react-icons/fa";
 
 export default function ClientSide() {
   const {
@@ -38,19 +38,19 @@ export default function ClientSide() {
   return (
     <>
       <div className="flex flex-col gap-5">
-        <h1 className="text-black font-bold">Daftar Kategori</h1>
+        <h1 className="text-xl text-gray-700 font-bold">Daftar Kategori</h1>
         <div className="flex flex-col sm:flex-row items-center justify-between gap-5 ">
           {/* <Search /> */}
 
           <div className="flex justify-end w-full">
             <button
               onClick={() => setOpenCreate(true)}
-              className="flex items-center gap-2 text-white bg-primaryGreen hover:bg-primaryGreenDarker duration-300 cursor-pointer font-medium text-xs px-3 py-1.5 rounded-md"
+              className="px-4 py-2 bg-primaryGreen text-white font-bold rounded-md hover:bg-primaryGreenDarker transition duration-300 ease-in-out cursor-pointer items-center justify-center flex gap-2 shadow-sm"
             >
               <div className="w-4 h-4">
-                <IoAdd className="w-full h-full" />
+                <FaPlus className="w-full h-full" />
               </div>
-              <span className="text-xs font-semibold">Tambah</span>
+              <span className="text-sm font-semibold">Tambah</span>
             </button>
           </div>
         </div>

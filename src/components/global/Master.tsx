@@ -24,10 +24,10 @@ export default function Master({ children }: MasterProps) {
                 />
               </Link>
             </div>
-            <div className="text-black hover:text-primaryBlue text-md hover:underline font-semibold">
+            <div className="text-black hover:text-primaryBlue text-sm hover:underline font-semibold">
               <Link href={"/"}>Dasboard</Link>
             </div>
-            <div className="text-black hover:text-primaryBlue text-md hover:underline font-semibold">
+            <div className="text-black hover:text-primaryBlue text-sm hover:underline font-semibold">
               <Link href={"/list-category"}>Kategori</Link>
             </div>
           </div>

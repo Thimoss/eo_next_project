@@ -72,21 +72,21 @@ export default function DeleteModal({
           >
             <button
               onClick={() => setOpen(false)}
-              className="text-sm px-4 py-2 bg-primaryBlue text-white font-bold rounded-md hover:bg-primaryBlueDarker disabled:bg-primaryBlueLighter transition duration-300 ease-in-out cursor-pointer flex items-center gap-2"
+              className="text-sm px-4 py-2 bg-primaryBlue text-white font-bold rounded-md hover:bg-primaryBlueDarker disabled:bg-primaryBlueLighter transition duration-300 ease-in-out cursor-pointer flex items-center gap-2 shadow-sm"
             >
-              Cancel
+              Batal
             </button>
             <button
               disabled={loading}
               onClick={handleDelete}
-              className="text-sm px-4 py-2 bg-primaryRed text-white font-bold rounded-md hover:bg-primaryRedDarker disabled:bg-primaryRedLighter transition duration-300 ease-in-out cursor-pointer flex items-center gap-2"
+              className="text-sm px-4 py-2 bg-primaryRed text-white font-bold rounded-md hover:bg-primaryRedDarker disabled:bg-primaryRedLighter transition duration-300 ease-in-out cursor-pointer flex items-center gap-2 shadow-sm"
             >
               {loading && (
                 <div>
                   <CgSpinner className="w-3 h-3 text-center animate-spin" />
                 </div>
               )}
-              Delete
+              Hapus
             </button>
           </div>
         </div>

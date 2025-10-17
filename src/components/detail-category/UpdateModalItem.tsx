@@ -143,47 +143,65 @@ export default function UpdateModalItem({
         <span className="text-xl text-gray-700 font-bold text-left">
           Perbarui pekerjaan {selectedSector?.name}
         </span>
-        <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-5">
-          <div className="flex flex-col items-start gap-2">
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+          <div className="flex flex-col gap-1">
             <div className="flex items-center gap-2">
-              <span className="text-xs font-semibold">Nama Pekerjaan</span>
+              <label
+                htmlFor="name"
+                className="block text-sm font-medium text-gray-600"
+              >
+                Nama Pekerjaan
+              </label>
               <span className="text-sm font-semibold text-primaryRed">*</span>
             </div>
             <input
               type="text"
+              id="name"
               placeholder="Masukkan nama pekerjaan"
               {...register("name", { required: "Nama pekerjaan diperlukan" })}
-              className="text-xs px-3 bg-gray-200 rounded-md py-1 border border-gray-300 focus:outline-none w-full"
+              className="text-sm block w-full px-4 py-2 rounded-md border border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-primaryBlue focus:border-primaryBlue text-gray-700"
             />
             {errors.name && (
-              <p className="text-xs text-red-500">{errors.name.message}</p>
+              <p className="text-sm text-red-500">{errors.name.message}</p>
             )}
           </div>
-          <div className="flex flex-col items-start gap-2">
+          <div className="flex flex-col gap-1">
             <div className="flex items-center gap-2">
-              <span className="text-xs font-semibold">Nomor Pekerjaan</span>
+              <label
+                htmlFor="no"
+                className="block text-sm font-medium text-gray-600"
+              >
+                Nomor Pekerjaan
+              </label>
               <span className="text-sm font-semibold text-primaryRed">*</span>
             </div>
             <input
               type="text"
+              id="no"
               placeholder="Masukkan nomor pekerjaan"
               {...register("no", { required: "Nomor pekerjaan diperlukan" })}
-              className="text-xs px-3 bg-gray-200 rounded-md py-1 border border-gray-300 focus:outline-none w-full"
+              className="text-sm block w-full px-4 py-2 rounded-md border border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-primaryBlue focus:border-primaryBlue text-gray-700"
             />
             {errors.no && (
-              <p className="text-xs text-red-500">{errors.no.message}</p>
+              <p className="text-sm text-red-500">{errors.no.message}</p>
             )}
           </div>
-          <div className="flex flex-col items-start gap-2">
-            <span className="text-xs font-semibold">Sumber</span>
+          <div className="flex flex-col gap-1">
+            <label
+              htmlFor="source"
+              className="block text-sm font-medium text-gray-600"
+            >
+              Sumber
+            </label>
             <input
               type="text"
+              id="source"
               placeholder="Masukkan sumber"
               {...register("source")}
-              className="text-xs px-3 bg-gray-200 rounded-md py-1 border border-gray-300 focus:outline-none w-full"
+              className="text-sm block w-full px-4 py-2 rounded-md border border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-primaryBlue focus:border-primaryBlue text-gray-700"
             />
             {errors.source && (
-              <p className="text-xs text-red-500">{errors.source.message}</p>
+              <p className="text-sm text-red-500">{errors.source.message}</p>
             )}
           </div>
 
@@ -195,85 +213,108 @@ export default function UpdateModalItem({
               checked={singleItem}
               onChange={() => setSingleItem(!singleItem)}
             />
-            <label htmlFor="singleItem" className="text-xs font-semibold">
+            <label
+              htmlFor="singleItem"
+              className="text-sm text-gray-700 font-semibold"
+            >
               Single Item
             </label>
           </div>
 
           {singleItem && (
             <div className="grid grid-cols-2 gap-5">
-              <div className="flex flex-col items-start gap-2">
+              <div className="flex flex-col gap-1">
                 <div className="flex items-center gap-2">
-                  <span className="text-xs font-semibold">Minimum</span>
+                  <label
+                    htmlFor="minimum"
+                    className="block text-sm font-medium text-gray-600"
+                  >
+                    Minimum
+                  </label>
                   <span className="text-sm font-semibold text-primaryRed">
                     *
                   </span>
                 </div>
                 <input
                   type="number"
+                  id="minimum"
                   placeholder="Masukkan jumlah minimum"
                   {...register("minimum", {
                     required: "Jumlah minimum diperlukan",
                   })}
-                  className="text-xs px-3 bg-gray-200 rounded-md py-1 border border-gray-300 focus:outline-none w-full"
+                  className="text-sm block w-full px-4 py-2 rounded-md border border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-primaryBlue focus:border-primaryBlue text-gray-700"
                 />
                 {errors.minimum && (
-                  <p className="text-xs text-red-500">
+                  <p className="text-sm text-red-500">
                     {errors.minimum.message}
                   </p>
                 )}
               </div>
 
-              <div className="flex flex-col items-start gap-2">
+              <div className="flex flex-col gap-1">
                 <div className="flex items-center gap-2">
-                  <span className="text-xs font-semibold">Unit</span>
+                  <label
+                    htmlFor="unit"
+                    className="block text-sm font-medium text-gray-600"
+                  >
+                    Unit
+                  </label>
                   <span className="text-sm font-semibold text-primaryRed">
                     *
                   </span>
                 </div>
                 <input
                   type="text"
+                  id="unit"
                   placeholder="Masukkan unit"
                   {...register("unit", { required: "Unit diperlukan" })}
-                  className="text-xs px-3 bg-gray-200 rounded-md py-1 border border-gray-300 focus:outline-none w-full"
+                  className="text-sm block w-full px-4 py-2 rounded-md border border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-primaryBlue focus:border-primaryBlue text-gray-700"
                 />
               </div>
 
-              <div className="flex flex-col items-start gap-2">
+              <div className="flex flex-col gap-1">
                 <div className="flex items-center gap-2">
-                  <span className="text-xs font-semibold">
+                  <label
+                    htmlFor="materialPricePerUnit"
+                    className="block text-sm font-medium text-gray-600"
+                  >
                     Harga Material per Unit
-                  </span>
+                  </label>
                   <span className="text-sm font-semibold text-primaryRed">
                     *
                   </span>
                 </div>
                 <input
                   type="number"
+                  id="materialPricePerUnit"
                   placeholder="Masukkan harga material per unit"
                   {...register("materialPricePerUnit", {
                     required: "Harga material per unit diperlukan",
                   })}
-                  className="text-xs px-3 bg-gray-200 rounded-md py-1 border border-gray-300 focus:outline-none w-full"
+                  className="text-sm block w-full px-4 py-2 rounded-md border border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-primaryBlue focus:border-primaryBlue text-gray-700"
                 />
               </div>
 
-              <div className="flex flex-col items-start gap-2">
+              <div className="flex flex-col gap-1">
                 <div className="flex items-center gap-2">
-                  <span className="text-xs font-semibold">
+                  <label
+                    htmlFor="feePricePerUnit"
+                    className="block text-sm font-medium text-gray-600"
+                  >
                     Harga Jasa per Unit
-                  </span>
+                  </label>
                   <span className="text-sm font-semibold text-primaryRed">
                     *
                   </span>
                 </div>
                 <input
                   type="number"
+                  id="feePricePerUnit"
                   placeholder="Masukkan harga jasa per unit"
                   {...register("feePricePerUnit", {
                     required: "Harga jasa per unit diperlukan",
                   })}
-                  className="text-xs px-3 bg-gray-200 rounded-md py-1 border border-gray-300 focus:outline-none w-full"
+                  className="text-sm block w-full px-4 py-2 rounded-md border border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-primaryBlue focus:border-primaryBlue text-gray-700"
                 />
               </div>
             </div>
@@ -281,7 +322,7 @@ export default function UpdateModalItem({
 
           <div
             className="flex gap-5 justify-end
-          "
+                "
           >
             <button
               onClick={handleCancel}

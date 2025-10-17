@@ -185,7 +185,7 @@ export default function UpdateModalItem({
 
           {(selectedOldItemJob || selectedNewItemJob) && (
             <>
-              <div className="flex flex-col items-start gap-2">
+              <div className="flex flex-col gap-1">
                 <span className="text-xs font-semibold">Volume</span>
                 <div className="relative w-full">
                   <input

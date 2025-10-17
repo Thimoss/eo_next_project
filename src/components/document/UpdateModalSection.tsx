@@ -90,8 +90,8 @@ export default function UpdateModalSection({
         <span className="text-xl text-gray-700 font-bold text-left">
           Perbarui Sektor Pekerjaan
         </span>
-        <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-5">
-          <div className="flex flex-col items-start gap-2">
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+          <div className="flex flex-col gap-1">
             <span className="text-xs font-semibold">Nama Sektor Pekerjaan</span>
             <input
               type="text"

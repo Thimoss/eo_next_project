@@ -90,7 +90,7 @@ export default function UpdateModal({
         <span className="text-xl text-gray-700 font-bold text-left">
           Edit Dokumen
         </span>
-        <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-5">
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           <div className="flex flex-col gap-1">
             <div className="flex items-center gap-2">
               <label

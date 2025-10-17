@@ -97,7 +97,7 @@ export default function DocumentInformation({
         onSubmit={handleSubmit(onSubmit)}
         className="flex flex-col gap-2 w-1/2"
       >
-        <div className="flex flex-col gap-1 text-xs w-full">
+        <div className="flex flex-col gap-1 text-sm text-gray-700 w-full">
           <span className="font-semibold underline">OWNER ESTIMATE (OE)</span>
           <div className="font-semibold flex gap-2 pt-2">
             <span>PEKERJAAN</span>
@@ -106,7 +106,9 @@ export default function DocumentInformation({
               <input
                 readOnly={!editMode}
                 type="text"
-                className={`focus:outline-0 w-full ${editMode && "border-b"} `}
+                className={`focus:outline-0 w-full ${
+                  editMode && "border-b border-b-gray-400"
+                } `}
                 {...register("job")}
               />
             ) : (
@@ -120,7 +122,9 @@ export default function DocumentInformation({
               <input
                 readOnly={!editMode}
                 type="text"
-                className={`focus:outline-0 w-full ${editMode && "border-b"} `}
+                className={`focus:outline-0 w-full ${
+                  editMode && "border-b-[0.5px] border-b-gray-400"
+                } `}
                 {...register("location")}
               />
             ) : (
@@ -134,7 +138,9 @@ export default function DocumentInformation({
               <input
                 readOnly={!editMode}
                 type="text"
-                className={`focus:outline-0 w-full ${editMode && "border-b"} `}
+                className={`focus:outline-0 w-full ${
+                  editMode && "border-b-[0.5px] border-b-gray-400"
+                } `}
                 {...register("base")}
               />
             ) : (
@@ -150,7 +156,7 @@ export default function DocumentInformation({
             <button
               disabled={loading}
               type="submit"
-              className="flex w-full items-center justify-center gap-2 text-white bg-primaryBlue disabled:bg-primaryBlueLighter hover:bg-primaryBlueDarker duration-300 cursor-pointer font-medium text-xs px-3 py-1.5 rounded-md"
+              className="px-4 py-2 text-sm bg-primaryBlue text-white font-bold rounded-md hover:bg-primaryBlueDarker disabled:bg-primaryBlueLighter transition duration-300 ease-in-out cursor-pointer items-center justify-center flex gap-2 shadow-sm"
               onClick={handleSubmit(onSubmit)} // Trigger form submission manually
             >
               {loading && (
@@ -165,9 +171,9 @@ export default function DocumentInformation({
               type="button"
               disabled={loading}
               onClick={handleCancel}
-              className="flex w-full items-center justify-center gap-2 text-white bg-primaryRed disabled:bg-primaryRedLighter hover:bg-primaryRedDarker duration-300 cursor-pointer font-medium text-xs px-3 py-1.5 rounded-md"
+              className="px-4 py-2 text-sm bg-primaryRed text-white font-bold rounded-md hover:bg-primaryRedDarker transition duration-300 ease-in-out cursor-pointer items-center justify-center flex gap-2 shadow-sm"
             >
-              <span className="text-xs font-semibold">Batal</span>
+              Batal
             </button>
           </>
         ) : (
@@ -176,9 +182,9 @@ export default function DocumentInformation({
             <button
               type="button"
               onClick={() => setEditMode(true)}
-              className="flex w-full items-center justify-center gap-2 text-white bg-primaryGreen hover:bg-primaryGreenDarker duration-300 cursor-pointer font-medium text-xs px-3 py-1.5 rounded-md"
+              className="px-4 py-2 text-sm bg-primaryGreen text-white font-bold rounded-md hover:bg-primaryGreenDarker transition duration-300 ease-in-out cursor-pointer items-center justify-center flex gap-2 shadow-sm"
             >
-              <span className="text-xs font-semibold">Perbarui</span>
+              Perbarui
             </button>
           </>
         )}

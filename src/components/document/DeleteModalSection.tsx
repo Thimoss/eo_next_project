@@ -58,35 +58,35 @@ export default function DeleteModalSection({
     <Modal onClose={() => setOpen(false)} open={open}>
       <div className="flex flex-col gap-6">
         <span className="text-xl text-gray-700 font-bold text-left">
-          Delete Job Section
+          Hapus Sektor Pekerjaan
         </span>
         <div className="flex flex-col gap-6">
-          <p className="text-xs">
-            Are you sure you want to delete the{" "}
+          <p className="text-sm text-gray-700">
+            Apakah Anda yakin ingin menghapus{" "}
             <strong>{selectedJobSection?.name}</strong>?
           </p>
 
           <div
             className="flex gap-5 justify-end
-          "
+                  "
           >
             <button
               onClick={() => setOpen(false)}
-              className="px-3 py-1.5 rounded-md text-xs font-semibold text-white duration-300 bg-primaryBlue disabled:bg-primaryBlueLighter hover:bg-primaryBlueDarker cursor-pointer"
+              className="text-sm px-4 py-2 bg-primaryBlue text-white font-bold rounded-md hover:bg-primaryBlueDarker disabled:bg-primaryBlueLighter transition duration-300 ease-in-out cursor-pointer flex items-center gap-2 shadow-sm"
             >
-              Cancel
+              Batal
             </button>
             <button
               disabled={loading}
               onClick={handleDelete}
-              className="text-sm px-4 py-2 bg-primaryGreen text-white font-bold rounded-md hover:bg-primaryGreenDarker disabled:bg-primaryGreenLighter transition duration-300 ease-in-out cursor-pointer flex items-center gap-2 shadow-sm"
+              className="text-sm px-4 py-2 bg-primaryRed text-white font-bold rounded-md hover:bg-primaryRedDarker disabled:bg-primaryRedLighter transition duration-300 ease-in-out cursor-pointer flex items-center gap-2 shadow-sm"
             >
               {loading && (
                 <div>
                   <CgSpinner className="w-3 h-3 text-center animate-spin" />
                 </div>
               )}
-              Delete
+              Hapus
             </button>
           </div>
         </div>

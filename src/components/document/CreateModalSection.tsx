@@ -82,22 +82,26 @@ export default function CreateModalSection({
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           <div className="flex flex-col gap-1">
             <div className="flex items-center gap-2">
-              <span className="text-xs font-semibold">
+              <label
+                htmlFor="name"
+                className="block text-sm font-medium text-gray-600"
+              >
                 Nama Sektor Pekerjaan
-              </span>
+              </label>
               <span className="text-sm font-semibold text-primaryRed">*</span>
             </div>
 
             <input
               type="text"
+              id="name"
               placeholder="Masukkan nama sektor pekerjaan"
               {...register("name", {
                 required: "Nama sektor pekerjaan diperlukan",
               })}
-              className="text-xs px-3 bg-gray-200 rounded-md py-1 border border-gray-300 focus:outline-none w-full"
+              className="text-sm block w-full px-4 py-2 rounded-md border border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-primaryBlue focus:border-primaryBlue text-gray-700"
             />
             {errors.name && (
-              <p className="text-xs text-primaryRed">{errors.name.message}</p>
+              <p className="text-sm text-primaryRed">{errors.name.message}</p>
             )}
           </div>
 

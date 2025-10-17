@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useEffect, useState } from "react";
-import { IoAdd, IoClose, IoPencil, IoSave, IoTrash } from "react-icons/io5";
+import { IoClose, IoPencil, IoSave, IoTrash } from "react-icons/io5";
 import formatRupiah from "../../../utils/formatRupiah";
 import {
   Document,
@@ -13,6 +13,7 @@ import { toast } from "react-toastify";
 import Api from "../../../service/Api";
 import { KeyedMutator } from "swr";
 import { handleExport } from "../../../utils/exportXlsx";
+import { FaPlus } from "react-icons/fa";
 
 interface FormData {
   percentage?: string | number;
@@ -106,20 +107,23 @@ export default function Table({
       <div>
         <div className="flex justify-end">
           <button
-            className="flex items-center gap-2 text-white bg-primaryBlue hover:bg-primaryBlueDarker duration-300 cursor-pointer font-medium text-xs px-3 py-1.5 rounded-md"
             onClick={() => handleExport(dataDetail)}
+            className="px-4 py-2 bg-primaryBlue text-white font-bold rounded-md hover:bg-primaryBlueDarker transition duration-300 ease-in-out cursor-pointer items-center justify-center flex gap-2 shadow-sm"
           >
             <div className="w-4 h-4">
               <IoSave className="w-full h-full" />
             </div>
-            <span className="text-xs font-semibold">Unduh Excel</span>
+            <span className="text-sm font-semibold">Unduh Excel</span>
           </button>
         </div>
       </div>
 
       <div className="relative overflow-x-auto sm:rounded-lg">
-        <table className="w-full text-center text-black text-xs" align="center">
-          <thead className="text-xs text-white uppercase bg-primaryBlue">
+        <table
+          className="w-full text-center text-gray-700 text-sm"
+          align="center"
+        >
+          <thead className="text-sm text-white uppercase bg-primaryBlue">
             <tr>
               <th scope="col" rowSpan={2} className="px-2 py-1.5">
                 No
@@ -188,7 +192,7 @@ export default function Table({
                       <td className="px-6 py-3 flex items-center gap-2 justify-center">
                         <button
                           onClick={() => handleUpdateSection(jobSection)}
-                          className="text-white bg-primaryGreen disabled:bg-primaryGreenLighter hover:bg-primaryGreenDarker rounded-md px-2 py-0.5 duration-300  cursor-pointer"
+                          className="text-white bg-primaryGreen disabled:bg-primaryGreenLighter hover:bg-primaryGreenDarker rounded-md px-2 py-1 duration-300  cursor-pointer"
                         >
                           <div className="w-4 h-4">
                             <IoPencil className="w-full h-full" />
@@ -196,7 +200,7 @@ export default function Table({
                         </button>
                         <button
                           onClick={() => handleDeleteSection(jobSection)}
-                          className="text-white bg-primaryRed disabled:bg-primaryRedLighter hover:bg-primaryRedDarker rounded-md px-2 py-0.5 duration-300  cursor-pointer"
+                          className="text-white bg-primaryRed disabled:bg-primaryRedLighter hover:bg-primaryRedDarker rounded-md px-2 py-1 duration-300  cursor-pointer"
                         >
                           <div className="w-4 h-4">
                             <IoTrash className="w-full h-full" />
@@ -233,7 +237,7 @@ export default function Table({
                               onClick={() =>
                                 handleUpdateItemJob(item, jobSection)
                               }
-                              className="text-white bg-primaryGreen disabled:bg-primaryGreenLighter hover:bg-primaryGreenDarker rounded-md px-2 py-0.5 duration-300  cursor-pointer"
+                              className="text-white bg-primaryGreen disabled:bg-primaryGreenLighter hover:bg-primaryGreenDarker rounded-md px-2 py-1 duration-300  cursor-pointer"
                             >
                               <div className="w-4 h-4">
                                 <IoPencil className="w-full h-full" />
@@ -241,7 +245,7 @@ export default function Table({
                             </button>
                             <button
                               onClick={() => handleDeleteItemJob(item)}
-                              className="text-white bg-primaryRed disabled:bg-primaryRedLighter hover:bg-primaryRedDarker rounded-md px-2 py-0.5 duration-300  cursor-pointer"
+                              className="text-white bg-primaryRed disabled:bg-primaryRedLighter hover:bg-primaryRedDarker rounded-md px-2 py-1 duration-300  cursor-pointer"
                             >
                               <div className="w-4 h-4">
                                 <IoTrash className="w-full h-full" />
@@ -254,15 +258,13 @@ export default function Table({
                       <td></td>
                       <td className="px-6 py-3 flex justify-center  w-full">
                         <button
-                          className="flex items-center gap-2 text-white bg-primaryBlue hover:bg-primaryBlueDarker duration-300 cursor-pointer font-medium text-xs px-3 py-1.5 rounded-md"
                           onClick={() => handleCreateItemJob(jobSection)}
+                          className="text-white bg-primaryBlue disabled:bg-primaryBlueLighter hover:bg-primaryBlueDarker transition duration-300 ease-in-out cursor-pointer flex items-center gap-2 justify-center rounded-md px-4 py-2 shadow-sm font-semibold"
                         >
                           <div className="w-4 h-4">
-                            <IoAdd className="w-full h-full" />
+                            <FaPlus className="w-full h-full" />
                           </div>
-                          <span className="text-xs font-semibold">
-                            Tambah Pekerjaan
-                          </span>
+                          <span>Tambah Pekerjaan</span>
                         </button>
                       </td>
                       <td></td>
@@ -281,15 +283,13 @@ export default function Table({
               <td className="px-6 py-3"></td>
               <td className="px-6 py-3 flex justify-center">
                 <button
-                  className="flex items-center gap-2 text-white bg-primaryBlue hover:bg-primaryBlueDarker duration-300 cursor-pointer font-medium text-xs px-3 py-1.5 rounded-md"
                   onClick={handleCreateSection}
+                  className="text-white bg-primaryBlue disabled:bg-primaryBlueLighter hover:bg-primaryBlueDarker transition duration-300 ease-in-out cursor-pointer flex items-center gap-2 justify-center rounded-md px-4 py-2 shadow-sm font-semibold"
                 >
                   <div className="w-4 h-4">
-                    <IoAdd className="w-full h-full" />
+                    <FaPlus className="w-full h-full" />
                   </div>
-                  <span className="text-xs font-semibold">
-                    Tambah Sektor Pekerjaan
-                  </span>
+                  <span>Tambah Sektor Pekerjaan</span>
                 </button>
               </td>
               <td className="px-6 py-3"></td>
@@ -396,7 +396,7 @@ export default function Table({
                 {!editMode ? (
                   <button
                     onClick={() => setEditMode(true)}
-                    className="text-white bg-primaryGreen disabled:bg-primaryGreenLighter hover:bg-primaryGreenDarker rounded-md px-2 py-0.5 duration-300  cursor-pointer"
+                    className="text-white bg-primaryGreen disabled:bg-primaryGreenLighter hover:bg-primaryGreenDarker rounded-md px-2 py-1  duration-300  cursor-pointer"
                   >
                     <div className="w-4 h-4">
                       <IoPencil className="w-full h-full" />
@@ -426,31 +426,6 @@ export default function Table({
                 )}
               </td>
             </tr>
-            {/* <tr className="bg-blue-200 border-b border-gray-200 font-semibold">
-              <td className="px-6 py-3"></td>
-              <td className="px-6 py-3">PEMBULATAN</td>
-              <td className="px-6 py-3"></td>
-              <td className="px-6 py-3"></td>
-              <td className="px-6 py-3"></td>
-              <td className="px-6 py-3"></td>
-              <td className="px-6 py-3"></td>
-              <td className="px-6 py-3"></td>
-              <td className="px-6 py-3"></td>
-            </tr> */}
-
-            {/* <tr className="bg-blue-200 border-b border-gray-200 font-semibold">
-              <td className="px-6 py-3"></td>
-              <td className="px-6 py-3">
-                INSPEKSI DAN VERIFIKASI TKDN OLEH SURVEYOR INDEPENDEN
-              </td>
-              <td className="px-6 py-3"></td>
-              <td className="px-6 py-3"></td>
-              <td className="px-6 py-3"></td>
-              <td className="px-6 py-3"></td>
-              <td className="px-6 py-3"></td>
-              <td className="px-6 py-3"></td>
-              <td className="px-6 py-3"></td>
-            </tr> */}
             <tr className="bg-blue-200 border-b border-gray-200 font-semibold">
               <td className="px-6 py-3"></td>
               <td className="px-6 py-3">TOTAL MATERIAL + JASA + K&R</td>

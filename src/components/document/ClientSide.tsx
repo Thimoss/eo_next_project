@@ -58,8 +58,6 @@ export default function ClientSide({ slug }: DetailDocumentProps) {
     handleDeleteItemJob,
   } = UseDetailDocument({ slug });
 
-  console.log(dataDetail);
-
   return (
     <>
       {isLoadingDetail ? (

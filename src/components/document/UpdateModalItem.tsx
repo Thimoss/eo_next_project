@@ -137,12 +137,21 @@ export default function UpdateModalItem({
         </span>
         <div className="flex flex-col gap-6">
           <div ref={itemRef} className="flex flex-col items-start gap-2">
-            <span className="text-xs font-semibold">Nama Pekerjaan</span>
+            <div className="flex items-center gap-2">
+              <label
+                htmlFor="name"
+                className="block text-sm font-medium text-gray-600"
+              >
+                Nama Pekerjaan
+              </label>
+              <span className="text-sm font-semibold text-primaryRed">*</span>
+            </div>
             <div className="relative w-full">
               <input
                 type="text"
+                id="name"
                 placeholder="Cari nama pekerjaan"
-                className="text-xs px-3 bg-gray-200 rounded-md py-1 border border-gray-300 focus:outline-none w-full"
+                className="text-sm block w-full px-4 py-2 rounded-md border border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-primaryBlue focus:border-primaryBlue text-gray-700"
                 value={keyword}
                 onChange={(e) => handleSearch(e)}
                 onClick={handleShowList}
@@ -150,11 +159,11 @@ export default function UpdateModalItem({
               {openSearchDropDown && (
                 <div className="bg-white rounded-md p-2 w-full drop-shadow-md absolute max-h-56 overflow-hidden overflow-y-scroll scroll-smooth z-10">
                   {isLoadingSearch ? (
-                    <div className="flex items-center justify-center w-full p-4 text-black">
+                    <div className="flex items-center justify-center w-full p-4 text-gray-700">
                       <CgSpinner className="animate-spin w-4 h-4" />
                     </div>
                   ) : dataSearch.length === 0 ? (
-                    <div className="text-center text-xs font-semibold p-2">
+                    <div className="text-center text-sm text-gray-700 font-semibold p-2">
                       Hasil pencarian tidak ditemukan.
                     </div>
                   ) : (
@@ -165,7 +174,7 @@ export default function UpdateModalItem({
                           e.preventDefault();
                           handleSelectItem(item);
                         }}
-                        className="text-xs flex flex-col gap-1 p-2 rounded-md hover:bg-gray-200"
+                        className="text-sm text-gray-700 flex flex-col gap-1 p-2 rounded-md hover:bg-gray-200"
                       >
                         <p className="font-semibold">{item.name}</p>
                         <div>
@@ -186,20 +195,31 @@ export default function UpdateModalItem({
           {(selectedOldItemJob || selectedNewItemJob) && (
             <>
               <div className="flex flex-col gap-1">
-                <span className="text-xs font-semibold">Volume</span>
+                <div className="flex items-center gap-2">
+                  <label
+                    htmlFor="volume"
+                    className="block text-sm font-medium text-gray-600"
+                  >
+                    Volume
+                  </label>
+                  <span className="text-sm font-semibold text-primaryRed">
+                    *
+                  </span>
+                </div>
                 <div className="relative w-full">
                   <input
                     type="number"
+                    id="volume"
                     min={0}
                     placeholder="Masukkan volume"
-                    value={volume}
+                    defaultValue={volume}
                     onChange={handleVolumeChange}
-                    className="text-xs px-3 bg-gray-200 rounded-md py-1 border border-gray-300 focus:outline-none w-full"
+                    className="text-sm block w-full px-4 py-2 rounded-md border border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-primaryBlue focus:border-primaryBlue text-gray-700"
                   />
                 </div>
               </div>
               <div className="flex justify-between items-center gap-5">
-                <div className="text-xs font-semibold flex flex-col gap-2">
+                <div className="text-sm text-gray-700 font-semibold flex flex-col gap-2">
                   <p>
                     Harga Material:{" "}
                     {formatRupiah(
@@ -231,7 +251,7 @@ export default function UpdateModalItem({
                       : selectedNewItemJob?.unit}
                   </p>
                 </div>
-                <div className="text-xs font-semibold flex flex-col gap-2">
+                <div className="text-sm text-gray-700 font-semibold flex flex-col gap-2">
                   <p>
                     Total Harga Material:{" "}
                     {formatRupiah(
@@ -276,7 +296,7 @@ export default function UpdateModalItem({
             <button
               type="button"
               onClick={handleCancel}
-              className="text-sm px-4 py-2 bg-primaryGreen text-white font-bold rounded-md hover:bg-primaryGreenDarker disabled:bg-primaryGreenLighter transition duration-300 ease-in-out cursor-pointer flex items-center gap-2 shadow-sm"
+              className="text-sm px-4 py-2 bg-primaryRed text-white font-bold rounded-md hover:bg-primaryRedDarker disabled:bg-primaryRedLighter transition duration-300 ease-in-out cursor-pointer flex items-center gap-2 shadow-sm"
             >
               Batal
             </button>

@@ -41,6 +41,7 @@ export default function DocumentApproval({
 }: DocumentApprovalProps) {
   const [editMode, setEditMode] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [currentDate, setCurrentDate] = useState("");
 
   const { handleSubmit, register, reset } = useForm<FormData>({});
   useEffect(() => {
@@ -140,6 +141,17 @@ export default function DocumentApproval({
     reset();
   };
 
+  useEffect(() => {
+    const today = new Date();
+
+    // Format tanggal dalam bentuk dd MMMM yyyy
+    const formattedDate = `${today.getDate()} ${today.toLocaleString("id-ID", {
+      month: "long",
+    })} ${today.getFullYear()}`;
+
+    setCurrentDate(formattedDate);
+  }, []);
+
   return (
     <div>
       <div className="flex justify-end">
@@ -148,8 +160,8 @@ export default function DocumentApproval({
             <button
               disabled={loading}
               type="submit"
-              className="flex w-full items-center justify-center gap-2 text-white bg-primaryBlue disabled:bg-primaryBlueLighter hover:bg-primaryBlueDarker duration-300 cursor-pointer font-medium text-xs px-3 py-1.5 rounded-md"
-              onClick={handleSubmit(onSubmit)} // Trigger form submission manually
+              onClick={handleSubmit(onSubmit)}
+              className="text-white text-sm bg-primaryBlue disabled:bg-primaryBlueLighter hover:bg-primaryBlueDarker transition duration-300 ease-in-out cursor-pointer flex items-center gap-2 justify-center rounded-md px-4 py-2 shadow-sm font-semibold"
             >
               {loading && (
                 <div>
@@ -163,34 +175,34 @@ export default function DocumentApproval({
               type="button"
               disabled={loading}
               onClick={handleCancel}
-              className="flex w-full items-center justify-center gap-2 text-white bg-primaryRed disabled:bg-primaryRedLighter hover:bg-primaryRedDarker duration-300 cursor-pointer font-medium text-xs px-3 py-1.5 rounded-md"
+              className="text-white text-sm bg-primaryRed disabled:bg-primaryRedLighter hover:bg-primaryRedDarker transition duration-300 ease-in-out cursor-pointer flex items-center gap-2 justify-center rounded-md px-4 py-2 shadow-sm font-semibold"
             >
-              <span className="text-xs font-semibold">Batal</span>
+              Batal
             </button>
           </div>
         ) : (
           <button
             type="button"
             onClick={() => setEditMode(true)}
-            className="flex items-center justify-center gap-2 text-white bg-primaryGreen hover:bg-primaryGreenDarker duration-300 cursor-pointer font-medium text-xs px-3 py-1.5 rounded-md"
+            className="text-white text-sm bg-primaryGreen disabled:bg-primaryGreenLighter hover:bg-primaryGreenDarker transition duration-300 ease-in-out cursor-pointer flex items-center gap-2 justify-center rounded-md px-4 py-2 shadow-sm font-semibold"
           >
-            <span className="text-xs font-semibold">Perbarui</span>
+            Perbarui
           </button>
         )}
       </div>
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="text-xs flex flex-col gap-5"
+        className="text-sm text-gray-700 flex flex-col gap-5"
       >
         <div className="flex items-end">
           <input
             readOnly={!editMode}
             type="text"
-            className={`focus:outline-0 border-b`}
+            className={`focus:outline-0 border-b-[0.5px] border-b-gray-400`}
             {...register("recapitulationLocation")}
             placeholder="Lokasi"
           />
-          , 1 Agustus 2025
+          , {currentDate}
         </div>
         <div className="grid grid-cols-3">
           <div className="flex flex-col gap-12">
@@ -200,7 +212,7 @@ export default function DocumentApproval({
                 <input
                   readOnly={!editMode}
                   type="text"
-                  className={`focus:outline-0 border-b`}
+                  className={`focus:outline-0 border-b-[0.5px] border-b-gray-400`}
                   {...register("preparedByPosition")}
                   placeholder="Jabatan"
                 />
@@ -211,7 +223,7 @@ export default function DocumentApproval({
               <input
                 readOnly={!editMode}
                 type="text"
-                className={`focus:outline-0 border-b`}
+                className={`focus:outline-0 border-b-[0.5px] border-b-gray-400`}
                 {...register("preparedByName")}
                 placeholder="Nama"
               />
@@ -225,7 +237,7 @@ export default function DocumentApproval({
                 <input
                   readOnly={!editMode}
                   type="text"
-                  className={`focus:outline-0 border-b`}
+                  className={`focus:outline-0 border-b-[0.5px] border-b-gray-400`}
                   {...register("checkedByPosition")}
                   placeholder="Jabatan"
                 />
@@ -236,7 +248,7 @@ export default function DocumentApproval({
               <input
                 readOnly={!editMode}
                 type="text"
-                className={`focus:outline-0 border-b`}
+                className={`focus:outline-0 border-b-[0.5px] border-b-gray-400`}
                 {...register("checkedByName")}
                 placeholder="Nama"
               />
@@ -250,7 +262,7 @@ export default function DocumentApproval({
                 <input
                   readOnly={!editMode}
                   type="text"
-                  className={`focus:outline-0 border-b`}
+                  className={`focus:outline-0 border-b-[0.5px] border-b-gray-400`}
                   {...register("confirmedByPosition")}
                   placeholder="Jabatan"
                 />
@@ -261,7 +273,7 @@ export default function DocumentApproval({
               <input
                 readOnly={!editMode}
                 type="text"
-                className={`focus:outline-0 border-b`}
+                className={`focus:outline-0 border-b-[0.5px] border-b-gray-400`}
                 {...register("confirmedByName")}
                 placeholder="Nama"
               />

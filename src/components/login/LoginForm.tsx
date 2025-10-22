@@ -1,15 +1,33 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import React, { useState } from "react";
+import { signIn } from "next-auth/react";
+import { toast } from "react-toastify";
 
 export default function LoginForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const router = useRouter();
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    console.log("Email:", email);
-    console.log("Password:", password);
+  const handleSubmit = async (data: any) => {
+    // Kirimkan kredensial ke NextAuth.js untuk login
+    const result = await signIn("credentials", {
+      redirect: false,
+      email: data.email,
+      password: data.password,
+    });
+    console.log("Login Result:", result);
+
+    // Cek apakah login berhasil
+    if (result?.error) {
+      setError("Invalid email or password");
+      toast.error(error);
+    } else {
+      router.push("/");
+    }
   };
   return (
     <div className="bg-white p-8 rounded-lg shadow-sm max-w-sm w-full flex flex-col gap-5">

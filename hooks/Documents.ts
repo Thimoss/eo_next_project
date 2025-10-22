@@ -146,10 +146,23 @@ export const UseDetailDocument = ({ slug }: UseDetailDocumentProps) => {
       }
     };
 
+    const handleWheel = (e: WheelEvent) => {
+      e.stopPropagation();
+    };
+
     document.addEventListener("mousedown", handleClickOutside);
+
+    const dropdown = itemRef.current;
+    if (dropdown) {
+      dropdown.addEventListener("wheel", handleWheel);
+    }
 
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
+
+      if (dropdown) {
+        dropdown.removeEventListener("wheel", handleWheel);
+      }
     };
   }, []);
 

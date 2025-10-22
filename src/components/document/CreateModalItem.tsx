@@ -119,6 +119,7 @@ export default function CreateModalItem({
               <input
                 type="text"
                 id="name"
+                autoComplete="false"
                 placeholder="Cari nama pekerjaan"
                 className="text-sm block w-full px-4 py-2 rounded-md border border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-primaryBlue focus:border-primaryBlue text-gray-700"
                 value={keyword}

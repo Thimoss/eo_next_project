@@ -1,44 +1,44 @@
 "use client";
 import Image from "next/image";
 import Link from "next/link";
-import React, { useEffect, useRef, useState } from "react";
+import React from "react";
 
 export default function Navbar() {
-  const [isOpen, setIsOpen] = useState(false);
+  // const [isOpen, setIsOpen] = useState(false);
 
-  const dropdownRef = useRef(null);
-  const avatarRef = useRef(null);
+  // const dropdownRef = useRef(null);
+  // const avatarRef = useRef(null);
 
-  const toggleMenu = () => {
-    setIsOpen(!isOpen);
-  };
+  // const toggleMenu = () => {
+  //   setIsOpen(!isOpen);
+  // };
 
-  const handleLogout = () => {
-    console.log("Logging out...");
-  };
+  // const handleLogout = () => {
+  //   console.log("Logging out...");
+  // };
 
-  const handleProfile = () => {
-    console.log("Navigating to profile...");
-  };
+  // const handleProfile = () => {
+  //   console.log("Navigating to profile...");
+  // };
 
-  useEffect(() => {
-    const handleClickOutside = (e) => {
-      if (
-        dropdownRef.current &&
-        !dropdownRef.current.contains(e.target) &&
-        avatarRef.current &&
-        !avatarRef.current.contains(e.target)
-      ) {
-        setIsOpen(false);
-      }
-    };
+  // useEffect(() => {
+  //   const handleClickOutside = (e) => {
+  //     if (
+  //       dropdownRef.current &&
+  //       !dropdownRef.current.contains(e.target) &&
+  //       avatarRef.current &&
+  //       !avatarRef.current.contains(e.target)
+  //     ) {
+  //       setIsOpen(false);
+  //     }
+  //   };
 
-    document.addEventListener("mousedown", handleClickOutside);
+  //   document.addEventListener("mousedown", handleClickOutside);
 
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, []);
+  //   return () => {
+  //     document.removeEventListener("mousedown", handleClickOutside);
+  //   };
+  // }, []);
 
   return (
     <header className="w-full bg-white py-5 sticky top-0 z-50 shadow-sm ">
@@ -63,7 +63,7 @@ export default function Navbar() {
             <Link href={"/list-category"}>Kategori</Link>
           </div>
         </div>
-        <div>
+        {/* <div>
           <div className="flex items-center gap-2 text-xs">
             <h1 className="text-sm font-normal text-gray-700">User Example</h1>
 
@@ -104,7 +104,7 @@ export default function Navbar() {
               </div>
             </div>
           </div>
-        </div>
+        </div> */}
       </div>
     </header>
   );

@@ -1,7 +1,9 @@
 import ClientSide from "@/components/document/ClientSide";
 import Master from "@/components/global/Master";
 
-export default async function Page({ params }: { params: { slug: string } }) {
+type tParams = Promise<{ slug: string }>;
+
+export default async function Page({ params }: { params: tParams }) {
   const { slug } = await params;
 
   return (

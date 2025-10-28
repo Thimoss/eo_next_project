@@ -1,34 +1,30 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
-import React, { useState } from "react";
-import { signIn } from "next-auth/react";
-import { toast } from "react-toastify";
+import React from "react";
 
 export default function LoginForm() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
-  const router = useRouter();
+  // const [email, setEmail] = useState("");
+  // const [password, setPassword] = useState("");
+  // const [error, setError] = useState("");
+  // const router = useRouter();
 
-  const handleSubmit = async (data: any) => {
-    // Kirimkan kredensial ke NextAuth.js untuk login
-    const result = await signIn("credentials", {
-      redirect: false,
-      email: data.email,
-      password: data.password,
-    });
-    console.log("Login Result:", result);
+  // const handleSubmit = async (data: any) => {
+  //   // Kirimkan kredensial ke NextAuth.js untuk login
+  //   const result = await signIn("credentials", {
+  //     redirect: false,
+  //     email: data.email,
+  //     password: data.password,
+  //   });
+  //   console.log("Login Result:", result);
 
-    // Cek apakah login berhasil
-    if (result?.error) {
-      setError("Invalid email or password");
-      toast.error(error);
-    } else {
-      router.push("/");
-    }
-  };
+  //   // Cek apakah login berhasil
+  //   if (result?.error) {
+  //     setError("Invalid email or password");
+  //     toast.error(error);
+  //   } else {
+  //     router.push("/");
+  //   }
+  // };
   return (
     <div className="bg-white p-8 rounded-lg shadow-sm max-w-sm w-full flex flex-col gap-5">
       <div className="flex flex-col items-center gap-6">
@@ -49,7 +45,10 @@ export default function LoginForm() {
         </div>
       </div>
 
-      <form onSubmit={handleSubmit} className="space-y-4">
+      <form
+        // onSubmit={handleSubmit}
+        className="space-y-4"
+      >
         <div className="flex flex-col gap-1">
           <label
             htmlFor="email"
@@ -60,8 +59,8 @@ export default function LoginForm() {
           <input
             type="email"
             id="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            // value={email}
+            // onChange={(e) => setEmail(e.target.value)}
             className="text-sm block w-full px-4 py-2 rounded-md border border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-primaryBlue focus:border-primaryBlue text-gray-700"
             placeholder="you@example.com"
             required
@@ -77,8 +76,8 @@ export default function LoginForm() {
           <input
             type="password"
             id="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            // value={password}
+            // onChange={(e) => setPassword(e.target.value)}
             className="text-sm block w-full px-4 py-2 rounded-md border border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-primaryBlue focus:border-primaryBlue text-gray-700"
             placeholder="******"
             required

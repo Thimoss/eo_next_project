@@ -1,6 +1,5 @@
 "use client";
 import React from "react";
-// import Search from "./Search";
 import ItemTable from "./ItemTable";
 import { useDetailCategories } from "../../../hooks/DetailCategories";
 import { IoPencil, IoTrash } from "react-icons/io5";
@@ -14,7 +13,6 @@ import UpdateModalItem from "./UpdateModalItem";
 import SectorEmpty from "./SectorEmpty";
 import CreateModalItem from "./CreateModalItem";
 import { FaPlus } from "react-icons/fa";
-import Search from "./Search";
 
 interface ClientSideDetailCategoryProps {
   id: string;
@@ -70,7 +68,7 @@ export default function ClientSide({ id }: ClientSideDetailCategoryProps) {
             </div>
 
             <div className="flex flex-col sm:flex-row items-center justify-between gap-5">
-              <Search />
+              {/* <Search /> */}
 
               <div className="flex justify-end w-full">
                 <button

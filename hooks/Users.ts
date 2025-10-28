@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState } from "react";
 
 export const useUsers = () => {
@@ -9,11 +10,11 @@ export const useUsers = () => {
   const [openUpdate, setOpenUpdate] = useState(false);
   const [openDelete, setOpenDelete] = useState(false);
 
-  const handleEdit = async (user) => {
+  const handleEdit = async (user: any) => {
     setSelectedUser(user);
     setOpenUpdate(true);
   };
-  const handleDelete = async (user) => {
+  const handleDelete = async (user: any) => {
     setSelectedUser(user);
     setOpenDelete(true);
   };

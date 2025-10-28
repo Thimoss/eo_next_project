@@ -1,16 +1,13 @@
 "use client";
 import React from "react";
-// import Search from "./Search";
 import { useCategories } from "../../../hooks/Categories";
 import Loading from "../global/Loading";
 import Table from "./Table";
-// import Pagination from "../global/Pagination";
 import EmptyData from "../global/EmptyData";
 import CreateModal from "./CreateModal";
 import UpdateModal from "./UpdateModal";
 import DeleteModal from "./DeleteModal";
 import { FaPlus } from "react-icons/fa";
-import Search from "./Search";
 
 export default function ClientSide() {
   const {
@@ -41,7 +38,7 @@ export default function ClientSide() {
       <div className="flex flex-col gap-6">
         <h1 className="text-xl text-gray-700 font-bold">Daftar Kategori</h1>
         <div className="flex flex-col sm:flex-row items-center justify-between gap-5 ">
-          <Search />
+          {/* <Search /> */}
 
           <div className="flex justify-end w-full">
             <button

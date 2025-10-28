@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { ToastContainer } from "react-toastify";
 import NextTopLoader from "nextjs-toploader";
+// import StoreProvider from "./StoreProvider";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -19,10 +20,12 @@ export default function RootLayout({
         <head>
           <link rel="icon" href="/icon.png" sizes="any" />
         </head>
+        {/* <StoreProvider> */}
         <body className={`antialiased`}>
           <NextTopLoader showSpinner={false} color="#006eb6" />
           {children}
         </body>
+        {/* </StoreProvider> */}
       </html>
       <ToastContainer />
     </>

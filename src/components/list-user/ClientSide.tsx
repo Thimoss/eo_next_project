@@ -1,6 +1,5 @@
 "use client";
 import React from "react";
-import Search from "./Search";
 import { FaPlus } from "react-icons/fa";
 import Loading from "../global/Loading";
 import EmptyData from "../global/EmptyData";
@@ -15,7 +14,7 @@ export default function ClientSide() {
       <div className="flex flex-col gap-6">
         <h1 className="text-xl text-gray-700 font-bold">Daftar Pengguna</h1>
         <div className="flex flex-col sm:flex-row items-center justify-between gap-5 ">
-          <Search />
+          {/* <Search /> */}
           <div className="flex justify-end w-full">
             <button
               //   onClick={() => setOpenCreate(true)}

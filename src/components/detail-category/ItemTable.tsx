@@ -1,9 +1,10 @@
 import React from "react";
-import { IoPencil, IoTrash } from "react-icons/io5";
+import { IoEye, IoPencil, IoTrash } from "react-icons/io5";
 import { Item } from "../../../types/Items.type";
 import { Sector } from "../../../types/Sectors.type";
 import formatRupiah from "../../../utils/formatRupiah";
 import { FaPlus } from "react-icons/fa";
+import { DocumentUrl } from "../../../config/app";
 
 interface ItemTableProps {
   data: Item[];
@@ -21,6 +22,7 @@ export default function ItemTable({
   selectedSector,
   data,
 }: ItemTableProps) {
+  console.log(DocumentUrl);
   return (
     <div className="relative overflow-x-auto rounded-lg">
       <table
@@ -83,6 +85,25 @@ export default function ItemTable({
                   {formatRupiah(item.feePricePerUnit)}
                 </td>
                 <td className="px-4 py-2 flex items-center gap-2 justify-center">
+                  <button
+                    onClick={async () => {
+                      const response = await fetch(DocumentUrl + item.pdfUrl);
+                      const blob = await response.blob();
+                      const url = window.URL.createObjectURL(blob);
+
+                      const link = document.createElement("a");
+                      link.href = url;
+                      link.download = item.pdfUrl;
+                      link.click();
+
+                      window.URL.revokeObjectURL(url);
+                    }}
+                    className="text-white bg-primaryBlue disabled:bg-primaryBlueLighter hover:bg-primaryBlueDarker rounded-md px-2 py-1 transition duration-300 ease-in-out  cursor-pointer"
+                  >
+                    <div className="w-4 h-4">
+                      <IoEye className="w-full h-full" />
+                    </div>
+                  </button>
                   <button
                     onClick={() => handleEdit(item, selectedSector)}
                     className="text-white bg-primaryGreen disabled:bg-primaryGreenLighter hover:bg-primaryGreenDarker rounded-md px-2 py-1 transition duration-300 ease-in-out  cursor-pointer"

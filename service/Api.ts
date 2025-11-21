@@ -20,11 +20,14 @@ class Api {
 
     const headers: Record<string, string> = {
       ...this.header,
-      "Content-Type":
+    };
+
+    if (this.type !== "multipart") {
+      headers["Content-Type"] =
         this.type === "json"
           ? "application/json"
-          : "application/x-www-form-urlencoded", // Set Content-Type based on the request type
-    };
+          : "form-data/x-www-form-urlencoded";
+    }
 
     let body: BodyInit | null = null;
     if (this.method !== "GET" && this.body) {
@@ -32,7 +35,9 @@ class Api {
         body = JSON.stringify(this.body);
       } else if (this.type === "form") {
         body = new URLSearchParams(this.body).toString();
-      } else {
+      } else if (this.type === "multipart") {
+        // Jika tipe adalah multipart, body sudah berupa FormData,
+        // dan kita tidak perlu mengubah Content-Type secara eksplisit
         body = this.body;
       }
     }

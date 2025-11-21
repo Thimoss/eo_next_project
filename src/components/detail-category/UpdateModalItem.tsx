@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Modal from "../global/Modal";
 import { useForm } from "react-hook-form";
 import { KeyedMutator } from "swr";
@@ -14,10 +14,9 @@ interface FormData {
   source?: string;
   minimum?: number;
   unit?: string;
-  materialPricePerUnit?: number;
-  feePricePerUnit?: number;
   singleItem: boolean;
   sectorId: number;
+  listOffer?: { materialPricePerUnit: number; feePricePerUnit: number }[];
 }
 
 interface UpdateModalProps {
@@ -38,6 +37,9 @@ export default function UpdateModalItem({
 }: UpdateModalProps) {
   const [loading, setLoading] = useState(false);
   const [singleItem, setSingleItem] = useState(true);
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
+
+  const offer = [1, 2, 3];
 
   const {
     // control,
@@ -58,8 +60,6 @@ export default function UpdateModalItem({
         source: selectedItem?.source || "",
         minimum: selectedItem?.minimum || 0,
         unit: selectedItem?.unit || "",
-        materialPricePerUnit: selectedItem?.materialPricePerUnit || 0,
-        feePricePerUnit: selectedItem?.feePricePerUnit || 0,
         sectorId: selectedSector?.id ?? 0,
         singleItem: selectedItem?.singleItem,
       });
@@ -69,35 +69,97 @@ export default function UpdateModalItem({
   const onSubmit = async (data: FormData) => {
     try {
       setLoading(true);
+
+      const formData = new FormData();
+
+      if (selectedSector?.id !== undefined) {
+        formData.append("no", data.no);
+        formData.append("name", data.name);
+        formData.append("source", data.source || "");
+        formData.append("sectorId", selectedSector?.id.toString());
+        formData.append("singleItem", data.singleItem.toString());
+
+        if (data.singleItem === true) {
+          formData.append("unit", data.unit || "");
+          formData.append("minimum", data.minimum?.toString() || "1");
+          if (
+            data.listOffer &&
+            Array.isArray(data.listOffer) &&
+            data.listOffer.length > 0
+          ) {
+            let totalMaterialPricePerUnit = 0;
+            let totalFeePricePerUnit = 0;
+            const offerCount = data.listOffer.length;
+
+            data.listOffer.forEach((offer) => {
+              const materialPrice = parseFloat(
+                offer.materialPricePerUnit?.toString() || "0"
+              );
+              const feePrice = parseFloat(
+                offer.feePricePerUnit?.toString() || "0"
+              );
+
+              totalMaterialPricePerUnit += materialPrice;
+              totalFeePricePerUnit += feePrice;
+            });
+
+            const averageMaterialPricePerUnit =
+              totalMaterialPricePerUnit / offerCount;
+            const averageFeePricePerUnit = totalFeePricePerUnit / offerCount;
+
+            formData.append(
+              "materialPricePerUnit",
+              averageMaterialPricePerUnit.toFixed(2)
+            );
+            formData.append(
+              "feePricePerUnit",
+              averageFeePricePerUnit.toFixed(2)
+            );
+          } else {
+            toast.error("Please add at least one offer with pricing.");
+            setLoading(false);
+            return;
+          }
+
+          if (fileInputRef.current?.files && fileInputRef.current.files[0]) {
+            const file = fileInputRef.current.files[0];
+
+            console.log("File to be sent:", file);
+
+            if (file.type !== "application/pdf") {
+              toast.error("Only PDF files are allowed.");
+              setLoading(false);
+              return;
+            }
+            if (file.size > 1 * 1024 * 1024) {
+              toast.error("File size must be less than 1MB.");
+              setLoading(false);
+              return;
+            }
+
+            formData.append("file", file);
+          } else {
+            toast.error("File is required for single item.");
+            setLoading(false);
+            return;
+          }
+        }
+      } else {
+        toast.error("Sector ID is required.");
+        setLoading(false);
+        return;
+      }
+
+      for (const pair of formData.entries()) {
+        console.log(pair[0], pair[1]); // Logs key-value pairs
+      }
+
       const api = new Api();
       api.url = `item/update/${selectedItem?.id}`;
       api.method = "PATCH";
-      api.type = "json";
-      api.body = {
-        no: data.no,
-        name: data.name,
-        source: data.source,
-        sectorId: selectedSector?.id,
-        singleItem: data.singleItem,
-        ...(data.singleItem && {
-          minimum: data.minimum
-            ? parseInt(data.minimum.toString(), 10)
-            : undefined,
-          unit: data.unit ?? undefined,
-          materialPricePerUnit: data.materialPricePerUnit
-            ? parseFloat(data.materialPricePerUnit.toString())
-            : undefined,
-          feePricePerUnit: data.feePricePerUnit
-            ? parseFloat(data.feePricePerUnit.toString())
-            : undefined,
-        }),
-        ...(!data.singleItem && {
-          minimum: null,
-          unit: null,
-          materialPricePerUnit: null,
-          feePricePerUnit: null,
-        }),
-      };
+      api.type = "multipart";
+      api.body = formData;
+
       const response = await api.call();
       if (response.statusCode === 200) {
         toast.success(response.message);
@@ -132,8 +194,6 @@ export default function UpdateModalItem({
     if (!singleItem) {
       setValue("minimum", undefined);
       setValue("unit", undefined);
-      setValue("materialPricePerUnit", undefined);
-      setValue("feePricePerUnit", undefined);
     }
   }, [singleItem, setValue]);
 
@@ -222,102 +282,146 @@ export default function UpdateModalItem({
           </div>
 
           {singleItem && (
-            <div className="grid grid-cols-2 gap-5">
-              <div className="flex flex-col gap-1">
-                <div className="flex items-center gap-2">
-                  <label
-                    htmlFor="minimum"
-                    className="block text-sm font-medium text-gray-600"
-                  >
-                    Minimum
-                  </label>
-                  <span className="text-sm font-semibold text-primaryRed">
-                    *
-                  </span>
+            <>
+              <div className="grid grid-cols-2 gap-5">
+                <div className="flex flex-col gap-1">
+                  <div className="flex items-center gap-2">
+                    <label
+                      htmlFor="minimum"
+                      className="block text-sm font-medium text-gray-600"
+                    >
+                      Minimum
+                    </label>
+                    <span className="text-sm font-semibold text-primaryRed">
+                      *
+                    </span>
+                  </div>
+                  <input
+                    type="number"
+                    id="minimum"
+                    placeholder="Masukkan jumlah minimum"
+                    {...register("minimum", {
+                      required: "Jumlah minimum diperlukan",
+                    })}
+                    className="text-sm block w-full px-4 py-2 rounded-md border border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-primaryBlue focus:border-primaryBlue text-gray-700"
+                  />
+                  {errors.minimum && (
+                    <p className="text-sm text-red-500">
+                      {errors.minimum.message}
+                    </p>
+                  )}
                 </div>
-                <input
-                  type="number"
-                  id="minimum"
-                  placeholder="Masukkan jumlah minimum"
-                  {...register("minimum", {
-                    required: "Jumlah minimum diperlukan",
-                  })}
-                  className="text-sm block w-full px-4 py-2 rounded-md border border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-primaryBlue focus:border-primaryBlue text-gray-700"
-                />
-                {errors.minimum && (
-                  <p className="text-sm text-red-500">
-                    {errors.minimum.message}
-                  </p>
-                )}
-              </div>
 
-              <div className="flex flex-col gap-1">
+                <div className="flex flex-col gap-1">
+                  <div className="flex items-center gap-2">
+                    <label
+                      htmlFor="unit"
+                      className="block text-sm font-medium text-gray-600"
+                    >
+                      Unit
+                    </label>
+                    <span className="text-sm font-semibold text-primaryRed">
+                      *
+                    </span>
+                  </div>
+                  <input
+                    type="text"
+                    id="unit"
+                    placeholder="Masukkan unit"
+                    {...register("unit", { required: "Unit diperlukan" })}
+                    className="text-sm block w-full px-4 py-2 rounded-md border border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-primaryBlue focus:border-primaryBlue text-gray-700"
+                  />
+                </div>
+                {offer.map((offer, index: number) => (
+                  <React.Fragment key={index}>
+                    <div>
+                      <label className="text-sm text-gray-700 font-semibold">
+                        Penawaran {index + 1}
+                      </label>
+                    </div>
+                    <div className="flex flex-col gap-1 col-start-1">
+                      <div className="flex items-center gap-2">
+                        <label
+                          htmlFor={`materialPricePerUnit${index}`}
+                          className="block text-sm font-medium text-gray-600"
+                        >
+                          Harga Material per Unit
+                        </label>
+                        <span className="text-sm font-semibold text-primaryRed">
+                          *
+                        </span>
+                      </div>
+                      <input
+                        type="number"
+                        id={`materialPricePerUnit${index}`}
+                        placeholder="Masukkan harga material per unit"
+                        {...register(
+                          `listOffer.${index}.materialPricePerUnit`,
+                          {
+                            required: "Harga material per unit diperlukan",
+                          }
+                        )}
+                        className="text-sm block w-full px-4 py-2 rounded-md border border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-primaryBlue focus:border-primaryBlue text-gray-700"
+                      />
+                      {errors.listOffer?.[index]?.materialPricePerUnit && (
+                        <p className="text-sm text-red-500">
+                          {
+                            errors.listOffer[index].materialPricePerUnit
+                              ?.message
+                          }
+                        </p>
+                      )}
+                    </div>
+                    <div className="flex flex-col gap-1">
+                      <div className="flex items-center gap-2">
+                        <label
+                          htmlFor={`feePricePerUnit${index}`}
+                          className="block text-sm font-medium text-gray-600"
+                        >
+                          Harga Jasa per Unit
+                        </label>
+                        <span className="text-sm font-semibold text-primaryRed">
+                          *
+                        </span>
+                      </div>
+                      <input
+                        type="number"
+                        id={`feePricePerUnit${index}`}
+                        placeholder="Masukkan harga jasa per unit"
+                        {...register(`listOffer.${index}.feePricePerUnit`, {
+                          required: "Harga jasa per unit diperlukan",
+                        })}
+                        className="text-sm block w-full px-4 py-2 rounded-md border border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-primaryBlue focus:border-primaryBlue text-gray-700"
+                      />
+                      {errors.listOffer?.[index]?.feePricePerUnit && (
+                        <p className="text-sm text-red-500">
+                          {errors.listOffer[index].feePricePerUnit?.message}
+                        </p>
+                      )}
+                    </div>
+                  </React.Fragment>
+                ))}
+              </div>
+              <div className="flex flex-col gap-1 ">
                 <div className="flex items-center gap-2">
                   <label
-                    htmlFor="unit"
+                    htmlFor="file"
                     className="block text-sm font-medium text-gray-600"
                   >
-                    Unit
+                    Dokumen
                   </label>
                   <span className="text-sm font-semibold text-primaryRed">
                     *
                   </span>
                 </div>
                 <input
-                  type="text"
-                  id="unit"
-                  placeholder="Masukkan unit"
-                  {...register("unit", { required: "Unit diperlukan" })}
+                  type="file"
+                  ref={fileInputRef} // Using useRef for file input
+                  accept="application/pdf"
                   className="text-sm block w-full px-4 py-2 rounded-md border border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-primaryBlue focus:border-primaryBlue text-gray-700"
                 />
               </div>
-
-              <div className="flex flex-col gap-1">
-                <div className="flex items-center gap-2">
-                  <label
-                    htmlFor="materialPricePerUnit"
-                    className="block text-sm font-medium text-gray-600"
-                  >
-                    Harga Material per Unit
-                  </label>
-                  <span className="text-sm font-semibold text-primaryRed">
-                    *
-                  </span>
-                </div>
-                <input
-                  type="number"
-                  id="materialPricePerUnit"
-                  placeholder="Masukkan harga material per unit"
-                  {...register("materialPricePerUnit", {
-                    required: "Harga material per unit diperlukan",
-                  })}
-                  className="text-sm block w-full px-4 py-2 rounded-md border border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-primaryBlue focus:border-primaryBlue text-gray-700"
-                />
-              </div>
-
-              <div className="flex flex-col gap-1">
-                <div className="flex items-center gap-2">
-                  <label
-                    htmlFor="feePricePerUnit"
-                    className="block text-sm font-medium text-gray-600"
-                  >
-                    Harga Jasa per Unit
-                  </label>
-                  <span className="text-sm font-semibold text-primaryRed">
-                    *
-                  </span>
-                </div>
-                <input
-                  type="number"
-                  id="feePricePerUnit"
-                  placeholder="Masukkan harga jasa per unit"
-                  {...register("feePricePerUnit", {
-                    required: "Harga jasa per unit diperlukan",
-                  })}
-                  className="text-sm block w-full px-4 py-2 rounded-md border border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-primaryBlue focus:border-primaryBlue text-gray-700"
-                />
-              </div>
-            </div>
+            </>
           )}
 
           <div

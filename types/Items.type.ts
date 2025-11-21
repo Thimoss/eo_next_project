@@ -10,6 +10,7 @@ export interface Item {
   singleItem: boolean;
   categoryCode: string;
   sectorNo: string;
+  pdfUrl: string;
   sectorId: number;
   createdAt: Date;
   updatedAt: Date;

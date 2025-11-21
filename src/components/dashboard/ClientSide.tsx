@@ -1,6 +1,5 @@
 "use client";
 import React from "react";
-import Search from "./Search";
 import SortBy from "./SortBy";
 import DocumentCard from "./DocumentCard";
 import { useDashboard } from "../../../hooks/Dashboard";
@@ -39,7 +38,7 @@ export default function ClientSide() {
       <div className="flex flex-col gap-10">
         <div className="flex flex-col gap-6">
           <div className="flex flex-col md:flex-row items-center justify-between">
-            <Search />
+            {/* <Search /> */}
             <button
               onClick={() => setOpenCreate(true)}
               className="px-4 py-2 bg-primaryGreen text-white font-bold rounded-md hover:bg-primaryGreenDarker transition duration-300 ease-in-out cursor-pointer items-center justify-center hidden md:flex gap-2 shadow-sm"

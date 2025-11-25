@@ -13,13 +13,9 @@ export default function Navbar() {
   //   setIsOpen(!isOpen);
   // };
 
-  // const handleLogout = () => {
-  //   console.log("Logging out...");
-  // };
+  // const handleLogout = () => {};
 
-  // const handleProfile = () => {
-  //   console.log("Navigating to profile...");
-  // };
+  // const handleProfile = () => {};
 
   // useEffect(() => {
   //   const handleClickOutside = (e) => {
@@ -63,8 +59,8 @@ export default function Navbar() {
             <Link href={"/list-category"}>Kategori</Link>
           </div>
         </div>
-        {/* <div>
-          <div className="flex items-center gap-2 text-xs">
+        <div>
+          {/* <div className="flex items-center gap-2 text-xs">
             <h1 className="text-sm font-normal text-gray-700">User Example</h1>
 
             <div className="relative">
@@ -103,8 +99,8 @@ export default function Navbar() {
                 </div>
               </div>
             </div>
-          </div>
-        </div> */}
+          </div> */}
+        </div>
       </div>
     </header>
   );

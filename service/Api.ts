@@ -7,8 +7,8 @@ class Api {
   public header: Record<string, string> = {};
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   public body: any = {};
-  // public token: string = "";
-  // public auth: boolean = false;
+  public token: string = "";
+  public auth: boolean = false;
 
   public call = async () => {
     let url = ApiUrl + this.url;
@@ -29,6 +29,11 @@ class Api {
           : "form-data/x-www-form-urlencoded";
     }
 
+    if (this.auth && this.token) {
+      headers["Authorization"] = "Bearer " + this.token;
+      headers["Accept"] = "application/json";
+    }
+
     let body: BodyInit | null = null;
     if (this.method !== "GET" && this.body) {
       if (this.type === "json") {
@@ -36,8 +41,6 @@ class Api {
       } else if (this.type === "form") {
         body = new URLSearchParams(this.body).toString();
       } else if (this.type === "multipart") {
-        // Jika tipe adalah multipart, body sudah berupa FormData,
-        // dan kita tidak perlu mengubah Content-Type secara eksplisit
         body = this.body;
       }
     }

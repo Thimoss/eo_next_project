@@ -95,7 +95,6 @@ export default function UpdateModalItem({
         jobSectionId: selectedJobSection?.id,
       };
 
-      console.log(api.body);
       const response = await api.call();
       if (response.statusCode === 200) {
         toast.success(response.message);

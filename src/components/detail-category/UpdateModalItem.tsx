@@ -38,8 +38,21 @@ export default function UpdateModalItem({
   const [loading, setLoading] = useState(false);
   const [singleItem, setSingleItem] = useState(true);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
+  const [offers, setOffers] = useState([
+    { materialPricePerUnit: 0, feePricePerUnit: 0 },
+  ]);
 
-  const offer = [1, 2, 3];
+  const addOffer = () => {
+    setOffers([...offers, { materialPricePerUnit: 0, feePricePerUnit: 0 }]);
+  };
+
+  // Remove an offer (only if more than 1)
+  const removeOffer = (index: number) => {
+    if (offers.length > 1) {
+      const newOffers = offers.filter((_, idx) => idx !== index);
+      setOffers(newOffers);
+    }
+  };
 
   const {
     // control,
@@ -124,8 +137,6 @@ export default function UpdateModalItem({
           if (fileInputRef.current?.files && fileInputRef.current.files[0]) {
             const file = fileInputRef.current.files[0];
 
-            console.log("File to be sent:", file);
-
             if (file.type !== "application/pdf") {
               toast.error("Only PDF files are allowed.");
               setLoading(false);
@@ -148,10 +159,6 @@ export default function UpdateModalItem({
         toast.error("Sector ID is required.");
         setLoading(false);
         return;
-      }
-
-      for (const pair of formData.entries()) {
-        console.log(pair[0], pair[1]); // Logs key-value pairs
       }
 
       const api = new Api();
@@ -332,12 +339,23 @@ export default function UpdateModalItem({
                     className="text-sm block w-full px-4 py-2 rounded-md border border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-primaryBlue focus:border-primaryBlue text-gray-700"
                   />
                 </div>
-                {offer.map((offer, index: number) => (
+                {offers.map((_, index: number) => (
                   <React.Fragment key={index}>
                     <div>
                       <label className="text-sm text-gray-700 font-semibold">
                         Penawaran {index + 1}
                       </label>
+                    </div>
+                    <div className="flex justify-end">
+                      {offers.length > 1 && index > 0 && (
+                        <button
+                          type="button"
+                          onClick={() => removeOffer(index)}
+                          className="text-primaryRed text-sm text-right cursor-pointer"
+                        >
+                          Hapus Penawaran {index + 1}
+                        </button>
+                      )}
                     </div>
                     <div className="flex flex-col gap-1 col-start-1">
                       <div className="flex items-center gap-2">
@@ -398,6 +416,15 @@ export default function UpdateModalItem({
                           {errors.listOffer[index].feePricePerUnit?.message}
                         </p>
                       )}
+                    </div>
+                    <div className="flex justify-end mt-4 col-start-2 ">
+                      <button
+                        type="button"
+                        onClick={addOffer}
+                        className="text-primaryBlue text-sm cursor-pointer"
+                      >
+                        Tambah Penawaran
+                      </button>
                     </div>
                   </React.Fragment>
                 ))}

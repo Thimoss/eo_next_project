@@ -22,7 +22,6 @@ export default function ItemTable({
   selectedSector,
   data,
 }: ItemTableProps) {
-  console.log(DocumentUrl);
   return (
     <div className="relative overflow-x-auto rounded-lg">
       <table

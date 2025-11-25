@@ -1,13 +1,58 @@
+// "use client";
+
+// import { useActionState } from "react";
+// import { login } from "@/actions/auth";
+
+// const initialState = { error: undefined as string | undefined };
+
+// export function LoginForm() {
+//   const [state, formAction, pending] = useActionState(login, initialState);
+
+//   return (
+//     <form
+//       action={async (formData) => {
+//         formAction(formData);
+//       }}
+//       className="space-y-4 max-w-sm"
+//     >
+//       <div>
+//         <label className="block text-sm font-medium">Email</label>
+//         <input
+//           name="email"
+//           type="email"
+//           className="border rounded w-full px-3 py-2"
+//           required
+//         />
+//       </div>
+
+//       <div>
+//         <label className="block text-sm font-medium">Password</label>
+//         <input
+//           name="password"
+//           type="password"
+//           className="border rounded w-full px-3 py-2"
+//           required
+//         />
+//       </div>
+
+//       {state.error && <p className="text-sm text-red-600">{state.error}</p>}
+
+//       <button
+//         type="submit"
+//         disabled={pending}
+//         className="px-4 py-2 rounded border"
+//       >
+//         {pending ? "Logging in..." : "Login"}
+//       </button>
+//     </form>
+//   );
+// }
+
 "use client";
 import Image from "next/image";
 import React from "react";
 
 export default function LoginForm() {
-  // const [email, setEmail] = useState("");
-  // const [password, setPassword] = useState("");
-  // const [error, setError] = useState("");
-  // const router = useRouter();
-
   // const handleSubmit = async (data: any) => {
   //   // Kirimkan kredensial ke NextAuth.js untuk login
   //   const result = await signIn("credentials", {
@@ -15,7 +60,6 @@ export default function LoginForm() {
   //     email: data.email,
   //     password: data.password,
   //   });
-  //   console.log("Login Result:", result);
 
   //   // Cek apakah login berhasil
   //   if (result?.error) {
@@ -45,10 +89,7 @@ export default function LoginForm() {
         </div>
       </div>
 
-      <form
-        // onSubmit={handleSubmit}
-        className="space-y-4"
-      >
+      <form className="space-y-4">
         <div className="flex flex-col gap-1">
           <label
             htmlFor="email"
@@ -59,8 +100,6 @@ export default function LoginForm() {
           <input
             type="email"
             id="email"
-            // value={email}
-            // onChange={(e) => setEmail(e.target.value)}
             className="text-sm block w-full px-4 py-2 rounded-md border border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-primaryBlue focus:border-primaryBlue text-gray-700"
             placeholder="you@example.com"
             required
@@ -76,8 +115,6 @@ export default function LoginForm() {
           <input
             type="password"
             id="password"
-            // value={password}
-            // onChange={(e) => setPassword(e.target.value)}
             className="text-sm block w-full px-4 py-2 rounded-md border border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-primaryBlue focus:border-primaryBlue text-gray-700"
             placeholder="******"
             required

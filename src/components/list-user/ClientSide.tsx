@@ -1,8 +1,6 @@
 "use client";
 import React from "react";
 import { FaPlus } from "react-icons/fa";
-import Loading from "../global/Loading";
-import EmptyData from "../global/EmptyData";
 import CreateModal from "./CreateModal";
 import { useUsers } from "../../../hooks/Users";
 import Table from "./Table";
@@ -28,16 +26,16 @@ export default function ClientSide() {
           </div>
         </div>
 
-        <div>
+        {/* <div>
           <Loading />
-        </div>
+        </div> */}
         <div className="flex flex-col gap-6">
           <Table />
           {/* <Pagination /> */}
         </div>
-        <div>
+        {/* <div>
           <EmptyData />
-        </div>
+        </div> */}
       </div>
       <CreateModal
         open={openCreate}

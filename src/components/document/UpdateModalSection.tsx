@@ -18,6 +18,7 @@ interface UpdateModalProps {
   mutate: KeyedMutator<any>;
   selectedJobSection: JobSection | null | undefined;
   documentId: number;
+  accessToken?: string;
 }
 
 export default function UpdateModalSection({
@@ -26,6 +27,7 @@ export default function UpdateModalSection({
   mutate,
   selectedJobSection,
   documentId,
+  accessToken,
 }: UpdateModalProps) {
   const [loading, setLoading] = useState(false);
   const {
@@ -50,6 +52,8 @@ export default function UpdateModalSection({
       setLoading(true);
       const api = new Api();
       api.url = `job-section/update/${selectedJobSection?.id}`;
+      api.auth = true;
+      api.token = accessToken ?? "";
       api.method = "PATCH";
       api.type = "json";
       api.body = {

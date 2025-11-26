@@ -26,6 +26,7 @@ interface DocumentApprovalProps {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   mutate: KeyedMutator<any>;
   slug: string;
+  accessToken?: string;
 }
 
 export default function DocumentApproval({
@@ -38,6 +39,7 @@ export default function DocumentApproval({
   confirmedByPosition,
   mutate,
   slug,
+  accessToken,
 }: DocumentApprovalProps) {
   const [editMode, setEditMode] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -102,6 +104,8 @@ export default function DocumentApproval({
       setLoading(true);
       const api = new Api();
       api.url = `document/update/approval/${slug}`;
+      api.auth = true;
+      api.token = accessToken ?? "";
       api.method = "PATCH";
       api.type = "json";
       api.body = {

@@ -10,6 +10,7 @@ interface DeleteModalProps {
   open: boolean;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
   selectedDocument: Document | null | undefined;
+  accessToken?: string;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   mutate: KeyedMutator<any>;
 }
@@ -19,6 +20,7 @@ export default function DeleteModal({
   setOpen,
   mutate,
   selectedDocument,
+  accessToken,
 }: DeleteModalProps) {
   const [loading, setLoading] = useState(false);
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -32,6 +34,8 @@ export default function DeleteModal({
 
     const api = new Api();
     api.method = "DELETE";
+    api.auth = true;
+    api.token = accessToken ?? "";
     api.url = `document/delete/${selectedDocument?.id}`;
 
     try {

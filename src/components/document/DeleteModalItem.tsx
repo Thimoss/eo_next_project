@@ -10,6 +10,7 @@ interface DeleteModalProps {
   open: boolean;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
   selectedOldItemJob: ItemJobSection | null | undefined;
+  accessToken?: string;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   mutate: KeyedMutator<any>;
 }
@@ -19,6 +20,7 @@ export default function DeleteModalItem({
   setOpen,
   mutate,
   selectedOldItemJob,
+  accessToken,
 }: DeleteModalProps) {
   const [loading, setLoading] = useState(false);
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -33,6 +35,8 @@ export default function DeleteModalItem({
     const api = new Api();
     api.method = "DELETE";
     api.url = `item-job-section/delete/${selectedOldItemJob?.id}`;
+    api.auth = true;
+    api.token = accessToken ?? "";
 
     try {
       const res = await api.call();

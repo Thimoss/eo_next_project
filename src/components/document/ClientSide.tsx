@@ -11,11 +11,20 @@ import CreateModalItem from "./CreateModalItem";
 import UpdateModalItem from "./UpdateModalItem";
 import DeleteModalItem from "./DeleteModalItem";
 import DocumentApproval from "./DocumentApproval";
+import { UserSession } from "../../../types/Session.type";
 
 interface DetailDocumentProps {
   slug: string;
+  session?: UserSession | null;
+  accessToken?: string;
 }
-export default function ClientSide({ slug }: DetailDocumentProps) {
+export default function ClientSide({
+  slug,
+  session,
+  accessToken,
+}: DetailDocumentProps) {
+  const validSession = session ?? undefined;
+  const validAccessToken = accessToken ?? "";
   const {
     dataDetail,
     isLoadingDetail,
@@ -56,7 +65,11 @@ export default function ClientSide({ slug }: DetailDocumentProps) {
     selectedIdItemJob,
     setSelectedIdItemJob,
     handleDeleteItemJob,
-  } = UseDetailDocument({ slug });
+  } = UseDetailDocument({
+    slug,
+    session: validSession,
+    accessToken: validAccessToken,
+  });
 
   return (
     <>
@@ -71,6 +84,7 @@ export default function ClientSide({ slug }: DetailDocumentProps) {
               job={dataDetail.job}
               slug={slug}
               mutate={mutateDetail}
+              accessToken={accessToken}
             />
             <Table
               handleCreateSection={handleCreateSection}
@@ -81,6 +95,7 @@ export default function ClientSide({ slug }: DetailDocumentProps) {
               handleDeleteItemJob={handleDeleteItemJob}
               dataDetail={dataDetail}
               mutateDetail={mutateDetail}
+              accessToken={accessToken}
             />
             <DocumentApproval
               recapitulationLocation={dataDetail.recapitulationLocation}
@@ -92,6 +107,7 @@ export default function ClientSide({ slug }: DetailDocumentProps) {
               preparedByName={dataDetail.preparedByName}
               mutate={mutateDetail}
               slug={slug}
+              accessToken={accessToken}
             />
           </div>
           <CreateModalSection
@@ -99,6 +115,7 @@ export default function ClientSide({ slug }: DetailDocumentProps) {
             open={openCreateSection}
             setOpen={setOpenCreateSection}
             documentId={dataDetail?.id}
+            accessToken={accessToken}
           />
           <UpdateModalSection
             open={openUpdateSection}
@@ -106,12 +123,14 @@ export default function ClientSide({ slug }: DetailDocumentProps) {
             mutate={mutateDetail}
             selectedJobSection={selectedJobSection}
             documentId={dataDetail?.id}
+            accessToken={accessToken}
           />
           <DeleteModalSection
             open={openDeleteSection}
             setOpen={setOpenDeleteSection}
             mutate={mutateDetail}
             selectedJobSection={selectedJobSection}
+            accessToken={accessToken}
           />
           <CreateModalItem
             open={openCreateItem}
@@ -131,6 +150,7 @@ export default function ClientSide({ slug }: DetailDocumentProps) {
             volume={volume}
             itemRef={itemRef}
             selectedJobSection={selectedJobSection}
+            accessToken={accessToken}
           />
           <UpdateModalItem
             open={openUpdateItem}
@@ -154,12 +174,14 @@ export default function ClientSide({ slug }: DetailDocumentProps) {
             setSelectedOldItemJob={setSelectedOldItemJob}
             selectedIdItemJob={selectedIdItemJob}
             setSelectedIdItemJob={setSelectedIdItemJob}
+            accessToken={accessToken}
           />
           <DeleteModalItem
             mutate={mutateDetail}
             open={openDeleteItem}
             setOpen={setOpenDeleteItem}
             selectedOldItemJob={selectedOldItemJob}
+            accessToken={accessToken}
           />
         </>
       ) : (

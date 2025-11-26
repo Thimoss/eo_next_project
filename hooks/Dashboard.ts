@@ -3,6 +3,12 @@ import Api from "../service/Api";
 import useSWR from "swr";
 import { useRouter } from "nextjs-toploader/app";
 import { Document } from "../types/Documents.type";
+import { UserSession } from "../types/Session.type";
+
+interface UseListUsersProps {
+  accessToken?: string;
+  session?: UserSession;
+}
 
 export interface SortByDataProps {
   value: string;
@@ -28,7 +34,7 @@ export const sortByList = [
   },
 ];
 
-export const useDashboard = () => {
+export const useDashboard = ({ accessToken }: UseListUsersProps) => {
   const route = useRouter();
   const [sortBy, setSortBy] = useState<SortByDataProps>(sortByList[0]);
   const [isSortByOpen, setIsSortByOpen] = useState(false);
@@ -40,6 +46,8 @@ export const useDashboard = () => {
   const fetcher = async (url: string, sortBy: string) => {
     const api = new Api();
     api.url = url;
+    api.auth = true;
+    api.token = accessToken ?? "";
     api.method = "GET";
     api.body = {
       sortBy,

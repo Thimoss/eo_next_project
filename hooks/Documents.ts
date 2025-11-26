@@ -3,11 +3,18 @@ import Api from "../service/Api";
 import { useEffect, useRef, useState } from "react";
 import { Item } from "../types/ItemsJob.type";
 import { ItemJobSection, JobSection } from "../types/Documents.type";
+import { UserSession } from "../types/Session.type";
 
 interface UseDetailDocumentProps {
   slug: string;
+  accessToken?: string;
+  session?: UserSession;
 }
-export const UseDetailDocument = ({ slug }: UseDetailDocumentProps) => {
+export const UseDetailDocument = ({
+  slug,
+  session,
+  accessToken,
+}: UseDetailDocumentProps) => {
   const [openCreateSection, setOpenCreateSection] = useState(false);
   const [openDeleteSection, setOpenDeleteSection] = useState(false);
   const [openUpdateSection, setOpenUpdateSection] = useState(false);
@@ -28,6 +35,8 @@ export const UseDetailDocument = ({ slug }: UseDetailDocumentProps) => {
   const fetcherDetail = async (url: string, slug: string) => {
     const api = new Api();
     api.url = url + slug;
+    api.auth = true;
+    api.token = accessToken ?? "";
     api.method = "GET";
 
     const response = await api.call();

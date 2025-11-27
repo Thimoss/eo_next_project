@@ -16,6 +16,7 @@ interface DocumentInfformationProps {
   location: string;
   base: string;
   slug: string;
+  accessToken?: string;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   mutate: KeyedMutator<any>;
 }
@@ -26,6 +27,7 @@ export default function DocumentInformation({
   base,
   slug,
   mutate,
+  accessToken,
 }: DocumentInfformationProps) {
   const [editMode, setEditMode] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -56,6 +58,8 @@ export default function DocumentInformation({
       setLoading(true);
       const api = new Api();
       api.url = `document/update/general-info/${slug}`;
+      api.auth = true;
+      api.token = accessToken ?? "";
       api.method = "PATCH";
       api.type = "json";
       api.body = {

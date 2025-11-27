@@ -22,10 +22,3 @@ export type JwtPayload = {
   iat: number;
   exp: number;
 };
-
-export type SavedSession = {
-  user: UserSession;
-  accessToken: string;
-  iat: number;
-  exp: number;
-};

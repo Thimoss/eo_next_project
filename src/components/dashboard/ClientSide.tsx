@@ -10,8 +10,16 @@ import { FaPlus } from "react-icons/fa";
 import CreateModal from "./CreateModal";
 import UpdateModal from "./UpdateModal";
 import DeleteModal from "./DeleteModal";
+import { UserSession } from "../../../types/Session.type";
 
-export default function ClientSide() {
+interface ClientSideProps {
+  session?: UserSession | null;
+  accessToken?: string;
+}
+
+export default function ClientSide({ session, accessToken }: ClientSideProps) {
+  const validSession = session ?? undefined;
+  const validAccessToken = accessToken ?? "";
   const {
     data,
     isLoading,
@@ -31,7 +39,7 @@ export default function ClientSide() {
     setOpenDelete,
     handleEdit,
     handleDelete,
-  } = useDashboard();
+  } = useDashboard({ session: validSession, accessToken: validAccessToken });
 
   return (
     <>
@@ -86,18 +94,25 @@ export default function ClientSide() {
           <EmptyData />
         )}
       </div>
-      <CreateModal open={openCreate} setOpen={setOpenCreate} mutate={mutate} />
+      <CreateModal
+        open={openCreate}
+        setOpen={setOpenCreate}
+        mutate={mutate}
+        accessToken={accessToken}
+      />
       <UpdateModal
         open={openEdit}
         setOpen={setOpenEdit}
         mutate={mutate}
         selectedDocument={selectedDocument}
+        accessToken={accessToken}
       />
       <DeleteModal
         open={openDelete}
         setOpen={setOpenDelete}
         mutate={mutate}
         selectedDocument={selectedDocument}
+        accessToken={accessToken}
       />
     </>
   );

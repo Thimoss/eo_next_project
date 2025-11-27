@@ -4,6 +4,7 @@ import { useForm } from "react-hook-form";
 import Api from "../../../service/Api";
 import { toast } from "react-toastify";
 import { CgSpinner } from "react-icons/cg";
+import { KeyedMutator } from "swr";
 
 interface FormData {
   name: string;
@@ -13,15 +14,17 @@ interface FormData {
 interface CreateModalProps {
   open: boolean;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
-
-  // mutate: KeyedMutator<any>;
+  accessToken?: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  mutate: KeyedMutator<any>;
 }
 
 export default function CreateModal({
   open,
   setOpen,
-}: // mutate,
-CreateModalProps) {
+  mutate,
+  accessToken,
+}: CreateModalProps) {
   const [loading, setLoading] = useState(false);
   const {
     // control,
@@ -37,7 +40,9 @@ CreateModalProps) {
       setLoading(true);
 
       const api = new Api();
-      api.url = "category/create";
+      api.auth = true;
+      api.token = accessToken ?? "";
+      api.url = "users/create";
       api.method = "POST";
       api.type = "json";
       api.body = {
@@ -51,7 +56,7 @@ CreateModalProps) {
       if (response.statusCode === 200) {
         toast.success(response.message);
         setOpen(false);
-        // mutate();
+        mutate();
         reset();
       } else {
         if (response.message && Array.isArray(response.message)) {
@@ -109,7 +114,7 @@ CreateModalProps) {
                 htmlFor="email"
                 className="block text-sm font-medium text-gray-600"
               >
-                Kode Kategori
+                Email
               </label>
               <span className="text-sm font-medium text-primaryRed">*</span>
             </div>
@@ -130,7 +135,7 @@ CreateModalProps) {
                 htmlFor="phoneNumber "
                 className="block text-sm font-medium text-gray-600"
               >
-                Referensi
+                Nomor Telepon
               </label>
               <span className="text-sm font-medium text-primaryRed">*</span>
             </div>

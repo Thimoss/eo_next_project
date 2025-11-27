@@ -29,6 +29,7 @@ interface CreateModalProps {
   volume: number;
   itemRef: React.RefObject<HTMLDivElement | null>;
   selectedJobSection: JobSection | null | undefined;
+  accessToken?: string;
 }
 
 export default function CreateModalItem({
@@ -49,6 +50,7 @@ export default function CreateModalItem({
   volume,
   itemRef,
   selectedJobSection,
+  accessToken,
 }: CreateModalProps) {
   const [loading, setLoading] = useState(false);
 
@@ -57,6 +59,8 @@ export default function CreateModalItem({
       setLoading(true);
       const api = new Api();
       api.url = "item-job-section/create";
+      api.auth = true;
+      api.token = accessToken ?? "";
       api.method = "POST";
       api.type = "json";
       api.body = {

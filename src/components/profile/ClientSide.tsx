@@ -17,6 +17,9 @@ export default function ClientSide({ session, accessToken }: ClientSideProps) {
     handleInputChange,
     profileData,
     updateProfile,
+    handlePasswordChange,
+    updatePassword,
+    passwords,
   } = useProfile({
     accessToken: accessToken!,
     session: session!,
@@ -122,10 +125,11 @@ export default function ClientSide({ session, accessToken }: ClientSideProps) {
           Ganti Kata Sandi
         </h2>
         <div className="mt-6">
+          {/* Current Password */}
           <div className="flex flex-col gap-2">
             <div className="flex items-center gap-2">
               <label
-                htmlFor="currentPassword"
+                htmlFor="oldPassword"
                 className="block text-sm font-medium text-gray-600"
               >
                 Kata Sandi Saat Ini
@@ -135,12 +139,14 @@ export default function ClientSide({ session, accessToken }: ClientSideProps) {
             <input
               type="password"
               id="currentPassword"
-              // defaultValue={passwords.currentPassword}
-              // onChange={(e) => handlePasswordChange(e, "currentPassword")}
+              value={passwords.oldPassword}
+              minLength={6}
+              onChange={(e) => handlePasswordChange(e, "oldPassword")}
               className="text-sm block w-full px-4 py-2 rounded-md border border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-primaryBlue focus:border-primaryBlue text-gray-700"
             />
           </div>
 
+          {/* New Password */}
           <div className="flex flex-col gap-2 mt-4">
             <div className="flex items-center gap-2">
               <label
@@ -154,12 +160,14 @@ export default function ClientSide({ session, accessToken }: ClientSideProps) {
             <input
               type="password"
               id="newPassword"
-              // defaultValue={passwords.newPassword}
-              // onChange={(e) => handlePasswordChange(e, "newPassword")}
+              value={passwords.newPassword}
+              minLength={6}
+              onChange={(e) => handlePasswordChange(e, "newPassword")}
               className="text-sm block w-full px-4 py-2 rounded-md border border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-primaryBlue focus:border-primaryBlue text-gray-700"
             />
           </div>
 
+          {/* Confirm New Password */}
           <div className="flex flex-col gap-2 mt-4">
             <div className="flex items-center gap-2">
               <label
@@ -173,24 +181,20 @@ export default function ClientSide({ session, accessToken }: ClientSideProps) {
             <input
               type="password"
               id="confirmNewPassword"
-              // defaultValue={passwords.confirmPassword}
-              // onChange={(e) => handlePasswordChange(e, "confirmPassword")}
+              value={passwords.confirmNewPassword}
+              minLength={6}
+              onChange={(e) => handlePasswordChange(e, "confirmNewPassword")}
               className="text-sm block w-full px-4 py-2 rounded-md border border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-primaryBlue focus:border-primaryBlue text-gray-700"
             />
           </div>
 
+          {/* Submit Button */}
           <div className="mt-6 flex justify-end">
             <button
-              type="submit"
-              //  disabled={loading || (!selectedNewItemJob && !selectedOldItemJob)}
-              //  onClick={updateItem}
-              className="text-sm px-4 py-2 bg-primaryBlue text-white font-bold rounded-md hover:bg-primaryBlueDarker disabled:bg-primaryBlueLighter transition duration-300 ease-in-out cursor-pointer flex items-center gap-2 shadow-sm"
+              type="button"
+              onClick={updatePassword}
+              className="text-sm px-4 py-2 bg-primaryBlue text-white font-bold rounded-md hover:bg-primaryBlueDarker transition duration-300 ease-in-out cursor-pointer flex items-center gap-2 shadow-sm"
             >
-              {/* {loading && (
-                           <div>
-                             <CgSpinner className="w-3 h-3 text-center animate-spin" />
-                           </div>
-                         )} */}
               Ganti Kata Sandi
             </button>
           </div>

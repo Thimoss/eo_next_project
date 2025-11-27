@@ -1,14 +1,14 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
 import React, { useState } from "react";
+import { UserSession } from "../../../types/Session.type";
 
-export default function ClientSide() {
-  const [user, setUser] = useState({
-    name: "John Doe",
-    email: "johndoe@example.com",
-    phone: "+1234567890",
-  });
+interface ClientSideProps {
+  session?: UserSession | null;
+  accessToken?: string;
+}
 
+export default function ClientSide({ session, accessToken }: ClientSideProps) {
   const [passwords, setPasswords] = useState({
     currentPassword: "",
     newPassword: "",
@@ -20,34 +20,6 @@ export default function ClientSide() {
     email: false,
     phone: false,
   });
-
-  const handleInputChange = (e: any, field: any) => {
-    setUser((prev) => ({
-      ...prev,
-      [field]: e.target.value,
-    }));
-  };
-
-  const handlePasswordChange = (e: any, field: any) => {
-    setPasswords((prev) => ({
-      ...prev,
-      [field]: e.target.value,
-    }));
-  };
-
-  // Fungsi untuk menyimpan perubahan
-  //   const handleSaveChanges = () => {
-  //     alert("Changes saved!");
-  //   };
-
-  // Fungsi untuk menyimpan perubahan password
-  //   const handleChangePassword = () => {
-  //     if (passwords.newPassword !== passwords.confirmPassword) {
-  //       alert("New passwords do not match");
-  //     } else {
-  //       alert("Password changed successfully!");
-  //     }
-  //   };
 
   return (
     <div className="max-w-4xl mx-auto p-6 bg-white shadow-lg rounded-lg">
@@ -75,12 +47,12 @@ export default function ClientSide() {
                   type="text"
                   id="name"
                   autoComplete="off"
-                  value={user.name}
-                  onChange={(e) => handleInputChange(e, "name")}
+                  defaultValue={session?.name}
+                  // onChange={(e) => handleInputChange(e, "name")}
                   className="text-sm block w-full px-4 py-2 rounded-md border border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-primaryBlue focus:border-primaryBlue text-gray-700"
                 />
               ) : (
-                <p className="text-gray-700 text-sm">{user.name}</p>
+                <p className="text-gray-700 text-sm">{session?.name}</p>
               )}
             </div>
 
@@ -113,12 +85,12 @@ export default function ClientSide() {
                 <input
                   type="email"
                   id="email"
-                  value={user.email}
-                  onChange={(e) => handleInputChange(e, "email")}
+                  defaultValue={session?.email}
+                  // onChange={(e) => handleInputChange(e, "email")}
                   className="text-sm block w-full px-4 py-2 rounded-md border border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-primaryBlue focus:border-primaryBlue text-gray-700"
                 />
               ) : (
-                <p className="text-gray-700 text-sm">{user.email}</p>
+                <p className="text-gray-700 text-sm">{session?.email}</p>
               )}
             </div>
 
@@ -150,12 +122,12 @@ export default function ClientSide() {
               {isEditing.phone ? (
                 <input
                   type="text"
-                  value={user.phone}
-                  onChange={(e) => handleInputChange(e, "phone")}
+                  defaultValue={session?.phoneNumber}
+                  // onChange={(e) => handleInputChange(e, "phone")}
                   className="text-sm block w-full px-4 py-2 rounded-md border border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-primaryBlue focus:border-primaryBlue text-gray-700"
                 />
               ) : (
-                <p className="text-gray-700 text-sm">{user.phone}</p>
+                <p className="text-gray-700 text-sm">{session?.phoneNumber}</p>
               )}
             </div>
 
@@ -190,8 +162,8 @@ export default function ClientSide() {
             <input
               type="password"
               id="currentPassword"
-              value={passwords.currentPassword}
-              onChange={(e) => handlePasswordChange(e, "currentPassword")}
+              defaultValue={passwords.currentPassword}
+              // onChange={(e) => handlePasswordChange(e, "currentPassword")}
               className="text-sm block w-full px-4 py-2 rounded-md border border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-primaryBlue focus:border-primaryBlue text-gray-700"
             />
           </div>
@@ -209,8 +181,8 @@ export default function ClientSide() {
             <input
               type="password"
               id="newPassword"
-              value={passwords.newPassword}
-              onChange={(e) => handlePasswordChange(e, "newPassword")}
+              defaultValue={passwords.newPassword}
+              // onChange={(e) => handlePasswordChange(e, "newPassword")}
               className="text-sm block w-full px-4 py-2 rounded-md border border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-primaryBlue focus:border-primaryBlue text-gray-700"
             />
           </div>
@@ -228,8 +200,8 @@ export default function ClientSide() {
             <input
               type="password"
               id="confirmNewPassword"
-              value={passwords.confirmPassword}
-              onChange={(e) => handlePasswordChange(e, "confirmPassword")}
+              defaultValue={passwords.confirmPassword}
+              // onChange={(e) => handlePasswordChange(e, "confirmPassword")}
               className="text-sm block w-full px-4 py-2 rounded-md border border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-primaryBlue focus:border-primaryBlue text-gray-700"
             />
           </div>

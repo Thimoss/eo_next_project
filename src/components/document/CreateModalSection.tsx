@@ -16,6 +16,7 @@ interface CreateModalProps {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   mutate: KeyedMutator<any>;
   documentId: number;
+  accessToken?: string;
 }
 
 export default function CreateModalSection({
@@ -23,6 +24,7 @@ export default function CreateModalSection({
   setOpen,
   mutate,
   documentId,
+  accessToken,
 }: CreateModalProps) {
   const [loading, setLoading] = useState(false);
   const {
@@ -39,6 +41,8 @@ export default function CreateModalSection({
       setLoading(true);
       const api = new Api();
       api.url = "job-section/create";
+      api.auth = true;
+      api.token = accessToken ?? "";
       api.method = "POST";
       api.type = "json";
       api.body = {

@@ -3,8 +3,7 @@
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import Api from "../../service/Api";
-
-import { JwtPayload, SavedSession } from "../../types/Session.type";
+import { JwtPayload } from "../../types/Session.type";
 
 type LoginFormState = {
   error?: string;
@@ -36,46 +35,28 @@ export async function login(
     const accessToken = response.access_token as string | undefined;
 
     if (!accessToken) {
-      return { error: "Token tidak ditemukan dalam response" };
+      console.error("Gagal menerima token dari server.");
+      return {};
     }
-
-    const apiGet = new Api();
-    apiGet.auth = true;
-    apiGet.token = accessToken;
-    apiGet.method = "GET";
-    apiGet.url = "auth/profile";
-
-    const res = await apiGet.call();
-    if (res.statusCode !== 200) {
-      return { error: res.message ?? "Gagal mengambil profil user" };
-    }
-
-    const user = res.data;
 
     const parts = accessToken.split(".");
     if (parts.length !== 3) {
-      return { error: "Token tidak valid" };
+      console.error("Token tidak valid");
+      return {};
     }
 
     const payload = JSON.parse(
       Buffer.from(parts[1], "base64").toString("utf-8")
     ) as JwtPayload;
 
-    const sessionData: SavedSession = {
-      user,
-      accessToken,
-      iat: payload.iat,
-      exp: payload.exp,
-    };
-
-    const cookieStore = await cookies();
-
     const maxAge =
       payload.exp && payload.iat && payload.exp > payload.iat
         ? payload.exp - payload.iat
         : undefined;
 
-    cookieStore.set("session", JSON.stringify(sessionData), {
+    const cookieStore = await cookies();
+
+    cookieStore.set("accessToken", accessToken, {
       httpOnly: true,
       secure: true,
       sameSite: "lax",
@@ -92,6 +73,6 @@ export async function login(
 
 export async function logout() {
   const cookieStore = await cookies();
-  cookieStore.delete("session");
+  cookieStore.delete("accessToken");
   redirect("/login");
 }

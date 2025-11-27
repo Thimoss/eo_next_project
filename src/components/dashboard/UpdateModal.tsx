@@ -13,6 +13,7 @@ interface FormData {
 interface UpdateModalProps {
   open: boolean;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  accessToken?: string;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   mutate: KeyedMutator<any>;
   selectedDocument: Document | null | undefined;
@@ -23,6 +24,7 @@ export default function UpdateModal({
   setOpen,
   mutate,
   selectedDocument,
+  accessToken,
 }: UpdateModalProps) {
   const [loading, setLoading] = useState(false);
   const {
@@ -48,6 +50,8 @@ export default function UpdateModal({
       setLoading(true);
 
       const api = new Api();
+      api.auth = true;
+      api.token = accessToken ?? "";
       api.url = `document/update/${selectedDocument?.id}`;
       api.method = "PATCH";
       api.type = "json";

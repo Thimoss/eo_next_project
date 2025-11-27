@@ -31,6 +31,7 @@ interface TableProps {
   handleDeleteItemJob: (item: ItemJobSection) => Promise<void>;
   dataDetail: Document;
   mutateDetail: KeyedMutator<any>;
+  accessToken?: string;
 }
 
 export default function Table({
@@ -42,6 +43,7 @@ export default function Table({
   handleDeleteItemJob,
   dataDetail,
   mutateDetail,
+  accessToken,
 }: TableProps) {
   const [editMode, setEditMode] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -74,6 +76,8 @@ export default function Table({
       setLoading(true);
       const api = new Api();
       api.url = `document/update/percentage/${dataDetail.slug}`;
+      api.auth = true;
+      api.token = accessToken ?? "";
       api.method = "PATCH";
       api.type = "json";
 

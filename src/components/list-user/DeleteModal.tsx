@@ -1,26 +1,26 @@
 import React, { useState } from "react";
+import Modal from "../global/Modal";
 import Api from "../../../service/Api";
 import { toast } from "react-toastify";
-import Modal from "../global/Modal";
 import { CgSpinner } from "react-icons/cg";
 import { KeyedMutator } from "swr";
-import { JobSection } from "../../../types/Documents.type";
+import { UserSession } from "../../../types/Session.type";
 
 interface DeleteModalProps {
   open: boolean;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  selectedJobSection: JobSection | null | undefined;
+  selectedUser?: UserSession;
   accessToken?: string;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   mutate: KeyedMutator<any>;
 }
 
-export default function DeleteModalSection({
+export default function DeleteModal({
   open,
   setOpen,
-  mutate,
-  selectedJobSection,
+  selectedUser,
   accessToken,
+  mutate,
 }: DeleteModalProps) {
   const [loading, setLoading] = useState(false);
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -36,7 +36,7 @@ export default function DeleteModalSection({
     api.method = "DELETE";
     api.auth = true;
     api.token = accessToken ?? "";
-    api.url = `job-section/delete/${selectedJobSection?.id}`;
+    api.url = `users/remove/${selectedUser?.id}`;
 
     try {
       const res = await api.call();
@@ -46,7 +46,7 @@ export default function DeleteModalSection({
         mutate();
         setOpen(false);
       } else {
-        toast.error(res.message || "Gagal menghapus job section. Coba lagi.");
+        toast.error(res.message || "Gagal menghapus pengguna. Coba lagi.");
       }
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
@@ -62,17 +62,17 @@ export default function DeleteModalSection({
     <Modal onClose={() => setOpen(false)} open={open}>
       <div className="flex flex-col gap-6">
         <span className="text-xl text-gray-700 font-bold text-left">
-          Hapus Sektor Pekerjaan
+          Hapus Pengguna
         </span>
         <div className="flex flex-col gap-6">
           <p className="text-sm text-gray-700">
             Apakah Anda yakin ingin menghapus{" "}
-            <strong>{selectedJobSection?.name}</strong>?
+            <strong>{selectedUser?.name}</strong>?
           </p>
 
           <div
             className="flex gap-5 justify-end
-                  "
+          "
           >
             <button
               onClick={() => setOpen(false)}

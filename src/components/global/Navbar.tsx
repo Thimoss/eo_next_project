@@ -1,45 +1,65 @@
 "use client";
 import Image from "next/image";
 import Link from "next/link";
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
+import { UserSession } from "../../../types/Session.type";
+import { IoClose, IoMenu } from "react-icons/io5";
+import { logout } from "@/actions/auth";
 
-export default function Navbar() {
-  // const [isOpen, setIsOpen] = useState(false);
+interface NavbarProps {
+  session?: UserSession | null;
+}
 
-  // const dropdownRef = useRef(null);
-  // const avatarRef = useRef(null);
+const getInitials = (name: string) => {
+  const words = name.split(" ");
+  const initials = words.map((word) => word.charAt(0).toUpperCase()).join("");
+  return initials.slice(0, 1);
+};
 
-  // const toggleMenu = () => {
-  //   setIsOpen(!isOpen);
-  // };
+export default function Navbar({ session }: NavbarProps) {
+  const initials = getInitials(session?.name ?? "");
 
-  // const handleLogout = () => {};
+  const [isOpen, setIsOpen] = useState(false);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
-  // const handleProfile = () => {};
+  const dropdownRef = useRef<HTMLDivElement | null>(null);
+  const avatarRef = useRef<HTMLDivElement | null>(null);
 
-  // useEffect(() => {
-  //   const handleClickOutside = (e) => {
-  //     if (
-  //       dropdownRef.current &&
-  //       !dropdownRef.current.contains(e.target) &&
-  //       avatarRef.current &&
-  //       !avatarRef.current.contains(e.target)
-  //     ) {
-  //       setIsOpen(false);
-  //     }
-  //   };
+  const toggleMenu = () => {
+    setIsOpen(!isOpen);
+  };
 
-  //   document.addEventListener("mousedown", handleClickOutside);
+  const toggleSidebar = () => {
+    setIsSidebarOpen(!isSidebarOpen);
+  };
 
-  //   return () => {
-  //     document.removeEventListener("mousedown", handleClickOutside);
-  //   };
-  // }, []);
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(e.target as Node) &&
+        avatarRef.current &&
+        !avatarRef.current.contains(e.target as Node)
+      ) {
+        setIsOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
+  const handleLogout = async () => {
+    await logout();
+  };
 
   return (
-    <header className="w-full bg-white py-5 sticky top-0 z-50 shadow-sm ">
+    <header className="w-full bg-white py-5 sticky top-0 z-50 shadow-sm">
       <div className="container mx-auto px-4 md:px-0 flex items-center justify-between">
-        <div className="flex items-center gap-10">
+        <div className="flex items-center justify-between md:justify-start gap-10 w-full md:w-auto">
           <div>
             <Link href={"/"}>
               <Image
@@ -52,54 +72,115 @@ export default function Navbar() {
               />
             </Link>
           </div>
-          <div className="text-black hover:text-primaryBlue text-sm hover:underline font-semibold">
-            <Link href={"/"}>Dashboard</Link>
+
+          {/* Desktop Navigation */}
+          <div className="hidden md:flex items-center gap-5">
+            <div className="text-black hover:text-primaryBlue text-sm hover:underline font-semibold">
+              <Link href={"/"}>Dashboard</Link>
+            </div>
+            <div className="text-black hover:text-primaryBlue text-sm hover:underline font-semibold">
+              <Link href={"/list-category"}>Kategori</Link>
+            </div>
+            <div className="text-black hover:text-primaryBlue text-sm hover:underline font-semibold">
+              <Link href={"/list-user"}>Daftar Pengguna</Link>
+            </div>
           </div>
-          <div className="text-black hover:text-primaryBlue text-sm hover:underline font-semibold">
-            <Link href={"/list-category"}>Kategori</Link>
+
+          {/* Hamburger Button (Mobile) */}
+          <div className="md:hidden flex items-center">
+            <button
+              onClick={toggleSidebar}
+              className="text-black focus:outline-none cursor-pointer rounded-md hover:bg-gray-200 text-2xl p-2 transition duration-300 ease-in-out"
+            >
+              <IoMenu />
+            </button>
           </div>
         </div>
-        <div>
-          {/* <div className="flex items-center gap-2 text-xs">
-            <h1 className="text-sm font-normal text-gray-700">User Example</h1>
+
+        <div className="hidden md:flex">
+          <div className="flex items-center gap-2 text-xs">
+            <h1 className="text-sm font-normal text-gray-700">
+              {session?.name}
+            </h1>
 
             <div className="relative">
               <div
                 ref={avatarRef}
                 onClick={toggleMenu}
-                className=" aspect-square rounded-full flex items-center justify-center h-[40px] border-2 border-primaryBlue overflow-hidden cursor-pointer"
+                className="aspect-square bg-primaryBlue rounded-full flex items-center justify-center h-[40px] border-2 border-primaryBlueLighter overflow-hidden cursor-pointer text-white text-center text-xl"
               >
-                <Image
-                  draggable={false}
-                  src="https://picsum.photos/37/37"
-                  alt="Avatar"
-                  width={40}
-                  height={40}
-                />
+                {initials}
               </div>
-              <div
-                ref={dropdownRef} // Referensi untuk menu dropdown
-                className={`absolute bg-white text-sm font-semibold px-4 py-2 right-0 shadow-sm rounded-md space-y-1 text-left w-40 transition-all duration-500 ease-in-out transform ${
-                  isOpen
-                    ? "opacity-100 translate-y-0"
-                    : "opacity-0 translate-y-2"
-                }`}
-              >
+              {isOpen && (
                 <div
-                  className="px-4 py-2 cursor-pointer transition duration-300 hover:bg-gray-100 rounded-md"
-                  onClick={handleProfile} // Menangani klik pada "Profil"
+                  ref={dropdownRef}
+                  className="absolute bg-white text-sm font-semibold px-4 py-2 right-0 shadow-sm rounded-md space-y-1 text-left w-40"
                 >
-                  Profil
+                  <Link href={"/profile"}>
+                    <div className="px-4 py-2 cursor-pointer transition duration-300 hover:bg-gray-100 rounded-md">
+                      Profil
+                    </div>
+                  </Link>
+
+                  <div
+                    onClick={handleLogout}
+                    className="px-4 text-primaryRed py-2 cursor-pointer transition duration-300 hover:bg-gray-100 rounded-md"
+                  >
+                    Keluar
+                  </div>
                 </div>
-                <div
-                  className="px-4 text-primaryRed py-2 cursor-pointer transition duration-300 hover:bg-gray-100 rounded-md"
-                  onClick={handleLogout} // Menangani klik pada "Logout"
-                >
-                  Logout
-                </div>
-              </div>
+              )}
             </div>
-          </div> */}
+          </div>
+        </div>
+      </div>
+
+      {/* Sidebar (Mobile) */}
+      <div
+        className={`fixed top-0 right-0 bg-white w-64 h-full shadow-md transform transition-transform duration-300 ${
+          isSidebarOpen ? "translate-x-0" : "translate-x-full"
+        } md:hidden`}
+      >
+        <div className="flex flex-col p-5 gap-5">
+          <div>
+            <button
+              onClick={toggleSidebar}
+              className="text-black focus:outline-none cursor-pointer rounded-md hover:bg-gray-200 text-2xl p-2 transition duration-300 ease-in-out"
+            >
+              <IoClose />
+            </button>
+          </div>
+
+          <Link href={"/profile"}>
+            <div className="flex items-center gap-2 cursor-pointer rounded-md p-2 hover:bg-gray-200 transition duration-300 ease-in-out">
+              <div className="aspect-square bg-primaryBlue rounded-full flex items-center justify-center h-[40px] border-2 border-primaryBlueLighter overflow-hidden cursor-pointer text-white text-center text-xl">
+                {initials}
+              </div>
+              <h1 className="font-normal text-gray-700">{session?.name}</h1>
+            </div>
+          </Link>
+          <Link href={"/"}>
+            <div className="flex items-center gap-2 cursor-pointer rounded-md p-2 hover:bg-gray-200 transition duration-300 ease-in-out">
+              <h1 className=" font-normal text-gray-700">Dashboard</h1>
+            </div>
+          </Link>
+          <Link href={"/list-category"}>
+            <div className="flex items-center gap-2 cursor-pointer rounded-md p-2 hover:bg-gray-200 transition duration-300 ease-in-out">
+              <h1 className=" font-normal text-gray-700">Kategori</h1>
+            </div>
+          </Link>
+          <Link href={"/list-user"}>
+            <div className="flex items-center gap-2 cursor-pointer rounded-md p-2 hover:bg-gray-200 transition duration-300 ease-in-out">
+              <h1 className=" font-normal text-gray-700">Daftar Pengguna</h1>
+            </div>
+          </Link>
+
+          <div
+            onClick={handleLogout}
+            className="flex items-center gap-2 cursor-pointer rounded-md p-2 hover:bg-gray-200 transition duration-300 ease-in-out"
+          >
+            <h1 className=" font-semibold text-primaryRed">Keluar</h1>
+          </div>
         </div>
       </div>
     </header>

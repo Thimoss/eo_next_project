@@ -12,6 +12,7 @@ interface FormData {
 interface CreateModalProps {
   open: boolean;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  accessToken?: string;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   mutate: KeyedMutator<any>;
 }
@@ -20,6 +21,7 @@ export default function CreateModal({
   open,
   setOpen,
   mutate,
+  accessToken,
 }: CreateModalProps) {
   const [loading, setLoading] = useState(false);
   const {
@@ -37,6 +39,8 @@ export default function CreateModal({
 
       const api = new Api();
       api.url = "document/create";
+      api.auth = true;
+      api.token = accessToken ?? "";
       api.method = "POST";
       api.type = "json";
       api.body = {

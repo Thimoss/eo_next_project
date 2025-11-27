@@ -1,14 +1,22 @@
 import React from "react";
 import Navbar from "./Navbar";
+import { getSession } from "../../../lib/auth";
+import { redirect } from "next/navigation";
 
 interface MasterProps {
   children: React.ReactNode;
 }
 
-export default function Master({ children }: MasterProps) {
+export default async function Master({ children }: MasterProps) {
+  const session = await getSession();
+
+  if (!session) {
+    redirect("/login");
+  }
+
   return (
     <div className="min-h-screen flex flex-col">
-      <Navbar />
+      <Navbar session={session} />
       <main className="w-full  flex-1 py-5 bg-gray-200">
         <div className="container mx-auto px-4 md:px-0">{children}</div>
       </main>

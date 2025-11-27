@@ -38,6 +38,7 @@ interface UpdateModalProps {
   setSelectedIdItemJob: React.Dispatch<
     React.SetStateAction<number | null | undefined>
   >;
+  accessToken?: string;
 }
 
 export default function UpdateModalItem({
@@ -62,6 +63,7 @@ export default function UpdateModalItem({
   selectedIdItemJob,
   setSelectedIdItemJob,
   selectedJobSection,
+  accessToken,
 }: UpdateModalProps) {
   const [loading, setLoading] = useState(false);
 
@@ -70,6 +72,8 @@ export default function UpdateModalItem({
       setLoading(true);
       const api = new Api();
       api.url = `item-job-section/update/${selectedIdItemJob}`;
+      api.auth = true;
+      api.token = accessToken ?? "";
       api.method = "PATCH";
       api.type = "json";
       api.body = {

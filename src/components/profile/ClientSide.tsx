@@ -2,6 +2,7 @@
 "use client";
 import React, { useState } from "react";
 import { UserSession } from "../../../types/Session.type";
+import { useProfile } from "../../../hooks/Profile";
 
 interface ClientSideProps {
   session?: UserSession | null;
@@ -9,137 +10,109 @@ interface ClientSideProps {
 }
 
 export default function ClientSide({ session, accessToken }: ClientSideProps) {
-  const [passwords, setPasswords] = useState({
-    currentPassword: "",
-    newPassword: "",
-    confirmPassword: "",
-  });
-
-  const [isEditing, setIsEditing] = useState({
-    name: false,
-    email: false,
-    phone: false,
+  const {
+    isLoading,
+    isEditing,
+    setIsEditing,
+    handleInputChange,
+    profileData,
+    updateProfile,
+  } = useProfile({
+    accessToken: accessToken!,
+    session: session!,
   });
 
   return (
     <div className="max-w-4xl mx-auto p-6 bg-white shadow-lg rounded-lg">
       {/* General Information */}
-      <div>
-        <h2 className="text-xl font-semibold text-gray-700">Informasi Umum</h2>
-        <div className="mt-6">
-          <div className="flex justify-between items-center">
-            <div className="flex flex-col gap-2">
-              <div className="flex items-center gap-2">
-                <label
-                  htmlFor="name"
-                  className="block text-sm font-medium text-gray-600"
-                >
-                  Nama
-                </label>
-                {isEditing.name && (
-                  <span className="text-sm font-semibold text-primaryRed">
-                    *
-                  </span>
-                )}
-              </div>
-              {isEditing.name ? (
-                <input
-                  type="text"
-                  id="name"
-                  autoComplete="off"
-                  defaultValue={session?.name}
-                  // onChange={(e) => handleInputChange(e, "name")}
-                  className="text-sm block w-full px-4 py-2 rounded-md border border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-primaryBlue focus:border-primaryBlue text-gray-700"
-                />
-              ) : (
-                <p className="text-gray-700 text-sm">{session?.name}</p>
-              )}
+      <div className="mt-6">
+        {/* Name */}
+        <div className="flex justify-between items-center">
+          <div className="flex flex-col gap-2">
+            <div className="flex items-center gap-2">
+              <label
+                htmlFor="name"
+                className="block text-sm font-medium text-gray-600"
+              >
+                Nama
+              </label>
             </div>
-
-            <button
-              onClick={() =>
-                setIsEditing({ ...isEditing, name: !isEditing.name })
-              }
-              className="text-blue-500 text-sm cursor-pointer"
-            >
-              {isEditing.name ? "Simpan" : "Perbarui"}
-            </button>
+            {isEditing ? (
+              <input
+                type="text"
+                id="name"
+                autoComplete="off"
+                value={profileData.name}
+                onChange={(e) => handleInputChange(e, "name")}
+                className="text-sm block w-full px-4 py-2 rounded-md border border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-primaryBlue focus:border-primaryBlue text-gray-700"
+              />
+            ) : (
+              <p className="text-gray-700 text-sm">{profileData.name}</p>
+            )}
           </div>
+        </div>
 
-          <div className="flex justify-between items-center mt-4">
-            <div className="flex flex-col gap-2">
-              <div className="flex items-center gap-2">
-                <label
-                  htmlFor="email"
-                  className="block text-sm font-medium text-gray-600"
-                >
-                  Email
-                </label>
-                {isEditing.email && (
-                  <span className="text-sm font-semibold text-primaryRed">
-                    *
-                  </span>
-                )}
-              </div>
-              {isEditing.email ? (
-                <input
-                  type="email"
-                  id="email"
-                  defaultValue={session?.email}
-                  // onChange={(e) => handleInputChange(e, "email")}
-                  className="text-sm block w-full px-4 py-2 rounded-md border border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-primaryBlue focus:border-primaryBlue text-gray-700"
-                />
-              ) : (
-                <p className="text-gray-700 text-sm">{session?.email}</p>
-              )}
+        {/* Email */}
+        <div className="flex justify-between items-center mt-4">
+          <div className="flex flex-col gap-2">
+            <div className="flex items-center gap-2">
+              <label
+                htmlFor="email"
+                className="block text-sm font-medium text-gray-600"
+              >
+                Email
+              </label>
             </div>
-
-            <button
-              onClick={() =>
-                setIsEditing({ ...isEditing, email: !isEditing.email })
-              }
-              className="text-blue-500 text-sm"
-            >
-              {isEditing.email ? "Simpan" : "Perbarui"}
-            </button>
+            {isEditing ? (
+              <input
+                type="email"
+                id="email"
+                value={profileData.email}
+                onChange={(e) => handleInputChange(e, "email")}
+                className="text-sm block w-full px-4 py-2 rounded-md border border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-primaryBlue focus:border-primaryBlue text-gray-700"
+              />
+            ) : (
+              <p className="text-gray-700 text-sm">{profileData.email}</p>
+            )}
           </div>
+        </div>
 
-          <div className="flex justify-between items-center mt-4">
-            <div className="flex flex-col gap-2">
-              <div className="flex items-center gap-2">
-                <label
-                  htmlFor="phone"
-                  className="block text-sm font-medium text-gray-600"
-                >
-                  Nomor Telepon
-                </label>
-                {isEditing.email && (
-                  <span className="text-sm font-semibold text-primaryRed">
-                    *
-                  </span>
-                )}
-              </div>
-              {isEditing.phone ? (
-                <input
-                  type="text"
-                  defaultValue={session?.phoneNumber}
-                  // onChange={(e) => handleInputChange(e, "phone")}
-                  className="text-sm block w-full px-4 py-2 rounded-md border border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-primaryBlue focus:border-primaryBlue text-gray-700"
-                />
-              ) : (
-                <p className="text-gray-700 text-sm">{session?.phoneNumber}</p>
-              )}
+        {/* Phone */}
+        <div className="flex justify-between items-center mt-4">
+          <div className="flex flex-col gap-2">
+            <div className="flex items-center gap-2">
+              <label
+                htmlFor="phone"
+                className="block text-sm font-medium text-gray-600"
+              >
+                Nomor Telepon
+              </label>
             </div>
-
-            <button
-              onClick={() =>
-                setIsEditing({ ...isEditing, phone: !isEditing.phone })
-              }
-              className="text-blue-500 text-sm"
-            >
-              {isEditing.phone ? "Simpan" : "Perbarui"}
-            </button>
+            {isEditing ? (
+              <input
+                type="text"
+                id="phone"
+                value={profileData.phoneNumber}
+                onChange={(e) => handleInputChange(e, "phoneNumber")}
+                className="text-sm block w-full px-4 py-2 rounded-md border border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-primaryBlue focus:border-primaryBlue text-gray-700"
+              />
+            ) : (
+              <p className="text-gray-700 text-sm">{profileData.phoneNumber}</p>
+            )}
           </div>
+        </div>
+
+        <div className="mt-10 flex justify-end">
+          <button
+            type="button"
+            onClick={() => {
+              if (isEditing) updateProfile(); // Jika dalam mode edit, lakukan update
+              setIsEditing(!isEditing); // Toggle mode edit
+            }}
+            className="text-sm px-4 py-2 bg-primaryBlue text-white font-bold rounded-md hover:bg-primaryBlueDarker transition duration-300 ease-in-out cursor-pointer flex items-center gap-2 shadow-sm"
+          >
+            {isEditing ? "Simpan" : "Perbarui Profil"}
+          </button>
         </div>
       </div>
 
@@ -162,7 +135,7 @@ export default function ClientSide({ session, accessToken }: ClientSideProps) {
             <input
               type="password"
               id="currentPassword"
-              defaultValue={passwords.currentPassword}
+              // defaultValue={passwords.currentPassword}
               // onChange={(e) => handlePasswordChange(e, "currentPassword")}
               className="text-sm block w-full px-4 py-2 rounded-md border border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-primaryBlue focus:border-primaryBlue text-gray-700"
             />
@@ -181,7 +154,7 @@ export default function ClientSide({ session, accessToken }: ClientSideProps) {
             <input
               type="password"
               id="newPassword"
-              defaultValue={passwords.newPassword}
+              // defaultValue={passwords.newPassword}
               // onChange={(e) => handlePasswordChange(e, "newPassword")}
               className="text-sm block w-full px-4 py-2 rounded-md border border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-primaryBlue focus:border-primaryBlue text-gray-700"
             />
@@ -200,7 +173,7 @@ export default function ClientSide({ session, accessToken }: ClientSideProps) {
             <input
               type="password"
               id="confirmNewPassword"
-              defaultValue={passwords.confirmPassword}
+              // defaultValue={passwords.confirmPassword}
               // onChange={(e) => handlePasswordChange(e, "confirmPassword")}
               className="text-sm block w-full px-4 py-2 rounded-md border border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-primaryBlue focus:border-primaryBlue text-gray-700"
             />

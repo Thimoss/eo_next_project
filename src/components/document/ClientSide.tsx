@@ -11,19 +11,12 @@ import CreateModalItem from "./CreateModalItem";
 import UpdateModalItem from "./UpdateModalItem";
 import DeleteModalItem from "./DeleteModalItem";
 import DocumentApproval from "./DocumentApproval";
-import { UserSession } from "../../../types/Session.type";
 
 interface DetailDocumentProps {
   slug: string;
-  session?: UserSession | null;
   accessToken?: string;
 }
-export default function ClientSide({
-  slug,
-  session,
-  accessToken,
-}: DetailDocumentProps) {
-  const validSession = session ?? undefined;
+export default function ClientSide({ slug, accessToken }: DetailDocumentProps) {
   const validAccessToken = accessToken ?? "";
   const {
     dataDetail,
@@ -67,7 +60,6 @@ export default function ClientSide({
     handleDeleteItemJob,
   } = UseDetailDocument({
     slug,
-    session: validSession,
     accessToken: validAccessToken,
   });
 

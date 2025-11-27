@@ -3,16 +3,13 @@ import Api from "../service/Api";
 import { useEffect, useRef, useState } from "react";
 import { Item } from "../types/ItemsJob.type";
 import { ItemJobSection, JobSection } from "../types/Documents.type";
-import { UserSession } from "../types/Session.type";
 
 interface UseDetailDocumentProps {
   slug: string;
   accessToken?: string;
-  session?: UserSession;
 }
 export const UseDetailDocument = ({
   slug,
-  session,
   accessToken,
 }: UseDetailDocumentProps) => {
   const [openCreateSection, setOpenCreateSection] = useState(false);

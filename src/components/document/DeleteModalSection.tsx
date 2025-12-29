@@ -5,6 +5,7 @@ import Modal from "../global/Modal";
 import { CgSpinner } from "react-icons/cg";
 import { KeyedMutator } from "swr";
 import { JobSection } from "../../../types/Documents.type";
+import { IoTrashOutline } from "react-icons/io5";
 
 interface DeleteModalProps {
   open: boolean;
@@ -60,36 +61,46 @@ export default function DeleteModalSection({
   };
   return (
     <Modal onClose={() => setOpen(false)} open={open}>
-      <div className="flex flex-col gap-6">
-        <span className="text-xl text-gray-700 font-bold text-left">
-          Hapus Sektor Pekerjaan
-        </span>
-        <div className="flex flex-col gap-6">
-          <p className="text-sm text-gray-700">
-            Apakah Anda yakin ingin menghapus{" "}
-            <strong>{selectedJobSection?.name}</strong>?
-          </p>
+      <div className="relative">
+        <div className="pointer-events-none absolute inset-x-0 top-0 h-1 rounded-full bg-gradient-to-r from-primaryRed via-primaryRedLighter to-primaryRedDarker" />
+        <div className="flex flex-col gap-6 pt-4">
+          <div className="flex items-start gap-4">
+            <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-primaryRed/10 text-primaryRed">
+              <IoTrashOutline className="h-6 w-6" />
+            </div>
+            <div>
+              <h2 className="text-lg font-bold text-gray-800">
+                Hapus Sektor Pekerjaan
+              </h2>
+              <p className="text-xs text-gray-500">
+                Tindakan ini tidak dapat dibatalkan.
+              </p>
+            </div>
+          </div>
 
-          <div
-            className="flex gap-5 justify-end
-                  "
-          >
+          <div className="rounded-2xl border border-red-100 bg-red-50/60 p-4 text-sm text-gray-700">
+            Apakah Anda yakin ingin menghapus sektor{" "}
+            <span className="font-semibold text-gray-900">
+              {selectedJobSection?.name}
+            </span>
+            ?
+          </div>
+
+          <div className="flex flex-col-reverse gap-3 sm:flex-row sm:justify-end">
             <button
               onClick={() => setOpen(false)}
-              className="text-sm px-4 py-2 bg-primaryBlue text-white font-bold rounded-md hover:bg-primaryBlueDarker disabled:bg-primaryBlueLighter transition duration-300 ease-in-out cursor-pointer flex items-center gap-2 shadow-sm"
+              type="button"
+              className="inline-flex items-center justify-center rounded-full border border-gray-200 bg-white px-4 py-2 text-sm font-semibold text-gray-700 transition duration-200 hover:bg-gray-50"
             >
               Batal
             </button>
             <button
               disabled={loading}
               onClick={handleDelete}
-              className="text-sm px-4 py-2 bg-primaryRed text-white font-bold rounded-md hover:bg-primaryRedDarker disabled:bg-primaryRedLighter transition duration-300 ease-in-out cursor-pointer flex items-center gap-2 shadow-sm"
+              type="button"
+              className="inline-flex items-center justify-center gap-2 rounded-full bg-primaryRed px-4 py-2 text-sm font-semibold text-white shadow-[0_12px_28px_-20px_rgba(227,30,36,0.85)] transition duration-200 hover:bg-primaryRedDarker disabled:cursor-not-allowed disabled:opacity-70"
             >
-              {loading && (
-                <div>
-                  <CgSpinner className="w-3 h-3 text-center animate-spin" />
-                </div>
-              )}
+              {loading && <CgSpinner className="h-4 w-4 animate-spin" />}
               Hapus
             </button>
           </div>

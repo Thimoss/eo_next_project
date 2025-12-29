@@ -96,103 +96,111 @@ export default function DocumentInformation({
   };
 
   return (
-    <div className="flex justify-between gap-10">
-      <form
-        onSubmit={handleSubmit(onSubmit)}
-        className="flex flex-col gap-2 w-1/2"
-      >
-        <div className="flex flex-col gap-1 text-sm text-gray-700 w-full">
-          <span className="font-semibold underline">OWNER ESTIMATE (OE)</span>
-          <div className="font-semibold flex gap-2 pt-2">
-            <span>PEKERJAAN</span>
-            <span>:</span>
-            {editMode ? (
-              <input
-                readOnly={!editMode}
-                type="text"
-                className={`focus:outline-0 w-full ${
-                  editMode && "border-b border-b-gray-400"
-                } `}
-                {...register("job")}
-              />
-            ) : (
-              <div>{job || "-"}</div>
-            )}
+    <form onSubmit={handleSubmit(onSubmit)}>
+      <div className="relative overflow-hidden rounded-2xl border border-gray-200/70 bg-white p-6 shadow-[0_18px_40px_-30px_rgba(15,23,42,0.45)]">
+        <div className="pointer-events-none absolute -top-16 right-0 h-36 w-36 rounded-full bg-primaryBlue/10 blur-3xl" />
+        <div className="pointer-events-none absolute -bottom-20 left-0 h-40 w-40 rounded-full bg-primaryGreen/10 blur-3xl" />
+
+        <div className="relative flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+          <div>
+            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-primaryBlue">
+              Owner Estimate (OE)
+            </p>
+            <h2 className="mt-2 text-lg font-bold text-gray-800">
+              Informasi Dokumen
+            </h2>
+            <p className="mt-1 text-sm text-gray-500">
+              Ringkasan pekerjaan, lokasi, dan dasar dokumen.
+            </p>
           </div>
-          <div className="font-semibold flex gap-2">
-            <span>LOKASI</span>
-            <span>:</span>
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
             {editMode ? (
-              <input
-                readOnly={!editMode}
-                type="text"
-                className={`focus:outline-0 w-full ${
-                  editMode && "border-b-[0.5px] border-b-gray-400"
-                } `}
-                {...register("location")}
-              />
+              <>
+                <button
+                  disabled={loading}
+                  type="submit"
+                  className="inline-flex items-center justify-center gap-2 rounded-full bg-primaryBlue px-4 py-2 text-sm font-semibold text-white shadow-[0_12px_28px_-20px_rgba(0,110,182,0.9)] transition duration-200 hover:bg-primaryBlueDarker disabled:cursor-not-allowed disabled:opacity-70"
+                >
+                  {loading && <CgSpinner className="h-4 w-4 animate-spin" />}
+                  Simpan
+                </button>
+                <button
+                  type="button"
+                  disabled={loading}
+                  onClick={handleCancel}
+                  className="inline-flex items-center justify-center rounded-full border border-gray-200 bg-white px-4 py-2 text-sm font-semibold text-gray-700 transition duration-200 hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-70"
+                >
+                  Batal
+                </button>
+              </>
             ) : (
-              <div>{location || "-"}</div>
-            )}
-          </div>
-          <div className="font-semibold flex gap-2">
-            <span>DASAR</span>
-            <span>:</span>
-            {editMode ? (
-              <input
-                readOnly={!editMode}
-                type="text"
-                className={`focus:outline-0 w-full ${
-                  editMode && "border-b-[0.5px] border-b-gray-400"
-                } `}
-                {...register("base")}
-              />
-            ) : (
-              <div>{base || "-"}</div>
+              <button
+                type="button"
+                onClick={() => setEditMode(true)}
+                className="inline-flex items-center justify-center rounded-full bg-primaryGreen px-4 py-2 text-sm font-semibold text-white shadow-[0_12px_28px_-20px_rgba(176,203,31,0.9)] transition duration-200 hover:bg-primaryGreenDarker"
+              >
+                Perbarui
+              </button>
             )}
           </div>
         </div>
-      </form>
-      <div className="flex flex-col gap-5 justify-end ">
-        {editMode ? (
-          <>
-            {/* Save */}
-            <button
-              disabled={loading}
-              type="submit"
-              className="px-4 py-2 text-sm bg-primaryBlue text-white font-bold rounded-md hover:bg-primaryBlueDarker disabled:bg-primaryBlueLighter transition duration-300 ease-in-out cursor-pointer items-center justify-center flex gap-2 shadow-sm"
-              onClick={handleSubmit(onSubmit)} // Trigger form submission manually
-            >
-              {loading && (
-                <div>
-                  <CgSpinner className="w-3 h-3 text-center animate-spin" />
-                </div>
-              )}
-              Simpan
-            </button>
-            {/* Cancel */}
-            <button
-              type="button"
-              disabled={loading}
-              onClick={handleCancel}
-              className="px-4 py-2 text-sm bg-primaryRed text-white font-bold rounded-md hover:bg-primaryRedDarker transition duration-300 ease-in-out cursor-pointer items-center justify-center flex gap-2 shadow-sm"
-            >
-              Batal
-            </button>
-          </>
-        ) : (
-          <>
-            {/* Edit */}
-            <button
-              type="button"
-              onClick={() => setEditMode(true)}
-              className="px-4 py-2 text-sm bg-primaryGreen text-white font-bold rounded-md hover:bg-primaryGreenDarker transition duration-300 ease-in-out cursor-pointer items-center justify-center flex gap-2 shadow-sm"
-            >
-              Perbarui
-            </button>
-          </>
-        )}
+
+        <div className="relative mt-6 grid gap-4 sm:grid-cols-3">
+          <div className="rounded-2xl border border-gray-200/80 bg-gray-50/70 p-4">
+            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-gray-500">
+              Pekerjaan
+            </p>
+            {editMode ? (
+              <input
+                readOnly={!editMode}
+                type="text"
+                className="mt-3 w-full rounded-xl border border-gray-200 bg-white px-3 py-2 text-sm text-gray-700 focus:border-primaryBlue focus:outline-none focus:ring-2 focus:ring-primaryBlue/30"
+                {...register("job")}
+              />
+            ) : (
+              <p className="mt-3 text-sm font-semibold text-gray-800">
+                {job || "-"}
+              </p>
+            )}
+          </div>
+
+          <div className="rounded-2xl border border-gray-200/80 bg-gray-50/70 p-4">
+            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-gray-500">
+              Lokasi
+            </p>
+            {editMode ? (
+              <input
+                readOnly={!editMode}
+                type="text"
+                className="mt-3 w-full rounded-xl border border-gray-200 bg-white px-3 py-2 text-sm text-gray-700 focus:border-primaryBlue focus:outline-none focus:ring-2 focus:ring-primaryBlue/30"
+                {...register("location")}
+              />
+            ) : (
+              <p className="mt-3 text-sm font-semibold text-gray-800">
+                {location || "-"}
+              </p>
+            )}
+          </div>
+
+          <div className="rounded-2xl border border-gray-200/80 bg-gray-50/70 p-4">
+            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-gray-500">
+              Dasar
+            </p>
+            {editMode ? (
+              <input
+                readOnly={!editMode}
+                type="text"
+                className="mt-3 w-full rounded-xl border border-gray-200 bg-white px-3 py-2 text-sm text-gray-700 focus:border-primaryBlue focus:outline-none focus:ring-2 focus:ring-primaryBlue/30"
+                {...register("base")}
+              />
+            ) : (
+              <p className="mt-3 text-sm font-semibold text-gray-800">
+                {base || "-"}
+              </p>
+            )}
+          </div>
+        </div>
       </div>
-    </div>
+    </form>
   );
 }

@@ -107,61 +107,66 @@ export default function Table({
   };
 
   return (
-    <div className="flex flex-col gap-6">
-      <div>
-        <div className="flex justify-end">
-          <button
-            onClick={() => handleExport(dataDetail)}
-            className="px-4 py-2 bg-primaryBlue text-white font-bold rounded-md hover:bg-primaryBlueDarker transition duration-300 ease-in-out cursor-pointer items-center justify-center flex gap-2 shadow-sm"
-          >
-            <div className="w-4 h-4">
-              <IoSave className="w-full h-full" />
-            </div>
-            <span className="text-sm font-semibold">Unduh Excel</span>
-          </button>
+    <div className="rounded-2xl border border-gray-200/70 bg-white p-6 shadow-[0_18px_40px_-30px_rgba(15,23,42,0.45)]">
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+        <div>
+          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-primaryBlue">
+            Rincian
+          </p>
+          <h2 className="mt-2 text-lg font-bold text-gray-800">
+            Rincian Pekerjaan
+          </h2>
+          <p className="mt-1 text-sm text-gray-500">
+            Kelola sektor, pekerjaan, dan rekapitulasi biaya.
+          </p>
         </div>
+        <button
+          type="button"
+          onClick={() => handleExport(dataDetail)}
+          className="inline-flex items-center justify-center gap-2 rounded-full bg-primaryBlue px-4 py-2 text-sm font-semibold text-white shadow-[0_12px_28px_-20px_rgba(0,110,182,0.9)] transition duration-200 hover:bg-primaryBlueDarker"
+        >
+          <IoSave className="h-4 w-4" />
+          Unduh Excel
+        </button>
       </div>
 
-      <div className="relative overflow-x-auto sm:rounded-lg">
-        <table
-          className="w-full text-center text-gray-700 text-sm"
-          align="center"
-        >
-          <thead className="text-sm text-white uppercase bg-primaryBlue">
+      <div className="mt-6 overflow-x-auto rounded-2xl border border-gray-200/80">
+        <table className="min-w-[980px] w-full text-center text-sm text-gray-700">
+          <thead className="bg-primaryBlue text-xs uppercase tracking-wider text-white">
             <tr>
-              <th scope="col" rowSpan={2} className="px-2 py-1.5">
+              <th scope="col" rowSpan={2} className="px-3 py-3 font-semibold">
                 No
               </th>
-              <th scope="col" rowSpan={2} className="px-2 py-1.5">
+              <th scope="col" rowSpan={2} className="px-3 py-3 font-semibold">
                 Uraian Pekerjaan
               </th>
-              <th scope="col" rowSpan={2} className="px-2 py-1.5">
+              <th scope="col" rowSpan={2} className="px-3 py-3 font-semibold">
                 Volume
               </th>
-              <th scope="col" colSpan={2} className="px-2 py-1.5">
+              <th scope="col" colSpan={2} className="px-3 py-3 font-semibold">
                 Harga Unit
               </th>
-              <th scope="col" colSpan={2} className="px-2 py-1.5">
+              <th scope="col" colSpan={2} className="px-3 py-3 font-semibold">
                 Total Harga
               </th>
-              <th scope="col" rowSpan={2} className="px-2 py-1.5">
+              <th scope="col" rowSpan={2} className="px-3 py-3 font-semibold">
                 Informasi
               </th>
-              <th scope="col" rowSpan={2} className="px-2 py-1.5">
+              <th scope="col" rowSpan={2} className="px-3 py-3 font-semibold">
                 Aksi
               </th>
             </tr>
             <tr>
-              <th scope="col" className="px-2 py-1.5">
+              <th scope="col" className="px-3 py-2 font-semibold">
                 Material
               </th>
-              <th scope="col" className="px-2 py-1.5">
+              <th scope="col" className="px-3 py-2 font-semibold">
                 Jasa
               </th>
-              <th scope="col" className="px-2 py-1.5">
+              <th scope="col" className="px-3 py-2 font-semibold">
                 Material
               </th>
-              <th scope="col" className="px-2 py-1.5">
+              <th scope="col" className="px-3 py-2 font-semibold">
                 Jasa
               </th>
             </tr>
@@ -169,7 +174,7 @@ export default function Table({
           <tbody className="text-nowrap">
             {dataDetail.jobSections.length === 0 ? (
               <tr>
-                <td colSpan={9} className="text-center py-3">
+                <td colSpan={9} className="px-4 py-6 text-center text-gray-500">
                   Tidak ada bagian pekerjaan yang tersedia. Tambahkan bagian
                   pekerjaan untuk memulai.
                 </td>
@@ -178,7 +183,7 @@ export default function Table({
               dataDetail.jobSections.map(
                 (jobSection: JobSection, index: number) => (
                   <React.Fragment key={jobSection.id}>
-                    <tr className="bg-blue-200 border-b border-gray-200 font-semibold">
+                    <tr className="bg-primaryBlue/10 border-b border-gray-200 font-semibold text-gray-800">
                       <td className="px-6 py-3">
                         {String.fromCharCode(65 + index)}
                       </td>
@@ -193,22 +198,18 @@ export default function Table({
                         {formatRupiah(jobSection.totalFeePrice)}
                       </td>
                       <td className="px-6 py-3"></td>
-                      <td className="px-6 py-3 flex items-center gap-2 justify-center">
+                      <td className="px-6 py-3 flex items-center justify-center gap-2">
                         <button
                           onClick={() => handleUpdateSection(jobSection)}
-                          className="text-white bg-primaryGreen disabled:bg-primaryGreenLighter hover:bg-primaryGreenDarker rounded-md px-2 py-1 duration-300  cursor-pointer"
+                          className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-primaryGreen text-white shadow-sm transition duration-200 hover:bg-primaryGreenDarker disabled:cursor-not-allowed disabled:opacity-70"
                         >
-                          <div className="w-4 h-4">
-                            <IoPencil className="w-full h-full" />
-                          </div>
+                          <IoPencil className="h-4 w-4" />
                         </button>
                         <button
                           onClick={() => handleDeleteSection(jobSection)}
-                          className="text-white bg-primaryRed disabled:bg-primaryRedLighter hover:bg-primaryRedDarker rounded-md px-2 py-1 duration-300  cursor-pointer"
+                          className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-primaryRed text-white shadow-sm transition duration-200 hover:bg-primaryRedDarker disabled:cursor-not-allowed disabled:opacity-70"
                         >
-                          <div className="w-4 h-4">
-                            <IoTrash className="w-full h-full" />
-                          </div>
+                          <IoTrash className="h-4 w-4" />
                         </button>
                       </td>
                     </tr>
@@ -216,7 +217,7 @@ export default function Table({
                       jobSection.itemJobSections.map((item, index: number) => (
                         <tr
                           key={item.id}
-                          className="odd:bg-gray-100 even:bg-gray-50 font-normal"
+                          className="odd:bg-white even:bg-gray-50 font-normal text-gray-700"
                         >
                           <td className="px-6 py-3">{index + 1}</td>
                           <td className="px-6 py-3">{item.name}</td>
@@ -236,38 +237,32 @@ export default function Table({
                             {formatRupiah(item.totalFeePrice)}
                           </td>
                           <td className="px-6 py-3">{item.information}</td>
-                          <td className="px-6 py-3 flex items-center gap-2 justify-center">
+                          <td className="px-6 py-3 flex items-center justify-center gap-2">
                             <button
                               onClick={() =>
                                 handleUpdateItemJob(item, jobSection)
                               }
-                              className="text-white bg-primaryGreen disabled:bg-primaryGreenLighter hover:bg-primaryGreenDarker rounded-md px-2 py-1 duration-300  cursor-pointer"
+                              className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-primaryGreen text-white shadow-sm transition duration-200 hover:bg-primaryGreenDarker disabled:cursor-not-allowed disabled:opacity-70"
                             >
-                              <div className="w-4 h-4">
-                                <IoPencil className="w-full h-full" />
-                              </div>
+                              <IoPencil className="h-4 w-4" />
                             </button>
                             <button
                               onClick={() => handleDeleteItemJob(item)}
-                              className="text-white bg-primaryRed disabled:bg-primaryRedLighter hover:bg-primaryRedDarker rounded-md px-2 py-1 duration-300  cursor-pointer"
+                              className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-primaryRed text-white shadow-sm transition duration-200 hover:bg-primaryRedDarker disabled:cursor-not-allowed disabled:opacity-70"
                             >
-                              <div className="w-4 h-4">
-                                <IoTrash className="w-full h-full" />
-                              </div>
+                              <IoTrash className="h-4 w-4" />
                             </button>
                           </td>
                         </tr>
                       ))}
-                    <tr className="odd:bg-gray-100 even:bg-gray-50 border-b border-gray-200">
+                    <tr className="bg-gray-50 border-b border-gray-200">
                       <td></td>
-                      <td className="px-6 py-3 flex justify-center  w-full">
+                      <td className="px-6 py-3 text-center">
                         <button
                           onClick={() => handleCreateItemJob(jobSection)}
-                          className="text-white bg-primaryBlue disabled:bg-primaryBlueLighter hover:bg-primaryBlueDarker transition duration-300 ease-in-out cursor-pointer flex items-center gap-2 justify-center rounded-md px-4 py-2 shadow-sm font-semibold"
+                          className="inline-flex items-center justify-center gap-2 rounded-full bg-primaryBlue px-4 py-2 text-sm font-semibold text-white shadow-[0_12px_28px_-20px_rgba(0,110,182,0.9)] transition duration-200 hover:bg-primaryBlueDarker disabled:cursor-not-allowed disabled:opacity-70"
                         >
-                          <div className="w-4 h-4">
-                            <FaPlus className="w-full h-full" />
-                          </div>
+                          <FaPlus className="h-4 w-4" />
                           <span>Tambah Pekerjaan</span>
                         </button>
                       </td>
@@ -283,16 +278,14 @@ export default function Table({
                 )
               )
             )}
-            <tr className="bg-blue-100 border-b border-gray-200 font-semibold">
+            <tr className="bg-primaryBlue/5 border-b border-gray-200 font-semibold text-gray-800">
               <td className="px-6 py-3"></td>
-              <td className="px-6 py-3 flex justify-center">
+              <td className="px-6 py-3 text-center">
                 <button
                   onClick={handleCreateSection}
-                  className="text-white bg-primaryBlue disabled:bg-primaryBlueLighter hover:bg-primaryBlueDarker transition duration-300 ease-in-out cursor-pointer flex items-center gap-2 justify-center rounded-md px-4 py-2 shadow-sm font-semibold"
+                  className="inline-flex items-center justify-center gap-2 rounded-full bg-primaryBlue px-4 py-2 text-sm font-semibold text-white shadow-[0_12px_28px_-20px_rgba(0,110,182,0.9)] transition duration-200 hover:bg-primaryBlueDarker disabled:cursor-not-allowed disabled:opacity-70"
                 >
-                  <div className="w-4 h-4">
-                    <FaPlus className="w-full h-full" />
-                  </div>
+                  <FaPlus className="h-4 w-4" />
                   <span>Tambah Sektor Pekerjaan</span>
                 </button>
               </td>
@@ -304,7 +297,7 @@ export default function Table({
               <td className="px-6 py-3"></td>
               <td className="px-6 py-3"></td>
             </tr>
-            <tr className="bg-blue-200 border-b border-gray-200 font-semibold">
+            <tr className="bg-primaryBlue/10 border-b border-gray-200 font-semibold text-gray-800">
               <td className="px-6 py-3"></td>
               <td className="px-6 py-3">Rekapitulasi</td>
               <td className="px-6 py-3"></td>
@@ -318,7 +311,7 @@ export default function Table({
             {dataDetail.jobSections.map(
               (jobSection: JobSection, index: number) => (
                 <React.Fragment key={jobSection.id}>
-                  <tr className="bg-blue-200 border-b border-gray-200 font-semibold">
+                  <tr className="bg-primaryBlue/10 border-b border-gray-200 font-semibold text-gray-800">
                     <td className="px-6 py-3">
                       {String.fromCharCode(65 + index)}
                     </td>
@@ -338,7 +331,7 @@ export default function Table({
                 </React.Fragment>
               )
             )}
-            <tr className="bg-blue-200 border-b border-gray-200 font-semibold">
+            <tr className="bg-primaryBlue/10 border-b border-gray-200 font-semibold text-gray-800">
               <td className="px-6 py-3"></td>
               <td className="px-6 py-3">TOTAL MATERIAL / JASA</td>
               <td className="px-6 py-3"></td>
@@ -354,7 +347,7 @@ export default function Table({
               <td className="px-6 py-3"></td>
               <td className="px-6 py-3"></td>
             </tr>
-            <tr className="bg-blue-200 border-b border-gray-200 font-semibold">
+            <tr className="bg-primaryBlue/10 border-b border-gray-200 font-semibold text-gray-800">
               <td className="px-6 py-3"></td>
               <td className="px-6 py-3">TOTAL MATERIAL + JASA</td>
               <td className="px-6 py-3"></td>
@@ -367,24 +360,22 @@ export default function Table({
               <td className="px-6 py-3"></td>
               <td className="px-6 py-3"></td>
             </tr>
-            <tr className="bg-blue-200 border-b border-gray-200 font-semibold">
+            <tr className="bg-primaryBlue/10 border-b border-gray-200 font-semibold text-gray-800">
               <td className="px-6 py-3"></td>
               <td className="px-6 py-3">K&R (KEUNTUNGAN & RESIKO)</td>
               <td className="px-6 py-3">
                 {!editMode ? (
                   `${dataDetail.percentageBenefitsAndRisks} %`
                 ) : (
-                  <form onSubmit={handleSubmit(onSubmit)}>
+                  <form onSubmit={handleSubmit(onSubmit)} className="flex items-center gap-2">
                     <input
                       readOnly={!editMode}
                       type="number"
                       min={0}
                       defaultValue={dataDetail.percentageBenefitsAndRisks}
-                      className={`focus:outline-0 w-10 ${
-                        editMode && "border-b"
-                      } `}
+                      className="w-16 rounded-lg border border-gray-200 bg-white px-2 py-1 text-xs text-gray-700 focus:border-primaryBlue focus:outline-none focus:ring-2 focus:ring-primaryBlue/30"
                       {...register("percentage")}
-                    />{" "}
+                    />
                     %
                   </form>
                 )}
@@ -396,41 +387,35 @@ export default function Table({
                 {formatRupiah(dataDetail.totalBenefitsAndRisks)}
               </td>
               <td className="px-6 py-3"></td>
-              <td className="px-6 py-3 flex items-center gap-2 justify-center">
+              <td className="px-6 py-3 flex items-center justify-center gap-2">
                 {!editMode ? (
                   <button
                     onClick={() => setEditMode(true)}
-                    className="text-white bg-primaryGreen disabled:bg-primaryGreenLighter hover:bg-primaryGreenDarker rounded-md px-2 py-1  duration-300  cursor-pointer"
+                    className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-primaryGreen text-white shadow-sm transition duration-200 hover:bg-primaryGreenDarker disabled:cursor-not-allowed disabled:opacity-70"
                   >
-                    <div className="w-4 h-4">
-                      <IoPencil className="w-full h-full" />
-                    </div>
+                    <IoPencil className="h-4 w-4" />
                   </button>
                 ) : (
                   <>
                     <button
                       onClick={handleSubmit(onSubmit)}
                       disabled={loading}
-                      className="text-white bg-primaryBlue disabled:bg-primaryBlueLighter hover:bg-primaryBlueDarker rounded-md px-2 py-0.5 duration-300  cursor-pointer"
+                      className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-primaryBlue text-white shadow-sm transition duration-200 hover:bg-primaryBlueDarker disabled:cursor-not-allowed disabled:opacity-70"
                     >
-                      <div className="w-4 h-4">
-                        <IoSave className="w-full h-full" />
-                      </div>
+                      <IoSave className="h-4 w-4" />
                     </button>
                     <button
                       onClick={handleCancel}
                       disabled={loading}
-                      className="text-white bg-primaryRed disabled:bg-primaryRedLighter hover:bg-primaryRedDarker rounded-md px-2 py-0.5 duration-300  cursor-pointer"
+                      className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-primaryRed text-white shadow-sm transition duration-200 hover:bg-primaryRedDarker disabled:cursor-not-allowed disabled:opacity-70"
                     >
-                      <div className="w-4 h-4">
-                        <IoClose className="w-full h-full" />
-                      </div>
+                      <IoClose className="h-4 w-4" />
                     </button>
                   </>
                 )}
               </td>
             </tr>
-            <tr className="bg-blue-200 border-b border-gray-200 font-semibold">
+            <tr className="bg-primaryBlue/10 border-b border-gray-200 font-semibold text-gray-800">
               <td className="px-6 py-3"></td>
               <td className="px-6 py-3">TOTAL MATERIAL + JASA + K&R</td>
               <td className="px-6 py-3"></td>

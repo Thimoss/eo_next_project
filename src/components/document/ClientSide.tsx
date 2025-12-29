@@ -69,7 +69,7 @@ export default function ClientSide({ slug, accessToken }: DetailDocumentProps) {
         <Loading />
       ) : dataDetail ? (
         <>
-          <div className="flex flex-col gap-6">
+          <div className="flex flex-col gap-8">
             <DocumentInformation
               location={dataDetail.location}
               base={dataDetail.base}
@@ -177,7 +177,9 @@ export default function ClientSide({ slug, accessToken }: DetailDocumentProps) {
           />
         </>
       ) : (
-        <div>Data Tidak ada</div>
+        <div className="rounded-2xl border border-gray-200/70 bg-white p-6 text-center text-sm font-semibold text-gray-600 shadow-[0_18px_40px_-30px_rgba(15,23,42,0.45)]">
+          Data tidak ditemukan.
+        </div>
       )}
     </>
   );

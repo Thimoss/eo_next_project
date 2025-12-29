@@ -48,62 +48,67 @@ export default function DocumentCard({
   }, []);
 
   return (
-    <div className="bg-white shadow-sm rounded-md p-4 flex flex-col gap-2">
-      <div className="bg-primaryBlue flex items-center justify-center w-full aspect-video rounded-md relative">
-        {/* Thumbnail Text */}
-        <span className="text-xl text-white font-bold">{initials}</span>
+    <div className="group relative flex flex-col gap-4 overflow-hidden rounded-2xl border border-gray-200/70 bg-white p-4 shadow-[0_18px_40px_-30px_rgba(15,23,42,0.45)] transition duration-200 hover:-translate-y-1 hover:shadow-[0_26px_60px_-36px_rgba(15,23,42,0.55)]">
+      <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-primaryBlue/5 via-transparent to-primaryGreen/10 opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+      <div className="relative flex w-full items-center justify-center overflow-hidden rounded-xl bg-gradient-to-br from-primaryBlue via-primaryBlueDarker to-primaryBlueDarker aspect-video">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(255,255,255,0.28),_transparent_55%)]" />
+        <span className="relative text-2xl font-bold uppercase tracking-[0.2em] text-white drop-shadow-sm">
+          {initials}
+        </span>
 
         {/* Actions Button */}
-        <div className="absolute top-1 right-1">
+        <div className="absolute right-2 top-2">
           <div className="relative h-full">
             <button
+              type="button"
               onClick={toggleActions}
-              className="p-2 text-white font-bold rounded-md hover:bg-white hover:text-primaryBlue transition duration-300 ease-in-out cursor-pointer items-center justify-center flex gap-2"
+              aria-label="Menu dokumen"
+              aria-expanded={showActions}
+              className="flex cursor-pointer items-center justify-center rounded-full bg-white/15 p-2 text-white transition duration-200 ease-in-out hover:bg-white hover:text-primaryBlue focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/80"
             >
               <HiDotsVertical className="w-full h-full" />
             </button>
             {showActions && (
               <div
                 ref={actionsRef}
-                className={`bg-white shadow-sm rounded-md p-2 absolute right-0  translate-y-full -bottom-1 w-24 h-22 justify-between flex flex-col transition-all duration-300 ease-in-out ${
-                  showActions
-                    ? "opacity-100 translate-y-0"
-                    : "opacity-0 translate-y-2"
-                }`}
+                className="absolute right-0 z-10 mt-2 flex w-28 flex-col gap-1 rounded-xl border border-gray-100 bg-white p-1.5 text-sm shadow-[0_16px_40px_-28px_rgba(15,23,42,0.5)]"
               >
-                <div
+                <button
+                  type="button"
                   onClick={() => handleEdit(document)}
-                  className="px-4 py-2 text-sm text-gray-700 rounded-md hover:bg-gray-200 duration-300 font-semibold cursor-pointer"
+                  className="rounded-lg px-3 py-2 text-left text-sm font-semibold text-gray-700 transition duration-200 hover:bg-gray-100"
                 >
                   Edit
-                </div>
-                <div
+                </button>
+                <button
+                  type="button"
                   onClick={() => handleDelete(document)}
-                  className="px-4 py-2 text-sm  rounded-md hover:bg-gray-200 duration-300 text-primaryRed font-semibold cursor-pointer"
+                  className="rounded-lg px-3 py-2 text-left text-sm font-semibold text-primaryRed transition duration-200 hover:bg-gray-100"
                 >
                   Hapus
-                </div>
+                </button>
               </div>
             )}
           </div>
         </div>
       </div>
 
-      <div className="flex flex-col gap-3 justify-between h-full">
+      <div className="relative flex flex-1 flex-col justify-between gap-3">
         {/* Document's info */}
         <div className="flex flex-col gap-1.5">
-          <span className="text-gray-700 font-semibold text-sm">
+          <span className="text-sm font-semibold text-gray-800">
             {document.name}
           </span>
-          <span className="text-xs text-gray-600">
+          <span className="text-xs text-gray-500">
             Modifikasi Terakhir : {format(document.updatedAt, "MM/dd/yyyy")}
           </span>
         </div>
         <div className="flex justify-end">
           {/* Open Button */}
           <button
+            type="button"
             onClick={() => handleDetail(document)}
-            className="px-4 py-2 bg-primaryBlue text-white font-bold rounded-md hover:bg-primaryBlueDarker transition duration-300 ease-in-out cursor-pointer items-center justify-center flex gap-2"
+            className="inline-flex items-center justify-center rounded-full bg-primaryBlue px-4 py-2 text-sm font-semibold text-white shadow-[0_12px_28px_-20px_rgba(0,110,182,0.85)] transition duration-200 ease-in-out hover:bg-primaryBlueDarker cursor-pointer"
           >
             <span className="text-sm font-semibold">Buka</span>
           </button>

@@ -46,9 +46,7 @@ export default function SearchBar({
           </button>
         )}
       </div>
-      {helperText && (
-        <p className="mt-2 text-xs text-gray-400">{helperText}</p>
-      )}
+      {helperText && <p className="mt-2 text-xs text-gray-400">{helperText}</p>}
     </div>
   );
 }

@@ -11,6 +11,7 @@ import CreateModal from "./CreateModal";
 import UpdateModal from "./UpdateModal";
 import DeleteModal from "./DeleteModal";
 import { UserSession } from "../../../types/Session.type";
+import SearchBar from "../global/SearchBar";
 
 interface ClientSideProps {
   session?: UserSession | null;
@@ -40,24 +41,51 @@ export default function ClientSide({ session, accessToken }: ClientSideProps) {
     handleEdit,
     handleDelete,
   } = useDashboard({ session: validSession, accessToken: validAccessToken });
+  const totalDocuments = data?.length ?? 0;
+  const totalLabel = isLoading ? "Memuat..." : `${totalDocuments} Dokumen`;
+  const hasData = totalDocuments > 0;
 
   return (
     <>
-      <div className="flex flex-col gap-10">
-        <div className="flex flex-col gap-6">
-          <div className="flex flex-col md:flex-row items-center justify-between">
-            {/* <Search /> */}
-            <button
-              onClick={() => setOpenCreate(true)}
-              className="px-4 py-2 bg-primaryGreen text-white font-bold rounded-md hover:bg-primaryGreenDarker transition duration-300 ease-in-out cursor-pointer items-center justify-center hidden md:flex gap-2 shadow-sm"
-            >
-              <div className="w-4 h-4">
-                <FaPlus className="w-full h-full" />
+      <div className="flex flex-col gap-8">
+        <section className="relative overflow-hidden rounded-3xl border border-gray-200/70 bg-white p-6 shadow-[0_18px_40px_-30px_rgba(15,23,42,0.45)] sm:p-8">
+          <div className="pointer-events-none absolute -top-16 right-0 h-40 w-40 rounded-full bg-primaryBlue/10 blur-3xl" />
+          <div className="pointer-events-none absolute -bottom-20 left-0 h-44 w-44 rounded-full bg-primaryGreen/10 blur-3xl" />
+          <div className="relative flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-[0.25em] text-primaryBlue">
+                Dokumen
+              </p>
+              <h1 className="mt-2 text-2xl font-bold text-gray-800 sm:text-3xl">
+                Kelola Dokumen Anda
+              </h1>
+              <p className="mt-2 text-sm text-gray-500 sm:text-base">
+                Tambah, ubah, dan rapikan dokumen untuk kebutuhan operasional.
+              </p>
+            </div>
+            <div className="flex flex-col gap-3 sm:items-end">
+              <div className="inline-flex items-center gap-2 rounded-full border border-gray-200 bg-white px-3 py-1 text-xs font-semibold text-gray-600 shadow-sm">
+                <span className="h-2 w-2 rounded-full bg-primaryGreen" />
+                {totalLabel}
               </div>
-              <span className="text-sm font-semibold">Tambah</span>
-            </button>
+              <button
+                onClick={() => setOpenCreate(true)}
+                className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-primaryGreen px-5 py-2.5 text-sm font-semibold text-white shadow-[0_12px_28px_-20px_rgba(176,203,31,0.9)] transition duration-200 hover:bg-primaryGreenDarker sm:w-auto"
+              >
+                <FaPlus className="h-4 w-4" />
+                Tambah Dokumen
+              </button>
+            </div>
           </div>
-          <div className="flex items-center justify-between ">
+        </section>
+
+        <div className="flex flex-col gap-4">
+          <div className="grid gap-3 sm:grid-cols-[1fr_auto] sm:items-center">
+            <SearchBar
+              placeholder="Cari dokumen..."
+              showAction={false}
+              containerClassName="sm:max-w-lg"
+            />
             <SortBy
               sortBy={sortBy}
               isSortByOpen={isSortByOpen}
@@ -65,34 +93,26 @@ export default function ClientSide({ session, accessToken }: ClientSideProps) {
               toggleDropdown={toggleDropdown}
               dropdownRef={dropdownRef}
             />
-            <button
-              onClick={() => setOpenCreate(true)}
-              className="px-4 py-2 bg-primaryGreen text-white font-bold rounded-md hover:bg-primaryGreenDarker transition duration-300 ease-in-out cursor-pointer items-center justify-center flex md:hidden gap-2"
-            >
-              <div className="w-4 h-4">
-                <FaPlus className="w-full h-full" />
-              </div>
-              <span className="text-sm font-semibold">Tambah</span>
-            </button>
           </div>
+
+          {isLoading ? (
+            <Loading />
+          ) : hasData ? (
+            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5">
+              {(data ?? []).map((document: Document) => (
+                <DocumentCard
+                  document={document}
+                  key={document.id}
+                  handleDetail={handleDetail}
+                  handleEdit={handleEdit}
+                  handleDelete={handleDelete}
+                />
+              ))}
+            </div>
+          ) : (
+            <EmptyData />
+          )}
         </div>
-        {isLoading ? (
-          <Loading />
-        ) : data.length > 0 ? (
-          <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-5 gap-10">
-            {data.map((document: Document) => (
-              <DocumentCard
-                document={document}
-                key={document.id}
-                handleDetail={handleDetail}
-                handleEdit={handleEdit}
-                handleDelete={handleDelete}
-              />
-            ))}
-          </div>
-        ) : (
-          <EmptyData />
-        )}
       </div>
       <CreateModal
         open={openCreate}

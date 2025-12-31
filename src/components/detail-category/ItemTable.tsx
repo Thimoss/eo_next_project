@@ -23,37 +23,34 @@ export default function ItemTable({
   data,
 }: ItemTableProps) {
   return (
-    <div className="relative overflow-x-auto rounded-lg">
-      <table
-        className="w-full text-center text-gray-700 font-medium text-sm "
-        align="center"
-      >
-        <thead className="text-sm text-white uppercase bg-primaryBlue">
+    <div className="overflow-x-auto rounded-2xl border border-gray-200/80 bg-white">
+      <table className="min-w-[760px] w-full text-center text-sm text-gray-700">
+        <thead className="bg-primaryBlue text-xs uppercase tracking-wider text-white">
           <tr>
-            <th scope="col" rowSpan={2} className="px-4 py-2">
+            <th scope="col" rowSpan={2} className="px-4 py-3 font-semibold">
               Sumber
             </th>
-            <th scope="col" rowSpan={2} className="px-4 py-2">
+            <th scope="col" rowSpan={2} className="px-4 py-3 font-semibold">
               No
             </th>
-            <th scope="col" rowSpan={2} className="px-4 py-2">
+            <th scope="col" rowSpan={2} className="px-4 py-3 font-semibold">
               Jenis Pekerjaan
             </th>
-            <th scope="col" rowSpan={2} className="px-4 py-2">
+            <th scope="col" rowSpan={2} className="px-4 py-3 font-semibold">
               Unit
             </th>
-            <th scope="col" colSpan={2} className="px-4 py-1">
+            <th scope="col" colSpan={2} className="px-4 py-2 font-semibold">
               Harga
             </th>
-            <th scope="col" rowSpan={2} className="px-4 py-2">
+            <th scope="col" rowSpan={2} className="px-4 py-3 font-semibold">
               Aksi
             </th>
           </tr>
           <tr>
-            <th scope="col" className="px-4 py-1">
+            <th scope="col" className="px-4 py-2 font-semibold">
               Material
             </th>
-            <th scope="col" className="px-4 py-1">
+            <th scope="col" className="px-4 py-2 font-semibold">
               Jasa
             </th>
           </tr>
@@ -65,8 +62,8 @@ export default function ItemTable({
                 key={item.id}
                 className={`${
                   item.singleItem
-                    ? "odd:bg-gray-100 even:bg-gray-50"
-                    : "bg-blue-100"
+                    ? "odd:bg-white even:bg-gray-50"
+                    : "bg-primaryBlue/10 text-gray-800 font-semibold"
                 } border-b border-gray-200`}
               >
                 <td className="px-4 py-2">{item.source ? item.source : "-"}</td>
@@ -83,8 +80,10 @@ export default function ItemTable({
                 <td className="px-4 py-2">
                   {formatRupiah(item.feePricePerUnit)}
                 </td>
-                <td className="px-4 py-2 flex items-center gap-2 justify-center">
+                <td className="px-4 py-2">
+                  <div className="flex items-center justify-center gap-2">
                   <button
+                    type="button"
                     onClick={async () => {
                       const response = await fetch(DocumentUrl + item.pdfUrl);
                       const blob = await response.blob();
@@ -97,41 +96,37 @@ export default function ItemTable({
 
                       window.URL.revokeObjectURL(url);
                     }}
-                    className="text-white bg-primaryBlue disabled:bg-primaryBlueLighter hover:bg-primaryBlueDarker rounded-md px-2 py-1 transition duration-300 ease-in-out  cursor-pointer"
+                    className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-primaryBlue text-white shadow-sm transition duration-200 hover:bg-primaryBlueDarker disabled:cursor-not-allowed disabled:opacity-70"
                   >
-                    <div className="w-4 h-4">
-                      <IoEye className="w-full h-full" />
-                    </div>
+                    <IoEye className="h-4 w-4" />
                   </button>
                   <button
+                    type="button"
                     onClick={() => handleEdit(item, selectedSector)}
-                    className="text-white bg-primaryGreen disabled:bg-primaryGreenLighter hover:bg-primaryGreenDarker rounded-md px-2 py-1 transition duration-300 ease-in-out  cursor-pointer"
+                    className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-primaryGreen text-white shadow-sm transition duration-200 hover:bg-primaryGreenDarker disabled:cursor-not-allowed disabled:opacity-70"
                   >
-                    <div className="w-4 h-4">
-                      <IoPencil className="w-full h-full" />
-                    </div>
+                    <IoPencil className="h-4 w-4" />
                   </button>
                   <button
+                    type="button"
                     onClick={() => handleDelete(item)}
-                    className="text-white bg-primaryRed disabled:bg-primaryRedLighter hover:bg-primaryRedDarker rounded-md px-2 py-1 transition duration-300 ease-in-out  cursor-pointer"
+                    className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-primaryRed text-white shadow-sm transition duration-200 hover:bg-primaryRedDarker disabled:cursor-not-allowed disabled:opacity-70"
                   >
-                    <div className="w-4 h-4">
-                      <IoTrash className="w-full h-full" />
-                    </div>
+                    <IoTrash className="h-4 w-4" />
                   </button>
+                  </div>
                 </td>
               </tr>
             ))}
-          <tr className="odd:bg-gray-100 even:bg-gray-50 border-b border-gray-200">
+          <tr className="bg-gray-50 border-b border-gray-200">
             <td colSpan={7} className="px-4 py-2">
-              <div className="flex  justify-center">
+              <div className="flex justify-center">
                 <button
+                  type="button"
                   onClick={() => handleCreate(selectedSector)}
-                  className="text-white bg-primaryBlue disabled:bg-primaryBlueLighter hover:bg-primaryBlueDarker transition duration-300 ease-in-out cursor-pointer flex items-center gap-2 justify-center rounded-md px-4 py-2 shadow-sm font-semibold"
+                  className="inline-flex items-center justify-center gap-2 rounded-full bg-primaryBlue px-4 py-2 text-sm font-semibold text-white shadow-[0_12px_28px_-20px_rgba(0,110,182,0.9)] transition duration-200 hover:bg-primaryBlueDarker disabled:cursor-not-allowed disabled:opacity-70"
                 >
-                  <div className="w-4 h-4">
-                    <FaPlus className="w-full h-full" />
-                  </div>
+                  <FaPlus className="h-4 w-4" />
                   <span>Tambah Pekerjaan</span>
                 </button>
               </div>

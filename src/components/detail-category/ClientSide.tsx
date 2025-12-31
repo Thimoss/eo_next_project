@@ -49,70 +49,108 @@ export default function ClientSide({ id }: ClientSideDetailCategoryProps) {
 
   return (
     <>
-      <div>
-        {isLoadingDetail ? (
-          <div>
-            <Loading />
-          </div>
-        ) : dataDetail ? (
-          <div className="flex flex-col gap-6">
-            <div className="text-base text-gray-700 font-bold flex flex-col gap-1">
-              <p>{dataDetail?.reference}</p>
-              <p>
-                INFRASTRUCTURE MANAGEMENT & PROJECT - DIREKTORAT REKAYASA &
-                INFRASTRUKTUR DARAT
-              </p>
-              <p>Kategori: {dataDetail?.name}</p>
-              <p>Lokasi: {dataDetail?.location}</p>
-              <p>Kode: {dataDetail?.code}</p>
-            </div>
-
-            <div className="flex flex-col sm:flex-row items-center justify-between gap-5">
-              {/* <Search /> */}
-
-              <div className="flex justify-end w-full">
-                <button
-                  onClick={() => setOpenCreateSector(true)}
-                  className="px-4 py-2 bg-primaryGreen text-white font-bold rounded-md hover:bg-primaryGreenDarker transition duration-300 ease-in-out cursor-pointer items-center justify-center flex gap-2 shadow-sm"
-                >
-                  <div className="w-4 h-4">
-                    <FaPlus className="w-full h-full" />
+      {isLoadingDetail ? (
+        <Loading />
+      ) : dataDetail ? (
+        <div className="flex flex-col gap-8">
+          <section className="relative overflow-hidden rounded-3xl border border-gray-200/70 bg-white p-6 shadow-[0_18px_40px_-30px_rgba(15,23,42,0.45)] sm:p-8">
+            <div className="pointer-events-none absolute -top-16 right-0 h-40 w-40 rounded-full bg-primaryBlue/10 blur-3xl" />
+            <div className="pointer-events-none absolute -bottom-20 left-0 h-44 w-44 rounded-full bg-primaryGreen/10 blur-3xl" />
+            <div className="relative flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
+              <div className="max-w-2xl">
+                <p className="text-xs font-semibold uppercase tracking-[0.25em] text-primaryBlue">
+                  Detail Kategori
+                </p>
+                <h1 className="mt-2 text-2xl font-bold text-gray-800 sm:text-3xl">
+                  {dataDetail.name}
+                </h1>
+                <p className="mt-2 text-sm text-gray-500 sm:text-base">
+                  INFRASTRUCTURE MANAGEMENT & PROJECT - DIREKTORAT REKAYASA &
+                  INFRASTRUKTUR DARAT
+                </p>
+                <div className="mt-5 grid gap-3 sm:grid-cols-3">
+                  <div className="rounded-2xl border border-gray-200/80 bg-white/80 p-3">
+                    <p className="text-xs font-semibold uppercase tracking-[0.2em] text-gray-500">
+                      Referensi
+                    </p>
+                    <p className="mt-2 text-sm font-semibold text-gray-800">
+                      {dataDetail.reference}
+                    </p>
                   </div>
-                  <span className="text-sm font-semibold">Tambah</span>
+                  <div className="rounded-2xl border border-gray-200/80 bg-white/80 p-3">
+                    <p className="text-xs font-semibold uppercase tracking-[0.2em] text-gray-500">
+                      Lokasi
+                    </p>
+                    <p className="mt-2 text-sm font-semibold text-gray-800">
+                      {dataDetail.location}
+                    </p>
+                  </div>
+                  <div className="rounded-2xl border border-gray-200/80 bg-white/80 p-3">
+                    <p className="text-xs font-semibold uppercase tracking-[0.2em] text-gray-500">
+                      Kode
+                    </p>
+                    <p className="mt-2 text-sm font-semibold text-gray-800">
+                      {dataDetail.code}
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div className="flex flex-col gap-3 sm:items-end">
+                <div className="inline-flex items-center gap-2 rounded-full border border-gray-200 bg-white px-3 py-1 text-xs font-semibold text-gray-600 shadow-sm">
+                  <span className="h-2 w-2 rounded-full bg-primaryGreen" />
+                  {dataDetail.sectors.length} Sektor
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setOpenCreateSector(true)}
+                  className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-primaryGreen px-5 py-2.5 text-sm font-semibold text-white shadow-[0_12px_28px_-20px_rgba(176,203,31,0.9)] transition duration-200 hover:bg-primaryGreenDarker sm:w-auto"
+                >
+                  <FaPlus className="h-4 w-4" />
+                  Tambah Sektor
                 </button>
               </div>
             </div>
+          </section>
 
-            <div className="flex flex-col gap-10">
-              {dataDetail.sectors.length === 0 ? (
-                <SectorEmpty />
-              ) : (
-                dataDetail.sectors.map((sector: Sector) => (
-                  <div key={sector.id} className="flex flex-col gap-4">
+          <div className="flex flex-col gap-8">
+            {dataDetail.sectors.length === 0 ? (
+              <SectorEmpty />
+            ) : (
+              dataDetail.sectors.map((sector: Sector) => (
+                <div
+                  key={sector.id}
+                  className="rounded-2xl border border-gray-200/70 bg-white p-5 shadow-[0_18px_40px_-30px_rgba(15,23,42,0.45)]"
+                >
+                  <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                     <div>
-                      <div className="flex items-center justify-between">
-                        <div className="flex items-center gap-2">
-                          <p className="text-base text-gray-700 font-semibold">
-                            {sector.categoryCode}.{sector.no} {sector.name}
-                          </p>
-                          <button
-                            onClick={() => handleEditSector(sector)}
-                            className=" hover:bg-primaryGreen hover:shadow-sm hover:text-white rounded-md cursor-pointer py-2 px-4 transition duration-300 ease-in-out text-primaryGreen"
-                          >
-                            <IoPencil className="h-4 w-4" />
-                          </button>
-                        </div>
-                        <button
-                          onClick={() => handleDeleteSector(sector)}
-                          className="px-4 hover:bg-primaryRed hover:shadow-sm hover:text-white text-primaryRed rounded-md cursor-pointer py-2 transition duration-300 ease-in-out"
-                        >
-                          <IoTrash className="h-4 w-4" />
-                        </button>
-                      </div>
-                      <span className="text-sm font-medium text-gray-700">
+                      <p className="text-xs font-semibold uppercase tracking-[0.2em] text-gray-500">
+                        Sektor
+                      </p>
+                      <p className="mt-1 text-base font-semibold text-gray-800">
+                        {sector.categoryCode}.{sector.no} {sector.name}
+                      </p>
+                      <p className="mt-1 text-xs text-gray-500">
                         Sumber: {sector.source ? sector.source : "-"}
-                      </span>
+                      </p>
                     </div>
+                    <div className="flex items-center gap-2">
+                      <button
+                        type="button"
+                        onClick={() => handleEditSector(sector)}
+                        className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-primaryGreen text-white shadow-sm transition duration-200 hover:bg-primaryGreenDarker"
+                      >
+                        <IoPencil className="h-4 w-4" />
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => handleDeleteSector(sector)}
+                        className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-primaryRed text-white shadow-sm transition duration-200 hover:bg-primaryRedDarker"
+                      >
+                        <IoTrash className="h-4 w-4" />
+                      </button>
+                    </div>
+                  </div>
+                  <div className="mt-4">
                     <ItemTable
                       data={sector.items}
                       openCreate={openCreateItem}
@@ -122,14 +160,16 @@ export default function ClientSide({ id }: ClientSideDetailCategoryProps) {
                       handleDelete={handleDeleteItem}
                     />
                   </div>
-                ))
-              )}
-            </div>
+                </div>
+              ))
+            )}
           </div>
-        ) : (
-          <div>Error</div>
-        )}
-      </div>
+        </div>
+      ) : (
+        <div className="rounded-2xl border border-gray-200/70 bg-white p-6 text-center text-sm font-semibold text-gray-600 shadow-[0_18px_40px_-30px_rgba(15,23,42,0.45)]">
+          Data tidak ditemukan.
+        </div>
+      )}
       <CreateModalSector
         open={openCreateSector}
         setOpen={setOpenCreateSector}

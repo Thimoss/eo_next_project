@@ -16,7 +16,7 @@ export default function Modal({ open, onClose, children }: ModalProps) {
     >
       <div
         onClick={(e) => e.stopPropagation()}
-        className={`w-full max-w-2xl overflow-y-auto rounded-3xl bg-white p-6 shadow-[0_24px_60px_-38px_rgba(15,23,42,0.65)] transition-all ${
+        className={`scrollbar-hide w-full max-w-2xl overflow-y-auto rounded-3xl bg-white p-6 shadow-[0_24px_60px_-38px_rgba(15,23,42,0.65)] transition-all ${
           open ? "scale-100 opacity-100" : "scale-95 opacity-0"
         } max-h-[85vh]`}
       >

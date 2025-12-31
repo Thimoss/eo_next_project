@@ -93,6 +93,7 @@ export default function ClientSide({ session, accessToken }: ClientSideProps) {
         setOpen={setOpenCreate}
         mutate={mutate}
         accessToken={accessToken}
+        session={session}
       />
       <UpdateModal
         open={openEdit}
@@ -100,6 +101,7 @@ export default function ClientSide({ session, accessToken }: ClientSideProps) {
         mutate={mutate}
         selectedDocument={selectedDocument}
         accessToken={accessToken}
+        session={session}
       />
       <DeleteModal
         open={openDelete}

@@ -9,7 +9,8 @@ interface UseProfileProps {
 }
 
 export const useProfile = ({ accessToken, session }: UseProfileProps) => {
-  const [isLoading, setIsLoading] = useState(false);
+  const [isProfileLoading, setIsProfileLoading] = useState(false);
+  const [isPasswordLoading, setIsPasswordLoading] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
 
   const [passwords, setPasswords] = useState({
@@ -44,8 +45,18 @@ export const useProfile = ({ accessToken, session }: UseProfileProps) => {
     });
   };
 
+  const resetProfileData = (
+    nextData: typeof profileData = {
+      name: session?.name || "",
+      email: session?.email || "",
+      phoneNumber: session?.phoneNumber || "",
+    }
+  ) => {
+    setProfileData(nextData);
+  };
+
   const updateProfile = async () => {
-    setIsLoading(true);
+    setIsProfileLoading(true);
 
     const api = new Api();
     api.auth = true;
@@ -63,12 +74,12 @@ export const useProfile = ({ accessToken, session }: UseProfileProps) => {
     } else {
       toast.error(res.message || "Terjadi kesalahan");
     }
-    setIsLoading(false);
+    setIsProfileLoading(false);
   };
 
   const updatePassword = async () => {
     try {
-      setIsLoading(true);
+      setIsPasswordLoading(true);
 
       const api = new Api();
       api.auth = true;
@@ -87,15 +98,18 @@ export const useProfile = ({ accessToken, session }: UseProfileProps) => {
     } catch (error) {
       toast.error("Terjadi kesalahan. Silakan coba lagi.");
     }
-    setIsLoading(false);
+    setIsPasswordLoading(false);
   };
 
   return {
-    isLoading,
+    isLoading: isProfileLoading || isPasswordLoading,
+    isProfileLoading,
+    isPasswordLoading,
     isEditing,
     setIsEditing,
     handleInputChange,
     profileData,
+    resetProfileData,
     updateProfile,
     handlePasswordChange,
     updatePassword,

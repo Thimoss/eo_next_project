@@ -1,3 +1,5 @@
+import type { UserSession } from "./Session.type";
+
 export interface ItemJobSection {
   id: number;
   name: string;
@@ -47,6 +49,13 @@ export interface Document {
   checkedByPosition: string;
   confirmedByName: string;
   confirmedByPosition: string;
+  preparedById?: number;
+  checkedById?: number;
+  confirmedById?: number;
+  createdById?: number;
+  createdBy?: UserSession | null;
+  checkedBy?: UserSession | null;
+  confirmedBy?: UserSession | null;
   createdAt: string;
   updatedAt: string;
   deletedAt: string | null;

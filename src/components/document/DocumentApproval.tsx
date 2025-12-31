@@ -7,12 +7,6 @@ import { CgSpinner } from "react-icons/cg";
 
 interface FormData {
   recapitulationLocation: string;
-  preparedByName: string;
-  preparedByPosition: string;
-  checkedByName: string;
-  checkedByPosition: string;
-  confirmedByName: string;
-  confirmedByPosition: string;
 }
 
 interface DocumentApprovalProps {
@@ -47,82 +41,40 @@ export default function DocumentApproval({
 
   const { handleSubmit, register, reset } = useForm<FormData>({});
   useEffect(() => {
-    if (editMode) {
-      if (
-        recapitulationLocation ||
-        preparedByName ||
-        preparedByPosition ||
-        checkedByName ||
-        checkedByPosition ||
-        confirmedByName ||
-        confirmedByPosition
-      ) {
-        reset({
-          recapitulationLocation: recapitulationLocation,
-          preparedByName: preparedByName,
-          preparedByPosition: preparedByPosition,
-          checkedByName: checkedByName,
-          checkedByPosition: checkedByPosition,
-          confirmedByName: confirmedByName,
-          confirmedByPosition: confirmedByPosition,
-        });
-      }
-    }
-    if (
-      recapitulationLocation ||
-      preparedByName ||
-      preparedByPosition ||
-      checkedByName ||
-      checkedByPosition ||
-      confirmedByName ||
-      confirmedByPosition
-    ) {
-      reset({
-        recapitulationLocation: recapitulationLocation,
-        preparedByName: preparedByName,
-        preparedByPosition: preparedByPosition,
-        checkedByName: checkedByName,
-        checkedByPosition: checkedByPosition,
-        confirmedByName: confirmedByName,
-        confirmedByPosition: confirmedByPosition,
-      });
-    }
-  }, [
-    checkedByName,
-    checkedByPosition,
-    confirmedByName,
-    confirmedByPosition,
-    editMode,
-    preparedByName,
-    preparedByPosition,
-    recapitulationLocation,
-    reset,
-  ]);
+    reset({
+      recapitulationLocation: recapitulationLocation ?? "",
+    });
+  }, [recapitulationLocation, reset]);
 
   const onSubmit = async (data: FormData) => {
     try {
       setLoading(true);
+      const shouldUpdateRecapitulation =
+        data.recapitulationLocation !== recapitulationLocation;
+
+      if (!shouldUpdateRecapitulation) {
+        toast.error("Tidak ada perubahan untuk disimpan.");
+        return;
+      }
+
       const api = new Api();
-      api.url = `document/update/approval/${slug}`;
+      api.url = `document/update/recapitulation-location/${slug}`;
       api.auth = true;
       api.token = accessToken ?? "";
       api.method = "PATCH";
       api.type = "json";
       api.body = {
         recapitulationLocation: data.recapitulationLocation,
-        preparedByName: data.preparedByName,
-        preparedByPosition: data.preparedByPosition,
-        checkedByName: data.checkedByName,
-        checkedByPosition: data.checkedByPosition,
-        confirmedByName: data.confirmedByName,
-        confirmedByPosition: data.confirmedByPosition,
       };
+
       const response = await api.call();
       if (response.statusCode === 200) {
         toast.success(response.message);
         setEditMode(false);
         mutate();
-        reset();
+        reset({
+          recapitulationLocation: data.recapitulationLocation ?? "",
+        });
       } else {
         if (response.message && Array.isArray(response.message)) {
           response.message.forEach((error: string) => {
@@ -142,7 +94,9 @@ export default function DocumentApproval({
 
   const handleCancel = () => {
     setEditMode(false);
-    reset();
+    reset({
+      recapitulationLocation: recapitulationLocation ?? "",
+    });
   };
 
   useEffect(() => {
@@ -170,7 +124,7 @@ export default function DocumentApproval({
             Persetujuan Dokumen
           </h2>
           <p className="mt-1 text-sm text-gray-500">
-            Lengkapi informasi penanggung jawab dokumen.
+            Informasi penanggung jawab dokumen.
           </p>
         </div>
         <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
@@ -200,7 +154,7 @@ export default function DocumentApproval({
               onClick={() => setEditMode(true)}
               className="inline-flex items-center justify-center rounded-full bg-primaryGreen px-4 py-2 text-sm font-semibold text-white shadow-[0_12px_28px_-20px_rgba(176,203,31,0.9)] transition duration-200 hover:bg-primaryGreenDarker"
             >
-              Perbarui
+              Perbarui Lokasi
             </button>
           )}
         </div>
@@ -233,29 +187,19 @@ export default function DocumentApproval({
             <p className="text-xs font-semibold uppercase tracking-[0.2em] text-gray-500">
               Disiapkan oleh
             </p>
-            <div className="mt-4 space-y-3">
-              <input
-                readOnly={!editMode}
-                type="text"
-                className={`w-full rounded-lg px-3 py-2 text-sm text-gray-700 focus:outline-none ${
-                  editMode
-                    ? "border border-gray-200 bg-white focus:border-primaryBlue focus:ring-2 focus:ring-primaryBlue/30"
-                    : "border border-transparent bg-transparent"
-                }`}
-                {...register("preparedByPosition")}
-                placeholder="Jabatan"
-              />
-              <input
-                readOnly={!editMode}
-                type="text"
-                className={`w-full rounded-lg px-3 py-2 text-sm font-semibold text-gray-800 focus:outline-none ${
-                  editMode
-                    ? "border border-gray-200 bg-white focus:border-primaryBlue focus:ring-2 focus:ring-primaryBlue/30"
-                    : "border border-transparent bg-transparent"
-                }`}
-                {...register("preparedByName")}
-                placeholder="Nama"
-              />
+            <div className="mt-4 space-y-2 text-sm text-gray-700">
+              <p className="text-xs font-semibold uppercase tracking-[0.18em] text-gray-400">
+                Jabatan
+              </p>
+              <p className="font-medium text-gray-800">
+                {preparedByPosition || "-"}
+              </p>
+              <p className="text-xs font-semibold uppercase tracking-[0.18em] text-gray-400">
+                Nama
+              </p>
+              <p className="font-semibold text-gray-800">
+                {preparedByName || "-"}
+              </p>
             </div>
           </div>
 
@@ -263,29 +207,19 @@ export default function DocumentApproval({
             <p className="text-xs font-semibold uppercase tracking-[0.2em] text-gray-500">
               Diperiksa oleh
             </p>
-            <div className="mt-4 space-y-3">
-              <input
-                readOnly={!editMode}
-                type="text"
-                className={`w-full rounded-lg px-3 py-2 text-sm text-gray-700 focus:outline-none ${
-                  editMode
-                    ? "border border-gray-200 bg-white focus:border-primaryBlue focus:ring-2 focus:ring-primaryBlue/30"
-                    : "border border-transparent bg-transparent"
-                }`}
-                {...register("checkedByPosition")}
-                placeholder="Jabatan"
-              />
-              <input
-                readOnly={!editMode}
-                type="text"
-                className={`w-full rounded-lg px-3 py-2 text-sm font-semibold text-gray-800 focus:outline-none ${
-                  editMode
-                    ? "border border-gray-200 bg-white focus:border-primaryBlue focus:ring-2 focus:ring-primaryBlue/30"
-                    : "border border-transparent bg-transparent"
-                }`}
-                {...register("checkedByName")}
-                placeholder="Nama"
-              />
+            <div className="mt-4 space-y-2 text-sm text-gray-700">
+              <p className="text-xs font-semibold uppercase tracking-[0.18em] text-gray-400">
+                Jabatan
+              </p>
+              <p className="font-medium text-gray-800">
+                {checkedByPosition || "-"}
+              </p>
+              <p className="text-xs font-semibold uppercase tracking-[0.18em] text-gray-400">
+                Nama
+              </p>
+              <p className="font-semibold text-gray-800">
+                {checkedByName || "-"}
+              </p>
             </div>
           </div>
 
@@ -293,29 +227,19 @@ export default function DocumentApproval({
             <p className="text-xs font-semibold uppercase tracking-[0.2em] text-gray-500">
               Disahkan oleh
             </p>
-            <div className="mt-4 space-y-3">
-              <input
-                readOnly={!editMode}
-                type="text"
-                className={`w-full rounded-lg px-3 py-2 text-sm text-gray-700 focus:outline-none ${
-                  editMode
-                    ? "border border-gray-200 bg-white focus:border-primaryBlue focus:ring-2 focus:ring-primaryBlue/30"
-                    : "border border-transparent bg-transparent"
-                }`}
-                {...register("confirmedByPosition")}
-                placeholder="Jabatan"
-              />
-              <input
-                readOnly={!editMode}
-                type="text"
-                className={`w-full rounded-lg px-3 py-2 text-sm font-semibold text-gray-800 focus:outline-none ${
-                  editMode
-                    ? "border border-gray-200 bg-white focus:border-primaryBlue focus:ring-2 focus:ring-primaryBlue/30"
-                    : "border border-transparent bg-transparent"
-                }`}
-                {...register("confirmedByName")}
-                placeholder="Nama"
-              />
+            <div className="mt-4 space-y-2 text-sm text-gray-700">
+              <p className="text-xs font-semibold uppercase tracking-[0.18em] text-gray-400">
+                Jabatan
+              </p>
+              <p className="font-medium text-gray-800">
+                {confirmedByPosition || "-"}
+              </p>
+              <p className="text-xs font-semibold uppercase tracking-[0.18em] text-gray-400">
+                Nama
+              </p>
+              <p className="font-semibold text-gray-800">
+                {confirmedByName || "-"}
+              </p>
             </div>
           </div>
         </div>

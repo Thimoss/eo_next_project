@@ -63,6 +63,8 @@ export default function ClientSide({ slug, accessToken }: DetailDocumentProps) {
     accessToken: validAccessToken,
   });
 
+  console.log(dataDetail);
+
   return (
     <>
       {isLoadingDetail ? (
@@ -91,12 +93,9 @@ export default function ClientSide({ slug, accessToken }: DetailDocumentProps) {
             />
             <DocumentApproval
               recapitulationLocation={dataDetail.recapitulationLocation}
-              confirmedByName={dataDetail.confirmedByName}
-              confirmedByPosition={dataDetail.confirmedByPosition}
-              checkedByPosition={dataDetail.checkedByPosition}
-              checkedByName={dataDetail.checkedByName}
-              preparedByPosition={dataDetail.preparedByPosition}
-              preparedByName={dataDetail.preparedByName}
+              confirmedBy={dataDetail.confirmedBy}
+              checkedBy={dataDetail.checkedBy}
+              preparedBy={dataDetail.createdBy}
               mutate={mutateDetail}
               slug={slug}
               accessToken={accessToken}

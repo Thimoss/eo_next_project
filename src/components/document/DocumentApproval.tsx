@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { KeyedMutator } from "swr";
@@ -11,13 +12,10 @@ interface FormData {
 
 interface DocumentApprovalProps {
   recapitulationLocation: string;
-  preparedByName: string;
-  preparedByPosition: string;
-  checkedByName: string;
-  checkedByPosition: string;
-  confirmedByName: string;
-  confirmedByPosition: string;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  preparedBy: any;
+  checkedBy: any;
+  confirmedBy: any;
+
   mutate: KeyedMutator<any>;
   slug: string;
   accessToken?: string;
@@ -25,12 +23,9 @@ interface DocumentApprovalProps {
 
 export default function DocumentApproval({
   recapitulationLocation,
-  preparedByName,
-  preparedByPosition,
-  checkedByName,
-  checkedByPosition,
-  confirmedByName,
-  confirmedByPosition,
+  preparedBy,
+  checkedBy,
+  confirmedBy,
   mutate,
   slug,
   accessToken,
@@ -84,7 +79,6 @@ export default function DocumentApproval({
           toast.error(response.message);
         }
       }
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       toast.error("Error updating document: " + error.message);
     } finally {
@@ -192,13 +186,13 @@ export default function DocumentApproval({
                 Jabatan
               </p>
               <p className="font-medium text-gray-800">
-                {preparedByPosition || "-"}
+                {preparedBy?.position || "-"}
               </p>
               <p className="text-xs font-semibold uppercase tracking-[0.18em] text-gray-400">
                 Nama
               </p>
               <p className="font-semibold text-gray-800">
-                {preparedByName || "-"}
+                {preparedBy?.name || "-"}
               </p>
             </div>
           </div>
@@ -212,13 +206,13 @@ export default function DocumentApproval({
                 Jabatan
               </p>
               <p className="font-medium text-gray-800">
-                {checkedByPosition || "-"}
+                {checkedBy?.position || "-"}
               </p>
               <p className="text-xs font-semibold uppercase tracking-[0.18em] text-gray-400">
                 Nama
               </p>
               <p className="font-semibold text-gray-800">
-                {checkedByName || "-"}
+                {checkedBy?.name || "-"}
               </p>
             </div>
           </div>
@@ -232,13 +226,13 @@ export default function DocumentApproval({
                 Jabatan
               </p>
               <p className="font-medium text-gray-800">
-                {confirmedByPosition || "-"}
+                {confirmedBy?.position || "-"}
               </p>
               <p className="text-xs font-semibold uppercase tracking-[0.18em] text-gray-400">
                 Nama
               </p>
               <p className="font-semibold text-gray-800">
-                {confirmedByName || "-"}
+                {confirmedBy?.name || "-"}
               </p>
             </div>
           </div>

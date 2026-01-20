@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
 import React, { useRef } from "react";
 import { CgSpinner } from "react-icons/cg";

@@ -74,7 +74,8 @@ export const useDashboard = ({ accessToken }: UseListUsersProps) => {
     mutate: mutateCreated,
   } = useSWR(
     ["document/list", "created", 5],
-    ([url, scope, limit]) => fetcher(url, scope, limit),
+    ([url, scope, limit]: [string, DocumentScope, number]) =>
+      fetcher(url, scope, limit),
     {
       revalidateOnFocus: false,
     }
@@ -87,7 +88,8 @@ export const useDashboard = ({ accessToken }: UseListUsersProps) => {
     mutate: mutateReview,
   } = useSWR(
     ["document/list", "review", 5],
-    ([url, scope, limit]) => fetcher(url, scope, limit),
+    ([url, scope, limit]: [string, DocumentScope, number]) =>
+      fetcher(url, scope, limit),
     {
       revalidateOnFocus: false,
     }
@@ -100,7 +102,8 @@ export const useDashboard = ({ accessToken }: UseListUsersProps) => {
     mutate: mutateConfirm,
   } = useSWR(
     ["document/list", "confirm", 5],
-    ([url, scope, limit]) => fetcher(url, scope, limit),
+    ([url, scope, limit]: [string, DocumentScope, number]) =>
+      fetcher(url, scope, limit),
     {
       revalidateOnFocus: false,
     }

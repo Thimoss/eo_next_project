@@ -54,10 +54,15 @@ export const useDashboard = ({ accessToken }: UseListUsersProps) => {
     };
 
     const response = await api.call();
-    if (!response.statusCode.toString().startsWith("2")) {
-      throw new Error(response.meta.message);
+    const statusCode = response?.statusCode ?? response?.meta?.code;
+    if (!statusCode || !statusCode.toString().startsWith("2")) {
+      const message =
+        response?.message ||
+        response?.meta?.message ||
+        "Gagal memuat data dokumen.";
+      throw new Error(message);
     }
-    return response.data;
+    return response.data ?? [];
   };
 
   const { data, error, isLoading, mutate } = useSWR(

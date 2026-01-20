@@ -23,6 +23,7 @@ export const useProfile = ({ accessToken, session }: UseProfileProps) => {
     name: session?.name || "",
     email: session?.email || "",
     phoneNumber: session?.phoneNumber || "",
+    position: session?.position || "",
   });
 
   const handlePasswordChange = (
@@ -50,6 +51,7 @@ export const useProfile = ({ accessToken, session }: UseProfileProps) => {
       name: session?.name || "",
       email: session?.email || "",
       phoneNumber: session?.phoneNumber || "",
+      position: session?.position || "",
     }
   ) => {
     setProfileData(nextData);

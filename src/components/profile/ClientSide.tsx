@@ -5,6 +5,7 @@ import { CgSpinner } from "react-icons/cg";
 import {
   IoCallOutline,
   IoCreateOutline,
+  IoBriefcaseOutline,
   IoKeyOutline,
   IoMailOutline,
   IoPersonCircleOutline,
@@ -170,6 +171,28 @@ export default function ClientSide({ session, accessToken }: ClientSideProps) {
                 </div>
                 <div className="flex flex-col gap-1">
                   <label
+                    htmlFor="position"
+                    className="flex items-center gap-2 text-sm font-medium text-gray-700"
+                  >
+                    <IoBriefcaseOutline className="h-4 w-4 text-primaryBlue" />
+                    Jabatan
+                  </label>
+                  {isEditing ? (
+                    <input
+                      type="text"
+                      id="position"
+                      value={profileData.position}
+                      onChange={(e) => handleInputChange(e, "position")}
+                      className="text-sm block w-full rounded-xl border border-gray-200 bg-white px-4 py-2.5 text-gray-700 shadow-sm focus:border-primaryBlue focus:outline-none focus:ring-2 focus:ring-primaryBlue/30"
+                    />
+                  ) : (
+                    <div className="rounded-xl border border-gray-200 bg-white px-4 py-2.5 text-sm text-gray-700">
+                      {profileData.position || "-"}
+                    </div>
+                  )}
+                </div>
+                <div className="flex flex-col gap-1">
+                  <label
                     htmlFor="email"
                     className="flex items-center gap-2 text-sm font-medium text-gray-700"
                   >
@@ -190,7 +213,7 @@ export default function ClientSide({ session, accessToken }: ClientSideProps) {
                     </div>
                   )}
                 </div>
-                <div className="flex flex-col gap-1 sm:col-span-2">
+                <div className="flex flex-col gap-1">
                   <label
                     htmlFor="phone"
                     className="flex items-center gap-2 text-sm font-medium text-gray-700"

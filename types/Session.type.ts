@@ -3,6 +3,7 @@ export type UserSession = {
   name: string;
   email: string;
   phoneNumber: string;
+  position?: string;
   role: string;
   createdAt: string;
   updatedAt: string;

@@ -17,7 +17,7 @@ export default function Table({
   return (
     <div className="rounded-2xl border border-gray-200/70 bg-white p-4 shadow-[0_18px_40px_-30px_rgba(15,23,42,0.45)] sm:p-6">
       <div className="overflow-x-auto rounded-2xl border border-gray-200/80">
-        <table className="min-w-[760px] w-full text-center text-sm text-gray-700">
+        <table className="min-w-[900px] w-full text-center text-sm text-gray-700">
           <thead className="bg-primaryBlue text-xs uppercase tracking-wider text-white">
             <tr>
               <th scope="col" className="px-4 py-3 font-semibold">
@@ -31,6 +31,9 @@ export default function Table({
               </th>
               <th scope="col" className="px-4 py-3 font-semibold">
                 Nomor Telepon
+              </th>
+              <th scope="col" className="px-4 py-3 font-semibold">
+                Jabatan
               </th>
               <th scope="col" className="px-4 py-3 font-semibold">
                 Aksi
@@ -47,6 +50,7 @@ export default function Table({
                 <td className="px-4 py-3 font-semibold">{user.name}</td>
                 <td className="px-4 py-3">{user.email}</td>
                 <td className="px-4 py-3">{user.phoneNumber}</td>
+                <td className="px-4 py-3">{user.position || "-"}</td>
                 <td className="px-4 py-3">
                   <div className="flex items-center justify-center gap-2">
                     <button

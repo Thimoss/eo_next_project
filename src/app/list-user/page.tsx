@@ -4,6 +4,11 @@ import React from "react";
 import { getSession } from "../../../lib/auth";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Daftar Pengguna - Owner Estimate",
+};
 
 export default async function ListUser() {
   const session = await getSession();

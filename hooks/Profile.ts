@@ -69,7 +69,6 @@ export const useProfile = ({ accessToken, session }: UseProfileProps) => {
 
     const res = await api.call();
 
-    console.log(res);
     if (res.statusCode === 200) {
       toast.success(res.message);
       setIsEditing(false);

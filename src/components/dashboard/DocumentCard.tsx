@@ -6,8 +6,8 @@ import { HiDotsVertical } from "react-icons/hi";
 interface DocumentCardProps {
   document: Document;
   handleDetail: (document: Document) => Promise<void>;
-  handleEdit: (document: Document) => Promise<void>;
-  handleDelete: (document: Document) => Promise<void>;
+  handleEdit?: (document: Document) => Promise<void>;
+  handleDelete?: (document: Document) => Promise<void>;
 }
 
 const getInitials = (name: string) => {
@@ -25,8 +25,12 @@ export default function DocumentCard({
   const initials = getInitials(document.name);
   const [showActions, setShowActions] = useState(false);
   const actionsRef = useRef<HTMLDivElement | null>(null);
+  const hasActions = Boolean(handleEdit || handleDelete);
 
   const toggleActions = () => {
+    if (!hasActions) {
+      return;
+    }
     setShowActions((prev) => !prev);
   };
 
@@ -56,41 +60,46 @@ export default function DocumentCard({
           {initials}
         </span>
 
-        {/* Actions Button */}
-        <div className="absolute right-2 top-2">
-          <div className="relative h-full">
-            <button
-              type="button"
-              onClick={toggleActions}
-              aria-label="Menu dokumen"
-              aria-expanded={showActions}
-              className="flex cursor-pointer items-center justify-center rounded-full bg-white/15 p-2 text-white transition duration-200 ease-in-out hover:bg-white hover:text-primaryBlue focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/80"
-            >
-              <HiDotsVertical className="w-full h-full" />
-            </button>
-            {showActions && (
-              <div
-                ref={actionsRef}
-                className="absolute right-0 z-10 mt-2 flex w-28 flex-col gap-1 rounded-xl border border-gray-100 bg-white p-1.5 text-sm shadow-[0_16px_40px_-28px_rgba(15,23,42,0.5)]"
+        {hasActions && (
+          <div className="absolute right-2 top-2">
+            <div className="relative h-full">
+              <button
+                type="button"
+                onClick={toggleActions}
+                aria-label="Menu dokumen"
+                aria-expanded={showActions}
+                className="flex cursor-pointer items-center justify-center rounded-full bg-white/15 p-2 text-white transition duration-200 ease-in-out hover:bg-white hover:text-primaryBlue focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/80"
               >
-                <button
-                  type="button"
-                  onClick={() => handleEdit(document)}
-                  className="rounded-lg px-3 py-2 text-left text-sm font-semibold text-gray-700 transition duration-200 hover:bg-gray-100"
+                <HiDotsVertical className="w-full h-full" />
+              </button>
+              {showActions && (
+                <div
+                  ref={actionsRef}
+                  className="absolute right-0 z-10 mt-2 flex w-28 flex-col gap-1 rounded-xl border border-gray-100 bg-white p-1.5 text-sm shadow-[0_16px_40px_-28px_rgba(15,23,42,0.5)]"
                 >
-                  Edit
-                </button>
-                <button
-                  type="button"
-                  onClick={() => handleDelete(document)}
-                  className="rounded-lg px-3 py-2 text-left text-sm font-semibold text-primaryRed transition duration-200 hover:bg-gray-100"
-                >
-                  Hapus
-                </button>
-              </div>
-            )}
+                  {handleEdit && (
+                    <button
+                      type="button"
+                      onClick={() => handleEdit(document)}
+                      className="rounded-lg px-3 py-2 text-left text-sm font-semibold text-gray-700 transition duration-200 hover:bg-gray-100"
+                    >
+                      Edit
+                    </button>
+                  )}
+                  {handleDelete && (
+                    <button
+                      type="button"
+                      onClick={() => handleDelete(document)}
+                      className="rounded-lg px-3 py-2 text-left text-sm font-semibold text-primaryRed transition duration-200 hover:bg-gray-100"
+                    >
+                      Hapus
+                    </button>
+                  )}
+                </div>
+              )}
+            </div>
           </div>
-        </div>
+        )}
       </div>
 
       <div className="relative flex flex-1 flex-col justify-between gap-3">

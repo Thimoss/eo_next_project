@@ -28,7 +28,6 @@ export const useListUsers = ({ accessToken, session }: UseListUsersProps) => {
     api.auth = true;
     api.token = accessToken ?? "";
     api.method = "GET";
-    console.log(accessToken);
     api.body = {
       page,
       pageSize,

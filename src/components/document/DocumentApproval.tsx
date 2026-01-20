@@ -19,6 +19,7 @@ interface DocumentApprovalProps {
   mutate: KeyedMutator<any>;
   slug: string;
   accessToken?: string;
+  canEdit?: boolean;
 }
 
 export default function DocumentApproval({
@@ -29,6 +30,7 @@ export default function DocumentApproval({
   mutate,
   slug,
   accessToken,
+  canEdit = true,
 }: DocumentApprovalProps) {
   const [editMode, setEditMode] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -121,37 +123,39 @@ export default function DocumentApproval({
             Informasi penanggung jawab dokumen.
           </p>
         </div>
-        <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
-          {editMode ? (
-            <>
+        {canEdit && (
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
+            {editMode ? (
+              <>
+                <button
+                  disabled={loading}
+                  type="button"
+                  onClick={handleSubmit(onSubmit)}
+                  className="inline-flex items-center justify-center gap-2 rounded-full bg-primaryBlue px-4 py-2 text-sm font-semibold text-white shadow-[0_12px_28px_-20px_rgba(0,110,182,0.9)] transition duration-200 hover:bg-primaryBlueDarker disabled:cursor-not-allowed disabled:opacity-70"
+                >
+                  {loading && <CgSpinner className="h-4 w-4 animate-spin" />}
+                  Simpan
+                </button>
+                <button
+                  type="button"
+                  disabled={loading}
+                  onClick={handleCancel}
+                  className="inline-flex items-center justify-center rounded-full border border-gray-200 bg-white px-4 py-2 text-sm font-semibold text-gray-700 transition duration-200 hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-70"
+                >
+                  Batal
+                </button>
+              </>
+            ) : (
               <button
-                disabled={loading}
                 type="button"
-                onClick={handleSubmit(onSubmit)}
-                className="inline-flex items-center justify-center gap-2 rounded-full bg-primaryBlue px-4 py-2 text-sm font-semibold text-white shadow-[0_12px_28px_-20px_rgba(0,110,182,0.9)] transition duration-200 hover:bg-primaryBlueDarker disabled:cursor-not-allowed disabled:opacity-70"
+                onClick={() => setEditMode(true)}
+                className="inline-flex items-center justify-center rounded-full bg-primaryGreen px-4 py-2 text-sm font-semibold text-white shadow-[0_12px_28px_-20px_rgba(176,203,31,0.9)] transition duration-200 hover:bg-primaryGreenDarker"
               >
-                {loading && <CgSpinner className="h-4 w-4 animate-spin" />}
-                Simpan
+                Perbarui Lokasi
               </button>
-              <button
-                type="button"
-                disabled={loading}
-                onClick={handleCancel}
-                className="inline-flex items-center justify-center rounded-full border border-gray-200 bg-white px-4 py-2 text-sm font-semibold text-gray-700 transition duration-200 hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-70"
-              >
-                Batal
-              </button>
-            </>
-          ) : (
-            <button
-              type="button"
-              onClick={() => setEditMode(true)}
-              className="inline-flex items-center justify-center rounded-full bg-primaryGreen px-4 py-2 text-sm font-semibold text-white shadow-[0_12px_28px_-20px_rgba(176,203,31,0.9)] transition duration-200 hover:bg-primaryGreenDarker"
-            >
-              Perbarui Lokasi
-            </button>
-          )}
-        </div>
+            )}
+          </div>
+        )}
       </div>
 
       <form onSubmit={handleSubmit(onSubmit)} className="relative mt-6">

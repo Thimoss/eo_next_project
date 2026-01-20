@@ -31,7 +31,6 @@ export default function UpdateModal({
   accessToken,
   session,
 }: UpdateModalProps) {
-  console.log(selectedDocument);
   const [loading, setLoading] = useState(false);
   const [checkedByError, setCheckedByError] = useState<string | null>(null);
   const [confirmedByError, setConfirmedByError] = useState<string | null>(null);

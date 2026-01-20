@@ -10,7 +10,7 @@ type RequestInfo = {
   form?: string;
 };
 
-type CurlBuilder = (baseUrl: string, token: string) => string;
+type CurlBuilder = (baseUrl: string, token?: string) => string;
 
 type Endpoint = {
   method: "GET" | "POST" | "PATCH" | "DELETE";
@@ -42,7 +42,7 @@ const apiGroups: ApiGroup[] = [
         summary: "Health check sederhana.",
         auth: "Public",
         response: "Hello World!",
-        curl: (baseUrl, _token) => `curl "${baseUrl}/"`,
+        curl: (baseUrl) => `curl "${baseUrl}/"`,
       },
     ],
   },
@@ -64,7 +64,7 @@ const apiGroups: ApiGroup[] = [
   "message": "Login berhasil",
   "access_token": "JWT_TOKEN"
 }`,
-        curl: (baseUrl, _token) =>
+        curl: (baseUrl) =>
           [
             `curl -X POST "${baseUrl}/auth/login" \\`,
             `  -H "Content-Type: application/json" \\`,
@@ -90,7 +90,7 @@ const apiGroups: ApiGroup[] = [
     "role": "ADMIN"
   }
 }`,
-        curl: (baseUrl, token) =>
+        curl: (baseUrl, token = "YOUR_TOKEN") =>
           [
             `curl "${baseUrl}/auth/profile" \\`,
             `  -H "Authorization: Bearer ${token}"`,
@@ -124,7 +124,7 @@ const apiGroups: ApiGroup[] = [
     "role": "USER"
   }
 }`,
-        curl: (baseUrl, token) =>
+        curl: (baseUrl, token = "YOUR_TOKEN") =>
           [
             `curl -X POST "${baseUrl}/users/create" \\`,
             `  -H "Authorization: Bearer ${token}" \\`,
@@ -154,7 +154,7 @@ const apiGroups: ApiGroup[] = [
     }
   }
 }`,
-        curl: (baseUrl, token) =>
+        curl: (baseUrl, token = "YOUR_TOKEN") =>
           `curl "${baseUrl}/users/list?name=andi&page=1&pageSize=10" \\\n  -H "Authorization: Bearer ${token}"`,
       },
       {
@@ -168,7 +168,7 @@ const apiGroups: ApiGroup[] = [
         },
         response: "This action returns a #1 user",
         notes: ["Endpoint ini masih placeholder di service."],
-        curl: (baseUrl, token) =>
+        curl: (baseUrl, token = "YOUR_TOKEN") =>
           `curl "${baseUrl}/users/1" \\\n  -H "Authorization: Bearer ${token}"`,
       },
       {
@@ -193,7 +193,7 @@ const apiGroups: ApiGroup[] = [
     "role": "USER"
   }
 }`,
-        curl: (baseUrl, token) =>
+        curl: (baseUrl, token = "YOUR_TOKEN") =>
           [
             `curl -X PATCH "${baseUrl}/users/update/1" \\`,
             `  -H "Authorization: Bearer ${token}" \\`,
@@ -216,7 +216,7 @@ const apiGroups: ApiGroup[] = [
   "statusCode": 200,
   "message": "Password successfully reset"
 }`,
-        curl: (baseUrl, token) =>
+        curl: (baseUrl, token = "YOUR_TOKEN") =>
           [
             `curl -X PATCH "${baseUrl}/users/change-password/1" \\`,
             `  -H "Authorization: Bearer ${token}" \\`,
@@ -237,7 +237,7 @@ const apiGroups: ApiGroup[] = [
   "statusCode": 200,
   "message": "Password successfully reset"
 }`,
-        curl: (baseUrl, token) =>
+        curl: (baseUrl, token = "YOUR_TOKEN") =>
           [
             `curl -X PATCH "${baseUrl}/users/reset-password/1" \\`,
             `  -H "Authorization: Bearer ${token}"`,
@@ -261,7 +261,7 @@ const apiGroups: ApiGroup[] = [
           "User yang dihapus tidak bisa login lagi.",
           "Dokumen tetap menyimpan relasi ke user.",
         ],
-        curl: (baseUrl, token) =>
+        curl: (baseUrl, token = "YOUR_TOKEN") =>
           [
             `curl -X DELETE "${baseUrl}/users/remove/1" \\`,
             `  -H "Authorization: Bearer ${token}"`,
@@ -295,7 +295,7 @@ const apiGroups: ApiGroup[] = [
     "location": "Jakarta"
   }
 }`,
-        curl: (baseUrl, _token) =>
+        curl: (baseUrl) =>
           [
             `curl -X POST "${baseUrl}/category/create" \\`,
             `  -H "Content-Type: application/json" \\`,
@@ -323,7 +323,7 @@ const apiGroups: ApiGroup[] = [
     }
   }
 }`,
-        curl: (baseUrl, _token) =>
+        curl: (baseUrl) =>
           `curl "${baseUrl}/category/list?name=kat&page=1&pageSize=10"`,
       },
       {
@@ -350,7 +350,7 @@ const apiGroups: ApiGroup[] = [
     ]
   }
 }`,
-        curl: (baseUrl, _token) => `curl "${baseUrl}/category/detail/1"`,
+        curl: (baseUrl) => `curl "${baseUrl}/category/detail/1"`,
       },
       {
         method: "PATCH",
@@ -374,7 +374,7 @@ const apiGroups: ApiGroup[] = [
     "location": "Jakarta"
   }
 }`,
-        curl: (baseUrl, _token) =>
+        curl: (baseUrl) =>
           [
             `curl -X PATCH "${baseUrl}/category/update/1" \\`,
             `  -H "Content-Type: application/json" \\`,
@@ -393,8 +393,7 @@ const apiGroups: ApiGroup[] = [
   "statusCode": 200,
   "message": "Category deleted successfully"
 }`,
-        curl: (baseUrl, _token) =>
-          `curl -X DELETE "${baseUrl}/category/delete/1"`,
+        curl: (baseUrl) => `curl -X DELETE "${baseUrl}/category/delete/1"`,
       },
     ],
   },
@@ -422,7 +421,7 @@ const apiGroups: ApiGroup[] = [
     "categoryCode": "CAT-001"
   }
 }`,
-        curl: (baseUrl, _token) =>
+        curl: (baseUrl) =>
           [
             `curl -X POST "${baseUrl}/sector/create" \\`,
             `  -H "Content-Type: application/json" \\`,
@@ -436,7 +435,7 @@ const apiGroups: ApiGroup[] = [
         auth: "Public",
         response: "This action returns all sector",
         notes: ["Endpoint ini masih placeholder di service."],
-        curl: (baseUrl, _token) => `curl "${baseUrl}/sector"`,
+        curl: (baseUrl) => `curl "${baseUrl}/sector"`,
       },
       {
         method: "GET",
@@ -448,7 +447,7 @@ const apiGroups: ApiGroup[] = [
         },
         response: "This action returns a #1 sector",
         notes: ["Endpoint ini masih placeholder di service."],
-        curl: (baseUrl, _token) => `curl "${baseUrl}/sector/1"`,
+        curl: (baseUrl) => `curl "${baseUrl}/sector/1"`,
       },
       {
         method: "PATCH",
@@ -471,7 +470,7 @@ const apiGroups: ApiGroup[] = [
     "categoryCode": "CAT-001"
   }
 }`,
-        curl: (baseUrl, _token) =>
+        curl: (baseUrl) =>
           [
             `curl -X PATCH "${baseUrl}/sector/update/1" \\`,
             `  -H "Content-Type: application/json" \\`,
@@ -490,8 +489,7 @@ const apiGroups: ApiGroup[] = [
   "statusCode": 200,
   "message": "Sector removed successfully"
 }`,
-        curl: (baseUrl, _token) =>
-          `curl -X DELETE "${baseUrl}/sector/delete/1"`,
+        curl: (baseUrl) => `curl -X DELETE "${baseUrl}/sector/delete/1"`,
       },
     ],
   },
@@ -526,7 +524,7 @@ const apiGroups: ApiGroup[] = [
           "Jika singleItem=false, unit/minimum/material/fee akan di-null.",
           "File hanya PDF, max 1 MB.",
         ],
-        curl: (baseUrl, _token) =>
+        curl: (baseUrl) =>
           [
             `curl -X POST "${baseUrl}/item/create" \\`,
             `  -F "no=1" \\`,
@@ -559,7 +557,7 @@ const apiGroups: ApiGroup[] = [
     "name": "Item A Updated"
   }
 }`,
-        curl: (baseUrl, _token) =>
+        curl: (baseUrl) =>
           [
             `curl -X PATCH "${baseUrl}/item/update/1" \\`,
             `  -F "no=1" \\`,
@@ -582,8 +580,7 @@ const apiGroups: ApiGroup[] = [
   "message": "Items found successfully",
   "data": []
 }`,
-        curl: (baseUrl, _token) =>
-          `curl "${baseUrl}/item/search?keyword=cement"`,
+        curl: (baseUrl) => `curl "${baseUrl}/item/search?keyword=cement"`,
       },
       {
         method: "DELETE",
@@ -597,8 +594,7 @@ const apiGroups: ApiGroup[] = [
   "statusCode": 200,
   "message": "Item removed successfully"
 }`,
-        curl: (baseUrl, _token) =>
-          `curl -X DELETE "${baseUrl}/item/delete/1"`,
+        curl: (baseUrl) => `curl -X DELETE "${baseUrl}/item/delete/1"`,
       },
     ],
   },
@@ -629,7 +625,7 @@ const apiGroups: ApiGroup[] = [
           "checkedById dan confirmedById harus berbeda.",
           "Keduanya tidak boleh sama dengan creator.",
         ],
-        curl: (baseUrl, token) =>
+        curl: (baseUrl, token = "YOUR_TOKEN") =>
           [
             `curl -X POST "${baseUrl}/document/create" \\`,
             `  -H "Authorization: Bearer ${token}" \\`,
@@ -651,7 +647,7 @@ const apiGroups: ApiGroup[] = [
   "message": "Items found successfully",
   "data": []
 }`,
-        curl: (baseUrl, token) =>
+        curl: (baseUrl, token = "YOUR_TOKEN") =>
           `curl "${baseUrl}/document/list?sortBy=recent" \\\n  -H "Authorization: Bearer ${token}"`,
       },
       {
@@ -676,7 +672,7 @@ const apiGroups: ApiGroup[] = [
   }
 }`,
         notes: ["percentageBenefitsAndRisks wajib sudah terisi."],
-        curl: (baseUrl, token) =>
+        curl: (baseUrl, token = "YOUR_TOKEN") =>
           [
             `curl "${baseUrl}/document/detail/dokumen-a-20260120000000" \\`,
             `  -H "Authorization: Bearer ${token}"`,
@@ -702,7 +698,7 @@ const apiGroups: ApiGroup[] = [
     "slug": "dokumen-a-updated-20260120000000"
   }
 }`,
-        curl: (baseUrl, token) =>
+        curl: (baseUrl, token = "YOUR_TOKEN") =>
           [
             `curl -X PATCH "${baseUrl}/document/update/1" \\`,
             `  -H "Authorization: Bearer ${token}" \\`,
@@ -730,7 +726,7 @@ const apiGroups: ApiGroup[] = [
     "base": "Base A"
   }
 }`,
-        curl: (baseUrl, token) =>
+        curl: (baseUrl, token = "YOUR_TOKEN") =>
           [
             `curl -X PATCH "${baseUrl}/document/update/general-info/dokumen-a-20260120000000" \\`,
             `  -H "Authorization: Bearer ${token}" \\`,
@@ -756,7 +752,7 @@ const apiGroups: ApiGroup[] = [
     "percentageBenefitsAndRisks": 10
   }
 }`,
-        curl: (baseUrl, token) =>
+        curl: (baseUrl, token = "YOUR_TOKEN") =>
           [
             `curl -X PATCH "${baseUrl}/document/update/percentage/dokumen-a-20260120000000" \\`,
             `  -H "Authorization: Bearer ${token}" \\`,
@@ -782,7 +778,7 @@ const apiGroups: ApiGroup[] = [
     "recapitulationLocation": "Jakarta"
   }
 }`,
-        curl: (baseUrl, token) =>
+        curl: (baseUrl, token = "YOUR_TOKEN") =>
           [
             `curl -X PATCH "${baseUrl}/document/update/recapitulation-location/dokumen-a-20260120000000" \\`,
             `  -H "Authorization: Bearer ${token}" \\`,
@@ -803,7 +799,7 @@ const apiGroups: ApiGroup[] = [
   "statusCode": 200,
   "message": "Document deleted successfully"
 }`,
-        curl: (baseUrl, token) =>
+        curl: (baseUrl, token = "YOUR_TOKEN") =>
           [
             `curl -X DELETE "${baseUrl}/document/delete/1" \\`,
             `  -H "Authorization: Bearer ${token}"`,
@@ -834,7 +830,7 @@ const apiGroups: ApiGroup[] = [
     "documentId": 1
   }
 }`,
-        curl: (baseUrl, token) =>
+        curl: (baseUrl, token = "YOUR_TOKEN") =>
           [
             `curl -X POST "${baseUrl}/job-section/create" \\`,
             `  -H "Authorization: Bearer ${token}" \\`,
@@ -862,7 +858,7 @@ const apiGroups: ApiGroup[] = [
   }
 }`,
         notes: ["documentId tetap wajib dikirim di body."],
-        curl: (baseUrl, token) =>
+        curl: (baseUrl, token = "YOUR_TOKEN") =>
           [
             `curl -X PATCH "${baseUrl}/job-section/update/1" \\`,
             `  -H "Authorization: Bearer ${token}" \\`,
@@ -883,7 +879,7 @@ const apiGroups: ApiGroup[] = [
   "statusCode": 200,
   "message": "Job section removed successfully"
 }`,
-        curl: (baseUrl, token) =>
+        curl: (baseUrl, token = "YOUR_TOKEN") =>
           [
             `curl -X DELETE "${baseUrl}/job-section/delete/1" \\`,
             `  -H "Authorization: Bearer ${token}"`,
@@ -915,7 +911,7 @@ const apiGroups: ApiGroup[] = [
     "jobSectionId": 1
   }
 }`,
-        curl: (baseUrl, token) =>
+        curl: (baseUrl, token = "YOUR_TOKEN") =>
           [
             `curl -X POST "${baseUrl}/item-job-section/create" \\`,
             `  -H "Authorization: Bearer ${token}" \\`,
@@ -943,7 +939,7 @@ const apiGroups: ApiGroup[] = [
     "jobSectionId": 1
   }
 }`,
-        curl: (baseUrl, token) =>
+        curl: (baseUrl, token = "YOUR_TOKEN") =>
           [
             `curl -X PATCH "${baseUrl}/item-job-section/update/1" \\`,
             `  -H "Authorization: Bearer ${token}" \\`,
@@ -964,7 +960,7 @@ const apiGroups: ApiGroup[] = [
   "statusCode": 200,
   "message": "Item job section removed successfully"
 }`,
-        curl: (baseUrl, token) =>
+        curl: (baseUrl, token = "YOUR_TOKEN") =>
           [
             `curl -X DELETE "${baseUrl}/item-job-section/delete/1" \\`,
             `  -H "Authorization: Bearer ${token}"`,

@@ -11,6 +11,7 @@ interface FormData {
   name: string;
   email: string;
   phoneNumber: string;
+  position: string;
 }
 interface CreateModalProps {
   open: boolean;
@@ -46,11 +47,12 @@ export default function CreateModal({
       api.url = "users/create";
       api.method = "POST";
       api.type = "json";
-      api.body = {
-        name: data.name,
-        phoneNumber: data.phoneNumber,
-        email: data.email,
-      };
+    api.body = {
+      name: data.name,
+      phoneNumber: data.phoneNumber,
+      email: data.email,
+      position: data.position,
+    };
 
       const response = await api.call();
 
@@ -153,7 +155,32 @@ export default function CreateModal({
                     </p>
                   )}
                 </div>
-                <div className="flex flex-col gap-1 sm:col-span-2">
+                <div className="flex flex-col gap-1">
+                  <div className="flex items-center gap-2">
+                    <label
+                      htmlFor="position"
+                      className="block text-sm font-medium text-gray-700"
+                    >
+                      Jabatan
+                    </label>
+                    <span className="text-sm font-medium text-primaryRed">*</span>
+                  </div>
+                  <input
+                    type="text"
+                    id="position"
+                    placeholder="Masukkan jabatan pengguna"
+                    {...register("position", {
+                      required: "Jabatan pengguna diperlukan",
+                    })}
+                    className="text-sm block w-full rounded-xl border border-gray-200 bg-white px-4 py-2.5 text-gray-700 shadow-sm focus:border-primaryBlue focus:outline-none focus:ring-2 focus:ring-primaryBlue/30"
+                  />
+                  {errors.position && (
+                    <p className="text-xs text-primaryRed">
+                      {errors.position.message}
+                    </p>
+                  )}
+                </div>
+                <div className="flex flex-col gap-1">
                   <div className="flex items-center gap-2">
                     <label
                       htmlFor="phoneNumber"

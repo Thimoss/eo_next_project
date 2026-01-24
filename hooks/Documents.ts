@@ -38,10 +38,18 @@ export const UseDetailDocument = ({
 
     const response = await api.call();
 
-    if (!response.statusCode.toString().startsWith("2")) {
-      throw new Error(response.meta.message);
+    const statusCode = response?.statusCode ?? response?.meta?.code;
+    if (statusCode === 404) {
+      return null;
     }
-    return response.data;
+    if (!statusCode || !statusCode.toString().startsWith("2")) {
+      const message =
+        response?.message ||
+        response?.meta?.message ||
+        "Gagal memuat detail dokumen.";
+      throw new Error(message);
+    }
+    return response.data ?? null;
   };
 
   const {
@@ -67,10 +75,15 @@ export const UseDetailDocument = ({
 
     const response = await api.call();
 
-    if (!response.statusCode.toString().startsWith("2")) {
-      throw new Error(response.meta.message);
+    const statusCode = response?.statusCode ?? response?.meta?.code;
+    if (!statusCode || !statusCode.toString().startsWith("2")) {
+      const message =
+        response?.message ||
+        response?.meta?.message ||
+        "Gagal memuat data item.";
+      throw new Error(message);
     }
-    return response.data;
+    return response.data ?? [];
   };
 
   const {

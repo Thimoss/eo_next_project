@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import Api from "../service/Api";
 import useSWR from "swr";
 import { useRouter } from "nextjs-toploader/app";
@@ -34,44 +34,80 @@ export const sortByList = [
   },
 ];
 
+type DocumentScope = "created" | "review" | "confirm";
+
 export const useDashboard = ({ accessToken }: UseListUsersProps) => {
   const route = useRouter();
-  const [sortBy, setSortBy] = useState<SortByDataProps>(sortByList[0]);
-  const [isSortByOpen, setIsSortByOpen] = useState(false);
   const [openCreate, setOpenCreate] = useState(false);
   const [openDelete, setOpenDelete] = useState(false);
   const [openEdit, setOpenEdit] = useState(false);
   const [selectedDocument, setSelectedDocument] = useState<Document>();
-  const dropdownRef = useRef<HTMLDivElement>(null);
-  const fetcher = async (url: string, sortBy: string) => {
+
+  const fetcher = async (url: string, scope: DocumentScope, limit: number) => {
     const api = new Api();
     api.url = url;
     api.auth = true;
     api.token = accessToken ?? "";
     api.method = "GET";
     api.body = {
-      sortBy,
+      scope,
+      sortBy: "recent",
+      limit,
     };
 
     const response = await api.call();
-    if (!response.statusCode.toString().startsWith("2")) {
-      throw new Error(response.meta.message);
+    const statusCode = response?.statusCode ?? response?.meta?.code;
+    if (!statusCode || !statusCode.toString().startsWith("2")) {
+      const message =
+        response?.message ||
+        response?.meta?.message ||
+        "Gagal memuat data dokumen.";
+      throw new Error(message);
     }
-    return response.data;
+    return response.data ?? [];
   };
 
-  const { data, error, isLoading, mutate } = useSWR(
-    [`document/list`, sortBy],
-    ([url, sortBy]) => fetcher(url, sortBy.value), // The fetcher function
+  const {
+    data: createdDocs,
+    error: createdError,
+    isLoading: isLoadingCreated,
+    mutate: mutateCreated,
+  } = useSWR(
+    ["document/list", "created", 5],
+    ([url, scope, limit]: [string, DocumentScope, number]) =>
+      fetcher(url, scope, limit),
     {
       revalidateOnFocus: false,
-      // refreshInterval: 0,
     }
   );
 
-  const toggleDropdown = () => {
-    setIsSortByOpen(!isSortByOpen);
-  };
+  const {
+    data: reviewDocs,
+    error: reviewError,
+    isLoading: isLoadingReview,
+    mutate: mutateReview,
+  } = useSWR(
+    ["document/list", "review", 5],
+    ([url, scope, limit]: [string, DocumentScope, number]) =>
+      fetcher(url, scope, limit),
+    {
+      revalidateOnFocus: false,
+    }
+  );
+
+  const {
+    data: confirmDocs,
+    error: confirmError,
+    isLoading: isLoadingConfirm,
+    mutate: mutateConfirm,
+  } = useSWR(
+    ["document/list", "confirm", 5],
+    ([url, scope, limit]: [string, DocumentScope, number]) =>
+      fetcher(url, scope, limit),
+    {
+      revalidateOnFocus: false,
+    }
+  );
 
   const handleEdit = async (document: Document) => {
     setSelectedDocument(document);
@@ -82,45 +118,20 @@ export const useDashboard = ({ accessToken }: UseListUsersProps) => {
     setOpenDelete(true);
   };
 
-  const handleSelect = (sortBy: SortByDataProps) => {
-    setSortBy(sortBy);
-    setIsSortByOpen(false);
-  };
-
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (
-        dropdownRef.current &&
-        !dropdownRef.current.contains(event.target as Node)
-      ) {
-        setIsSortByOpen(false);
-      }
-    };
-
-    document.addEventListener("mousedown", handleClickOutside);
-
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, []);
-
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleDetail = async (document: any) => {
-    route.push(`detail-documents/${document.slug}`);
+    route.push(`/detail-documents/${document.slug}`);
   };
 
   return {
-    data,
-    error,
-    isLoading,
-    mutate,
-    sortBy,
-    setSortBy,
-    isSortByOpen,
-    setIsSortByOpen,
-    handleSelect,
-    toggleDropdown,
-    dropdownRef,
+    createdDocs: createdDocs ?? [],
+    reviewDocs: reviewDocs ?? [],
+    confirmDocs: confirmDocs ?? [],
+    error: createdError || reviewError || confirmError,
+    isLoading: isLoadingCreated || isLoadingReview || isLoadingConfirm,
+    mutateCreated,
+    mutateReview,
+    mutateConfirm,
     openCreate,
     setOpenCreate,
     handleDetail,

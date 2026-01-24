@@ -26,7 +26,6 @@ export async function getSession(): Promise<UserSession | null> {
     if (payload.exp) {
       const now = Math.floor(Date.now() / 1000);
       if (payload.exp < now) {
-        console.log("Token expired");
         cookieStore.delete("accessToken");
         return null;
       }

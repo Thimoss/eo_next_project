@@ -2,6 +2,11 @@ import ClientSide from "@/components/dashboard/ClientSide";
 import Master from "@/components/global/Master";
 import { getSession } from "../../lib/auth";
 import { cookies } from "next/headers";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Dashboard - Owner Estimate",
+};
 
 export default async function Home() {
   const session = await getSession();

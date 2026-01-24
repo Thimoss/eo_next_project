@@ -20,6 +20,9 @@ const getInitials = (name: string) => {
 
 const NAV_ITEMS = [
   { href: "/", label: "Dashboard" },
+  { href: "/documents/my", label: "Dokumen Saya" },
+  { href: "/documents/review", label: "Perlu Review" },
+  { href: "/documents/confirm", label: "Perlu Konfirmasi" },
   { href: "/list-category", label: "Kategori" },
   { href: "/list-user", label: "Daftar Pengguna" },
 ];
@@ -27,6 +30,10 @@ const NAV_ITEMS = [
 export default function Navbar({ session }: NavbarProps) {
   const pathname = usePathname();
   const initials = getInitials(session?.name ?? "");
+  const navItems =
+    session?.role === "ADMIN"
+      ? NAV_ITEMS
+      : NAV_ITEMS.filter((item) => item.href !== "/list-user");
 
   const [isOpen, setIsOpen] = useState(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -118,7 +125,7 @@ export default function Navbar({ session }: NavbarProps) {
               className="hidden md:flex items-center gap-1 rounded-full bg-white/70 px-1 py-1 ring-1 ring-gray-200/70 shadow-sm"
               aria-label="Primary"
             >
-              {NAV_ITEMS.map((item) => (
+              {navItems.map((item) => (
                 <Link
                   key={item.href}
                   href={item.href}
@@ -229,7 +236,7 @@ export default function Navbar({ session }: NavbarProps) {
                 </Link>
 
                 <div className="border-t border-gray-200/70 pt-3 space-y-1">
-                  {NAV_ITEMS.map((item) => (
+                  {navItems.map((item) => (
                     <Link
                       key={item.href}
                       href={item.href}

@@ -17,6 +17,7 @@ interface DocumentInfformationProps {
   base: string;
   slug: string;
   accessToken?: string;
+  canEdit?: boolean;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   mutate: KeyedMutator<any>;
 }
@@ -28,6 +29,7 @@ export default function DocumentInformation({
   slug,
   mutate,
   accessToken,
+  canEdit = true,
 }: DocumentInfformationProps) {
   const [editMode, setEditMode] = useState(false);
   const [loading, setLoading] = useState(false);

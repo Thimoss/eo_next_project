@@ -32,6 +32,7 @@ interface TableProps {
   dataDetail: Document;
   mutateDetail: KeyedMutator<any>;
   accessToken?: string;
+  canEdit?: boolean;
 }
 
 export default function Table({
@@ -44,6 +45,7 @@ export default function Table({
   dataDetail,
   mutateDetail,
   accessToken,
+  canEdit = true,
 }: TableProps) {
   const [editMode, setEditMode] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -175,8 +177,9 @@ export default function Table({
             {dataDetail.jobSections.length === 0 ? (
               <tr>
                 <td colSpan={9} className="px-4 py-6 text-center text-gray-500">
-                  Tidak ada bagian pekerjaan yang tersedia. Tambahkan bagian
-                  pekerjaan untuk memulai.
+                  {canEdit
+                    ? "Tidak ada bagian pekerjaan yang tersedia. Tambahkan bagian pekerjaan untuk memulai."
+                    : "Tidak ada bagian pekerjaan yang tersedia."}
                 </td>
               </tr>
             ) : (
@@ -199,18 +202,22 @@ export default function Table({
                       </td>
                       <td className="px-6 py-3"></td>
                       <td className="px-6 py-3 flex items-center justify-center gap-2">
-                        <button
-                          onClick={() => handleUpdateSection(jobSection)}
-                          className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-primaryGreen text-white shadow-sm transition duration-200 hover:bg-primaryGreenDarker disabled:cursor-not-allowed disabled:opacity-70"
-                        >
-                          <IoPencil className="h-4 w-4" />
-                        </button>
-                        <button
-                          onClick={() => handleDeleteSection(jobSection)}
-                          className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-primaryRed text-white shadow-sm transition duration-200 hover:bg-primaryRedDarker disabled:cursor-not-allowed disabled:opacity-70"
-                        >
-                          <IoTrash className="h-4 w-4" />
-                        </button>
+                        {canEdit && (
+                          <>
+                            <button
+                              onClick={() => handleUpdateSection(jobSection)}
+                              className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-primaryGreen text-white shadow-sm transition duration-200 hover:bg-primaryGreenDarker disabled:cursor-not-allowed disabled:opacity-70"
+                            >
+                              <IoPencil className="h-4 w-4" />
+                            </button>
+                            <button
+                              onClick={() => handleDeleteSection(jobSection)}
+                              className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-primaryRed text-white shadow-sm transition duration-200 hover:bg-primaryRedDarker disabled:cursor-not-allowed disabled:opacity-70"
+                            >
+                              <IoTrash className="h-4 w-4" />
+                            </button>
+                          </>
+                        )}
                       </td>
                     </tr>
                     {jobSection.itemJobSections.length > 0 &&
@@ -238,65 +245,73 @@ export default function Table({
                           </td>
                           <td className="px-6 py-3">{item.information}</td>
                           <td className="px-6 py-3 flex items-center justify-center gap-2">
-                            <button
-                              onClick={() =>
-                                handleUpdateItemJob(item, jobSection)
-                              }
-                              className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-primaryGreen text-white shadow-sm transition duration-200 hover:bg-primaryGreenDarker disabled:cursor-not-allowed disabled:opacity-70"
-                            >
-                              <IoPencil className="h-4 w-4" />
-                            </button>
-                            <button
-                              onClick={() => handleDeleteItemJob(item)}
-                              className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-primaryRed text-white shadow-sm transition duration-200 hover:bg-primaryRedDarker disabled:cursor-not-allowed disabled:opacity-70"
-                            >
-                              <IoTrash className="h-4 w-4" />
-                            </button>
+                            {canEdit && (
+                              <>
+                                <button
+                                  onClick={() =>
+                                    handleUpdateItemJob(item, jobSection)
+                                  }
+                                  className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-primaryGreen text-white shadow-sm transition duration-200 hover:bg-primaryGreenDarker disabled:cursor-not-allowed disabled:opacity-70"
+                                >
+                                  <IoPencil className="h-4 w-4" />
+                                </button>
+                                <button
+                                  onClick={() => handleDeleteItemJob(item)}
+                                  className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-primaryRed text-white shadow-sm transition duration-200 hover:bg-primaryRedDarker disabled:cursor-not-allowed disabled:opacity-70"
+                                >
+                                  <IoTrash className="h-4 w-4" />
+                                </button>
+                              </>
+                            )}
                           </td>
                         </tr>
                       ))}
-                    <tr className="bg-gray-50 border-b border-gray-200">
-                      <td></td>
-                      <td className="px-6 py-3 text-center">
-                        <button
-                          onClick={() => handleCreateItemJob(jobSection)}
-                          className="inline-flex items-center justify-center gap-2 rounded-full bg-primaryBlue px-4 py-2 text-sm font-semibold text-white shadow-[0_12px_28px_-20px_rgba(0,110,182,0.9)] transition duration-200 hover:bg-primaryBlueDarker disabled:cursor-not-allowed disabled:opacity-70"
-                        >
-                          <FaPlus className="h-4 w-4" />
-                          <span>Tambah Pekerjaan</span>
-                        </button>
-                      </td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                    </tr>
+                    {canEdit && (
+                      <tr className="bg-gray-50 border-b border-gray-200">
+                        <td></td>
+                        <td className="px-6 py-3 text-center">
+                          <button
+                            onClick={() => handleCreateItemJob(jobSection)}
+                            className="inline-flex items-center justify-center gap-2 rounded-full bg-primaryBlue px-4 py-2 text-sm font-semibold text-white shadow-[0_12px_28px_-20px_rgba(0,110,182,0.9)] transition duration-200 hover:bg-primaryBlueDarker disabled:cursor-not-allowed disabled:opacity-70"
+                          >
+                            <FaPlus className="h-4 w-4" />
+                            <span>Tambah Pekerjaan</span>
+                          </button>
+                        </td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                      </tr>
+                    )}
                   </React.Fragment>
                 )
               )
             )}
-            <tr className="bg-primaryBlue/5 border-b border-gray-200 font-semibold text-gray-800">
-              <td className="px-6 py-3"></td>
-              <td className="px-6 py-3 text-center">
-                <button
-                  onClick={handleCreateSection}
-                  className="inline-flex items-center justify-center gap-2 rounded-full bg-primaryBlue px-4 py-2 text-sm font-semibold text-white shadow-[0_12px_28px_-20px_rgba(0,110,182,0.9)] transition duration-200 hover:bg-primaryBlueDarker disabled:cursor-not-allowed disabled:opacity-70"
-                >
-                  <FaPlus className="h-4 w-4" />
-                  <span>Tambah Sektor Pekerjaan</span>
-                </button>
-              </td>
-              <td className="px-6 py-3"></td>
-              <td className="px-6 py-3"></td>
-              <td className="px-6 py-3"></td>
-              <td className="px-6 py-3"></td>
-              <td className="px-6 py-3"></td>
-              <td className="px-6 py-3"></td>
-              <td className="px-6 py-3"></td>
-            </tr>
+            {canEdit && (
+              <tr className="bg-primaryBlue/5 border-b border-gray-200 font-semibold text-gray-800">
+                <td className="px-6 py-3"></td>
+                <td className="px-6 py-3 text-center">
+                  <button
+                    onClick={handleCreateSection}
+                    className="inline-flex items-center justify-center gap-2 rounded-full bg-primaryBlue px-4 py-2 text-sm font-semibold text-white shadow-[0_12px_28px_-20px_rgba(0,110,182,0.9)] transition duration-200 hover:bg-primaryBlueDarker disabled:cursor-not-allowed disabled:opacity-70"
+                  >
+                    <FaPlus className="h-4 w-4" />
+                    <span>Tambah Sektor Pekerjaan</span>
+                  </button>
+                </td>
+                <td className="px-6 py-3"></td>
+                <td className="px-6 py-3"></td>
+                <td className="px-6 py-3"></td>
+                <td className="px-6 py-3"></td>
+                <td className="px-6 py-3"></td>
+                <td className="px-6 py-3"></td>
+                <td className="px-6 py-3"></td>
+              </tr>
+            )}
             <tr className="bg-primaryBlue/10 border-b border-gray-200 font-semibold text-gray-800">
               <td className="px-6 py-3"></td>
               <td className="px-6 py-3">Rekapitulasi</td>
@@ -364,10 +379,13 @@ export default function Table({
               <td className="px-6 py-3"></td>
               <td className="px-6 py-3">K&R (KEUNTUNGAN & RESIKO)</td>
               <td className="px-6 py-3">
-                {!editMode ? (
+                {!editMode || !canEdit ? (
                   `${dataDetail.percentageBenefitsAndRisks} %`
                 ) : (
-                  <form onSubmit={handleSubmit(onSubmit)} className="flex items-center gap-2">
+                  <form
+                    onSubmit={handleSubmit(onSubmit)}
+                    className="flex items-center gap-2"
+                  >
                     <input
                       readOnly={!editMode}
                       type="number"
@@ -388,31 +406,32 @@ export default function Table({
               </td>
               <td className="px-6 py-3"></td>
               <td className="px-6 py-3 flex items-center justify-center gap-2">
-                {!editMode ? (
-                  <button
-                    onClick={() => setEditMode(true)}
-                    className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-primaryGreen text-white shadow-sm transition duration-200 hover:bg-primaryGreenDarker disabled:cursor-not-allowed disabled:opacity-70"
-                  >
-                    <IoPencil className="h-4 w-4" />
-                  </button>
-                ) : (
-                  <>
+                {canEdit &&
+                  (!editMode ? (
                     <button
-                      onClick={handleSubmit(onSubmit)}
-                      disabled={loading}
-                      className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-primaryBlue text-white shadow-sm transition duration-200 hover:bg-primaryBlueDarker disabled:cursor-not-allowed disabled:opacity-70"
+                      onClick={() => setEditMode(true)}
+                      className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-primaryGreen text-white shadow-sm transition duration-200 hover:bg-primaryGreenDarker disabled:cursor-not-allowed disabled:opacity-70"
                     >
-                      <IoSave className="h-4 w-4" />
+                      <IoPencil className="h-4 w-4" />
                     </button>
-                    <button
-                      onClick={handleCancel}
-                      disabled={loading}
-                      className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-primaryRed text-white shadow-sm transition duration-200 hover:bg-primaryRedDarker disabled:cursor-not-allowed disabled:opacity-70"
-                    >
-                      <IoClose className="h-4 w-4" />
-                    </button>
-                  </>
-                )}
+                  ) : (
+                    <>
+                      <button
+                        onClick={handleSubmit(onSubmit)}
+                        disabled={loading}
+                        className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-primaryBlue text-white shadow-sm transition duration-200 hover:bg-primaryBlueDarker disabled:cursor-not-allowed disabled:opacity-70"
+                      >
+                        <IoSave className="h-4 w-4" />
+                      </button>
+                      <button
+                        onClick={handleCancel}
+                        disabled={loading}
+                        className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-primaryRed text-white shadow-sm transition duration-200 hover:bg-primaryRedDarker disabled:cursor-not-allowed disabled:opacity-70"
+                      >
+                        <IoClose className="h-4 w-4" />
+                      </button>
+                    </>
+                  ))}
               </td>
             </tr>
             <tr className="bg-primaryBlue/10 border-b border-gray-200 font-semibold text-gray-800">

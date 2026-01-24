@@ -5,7 +5,7 @@ import { cookies } from "next/headers";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Dokumen Saya - Owner Estimate",
+  title: "Dokumen Saya - AplOEs",
 };
 
 export default async function MyDocumentsPage() {

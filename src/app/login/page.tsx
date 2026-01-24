@@ -4,7 +4,7 @@ import { redirect } from "next/navigation";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Masuk - Owner Estimate",
+  title: "Masuk - AplOEs",
 };
 
 export default async function LoginPage() {

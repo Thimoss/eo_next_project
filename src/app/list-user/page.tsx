@@ -7,7 +7,7 @@ import { redirect } from "next/navigation";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Daftar Pengguna - Owner Estimate",
+  title: "Daftar Pengguna - AplOEs",
 };
 
 export default async function ListUser() {

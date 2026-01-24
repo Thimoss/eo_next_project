@@ -5,7 +5,7 @@ import type { Metadata } from "next";
 type tParams = Promise<{ id: string }>;
 
 export const metadata: Metadata = {
-  title: "Detail Kategori - Owner Estimate",
+  title: "Detail Kategori - AplOEs",
 };
 
 export default async function Page({ params }: { params: tParams }) {

@@ -4,7 +4,7 @@ import ClientSide from "@/components/list-category/ClientSide";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Daftar Kategori - Owner Estimate",
+  title: "Daftar Kategori - AplOEs",
 };
 
 export default function ListCategory() {

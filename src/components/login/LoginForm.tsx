@@ -44,7 +44,7 @@ export default function LoginForm() {
                 style={{ animationDelay: "80ms" }}
               >
                 <p className="text-xs uppercase tracking-[0.4em] text-white/70">
-                  Portal OE
+                  AplOEs
                 </p>
                 <h2 className="text-2xl font-semibold leading-tight sm:text-3xl">
                   Selamat Datang

@@ -32,28 +32,41 @@ export default function DocumentInformation({
   const [editMode, setEditMode] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  const { handleSubmit, register, reset } = useForm<FormData>({});
+  const { handleSubmit, register, reset } = useForm<FormData>({
+    defaultValues: {
+      job: job ?? "",
+      location: location ?? "",
+      base: base ?? "",
+    },
+  });
 
   useEffect(() => {
-    if (editMode) {
-      if (job || location || base) {
-        reset({
-          job: job,
-          location: location,
-          base: base,
-        });
-      }
-    }
-    if (job || location || base) {
+    if (!editMode) {
       reset({
-        job: job,
-        location: location,
-        base: base,
+        job: job ?? "",
+        location: location ?? "",
+        base: base ?? "",
       });
     }
   }, [editMode, job, location, base, reset]);
 
   const onSubmit = async (data: FormData) => {
+    const nextJob = data.job ?? "";
+    const nextLocation = data.location ?? "";
+    const nextBase = data.base ?? "";
+    const currentJob = job ?? "";
+    const currentLocation = location ?? "";
+    const currentBase = base ?? "";
+    const hasChanges =
+      nextJob !== currentJob ||
+      nextLocation !== currentLocation ||
+      nextBase !== currentBase;
+
+    if (!hasChanges) {
+      toast.error("Tidak ada perubahan untuk disimpan.");
+      return;
+    }
+
     try {
       setLoading(true);
       const api = new Api();
@@ -63,16 +76,20 @@ export default function DocumentInformation({
       api.method = "PATCH";
       api.type = "json";
       api.body = {
-        job: data.job,
-        location: data.location,
-        base: data.base,
+        job: nextJob,
+        location: nextLocation,
+        base: nextBase,
       };
       const response = await api.call();
       if (response.statusCode === 200) {
         toast.success(response.message);
         setEditMode(false);
         mutate();
-        reset();
+        reset({
+          job: nextJob,
+          location: nextLocation,
+          base: nextBase,
+        });
       } else {
         if (response.message && Array.isArray(response.message)) {
           response.message.forEach((error: string) => {
@@ -92,11 +109,15 @@ export default function DocumentInformation({
 
   const handleCancel = () => {
     setEditMode(false);
-    reset();
+    reset({
+      job: job ?? "",
+      location: location ?? "",
+      base: base ?? "",
+    });
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
+    <form onSubmit={(event) => event.preventDefault()}>
       <div className="relative overflow-hidden rounded-2xl border border-gray-200/70 bg-white p-6 shadow-[0_18px_40px_-30px_rgba(15,23,42,0.45)]">
         <div className="pointer-events-none absolute -top-16 right-0 h-36 w-36 rounded-full bg-primaryBlue/10 blur-3xl" />
         <div className="pointer-events-none absolute -bottom-20 left-0 h-40 w-40 rounded-full bg-primaryGreen/10 blur-3xl" />
@@ -118,7 +139,8 @@ export default function DocumentInformation({
               <>
                 <button
                   disabled={loading}
-                  type="submit"
+                  type="button"
+                  onClick={handleSubmit(onSubmit)}
                   className="inline-flex items-center justify-center gap-2 rounded-full bg-primaryBlue px-4 py-2 text-sm font-semibold text-white shadow-[0_12px_28px_-20px_rgba(0,110,182,0.9)] transition duration-200 hover:bg-primaryBlueDarker disabled:cursor-not-allowed disabled:opacity-70"
                 >
                   {loading && <CgSpinner className="h-4 w-4 animate-spin" />}

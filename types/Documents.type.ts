@@ -1,5 +1,11 @@
 import type { UserSession } from "./Session.type";
 
+export type DocumentStatus =
+  | "IN_PROGRESS"
+  | "NEED_CHECKED"
+  | "NEED_CONFIRMED"
+  | "APPROVED";
+
 export interface ItemJobSection {
   id: number;
   name: string;
@@ -33,6 +39,7 @@ export interface Document {
   id: number;
   name: string;
   slug: string;
+  status: DocumentStatus;
   job: string;
   location: string;
   base: string;

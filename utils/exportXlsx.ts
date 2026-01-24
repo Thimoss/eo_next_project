@@ -893,12 +893,19 @@ export const handleExport = async (dataDetail: Document) => {
   worksheet.mergeCells(titleSignRow.number, 1, titleSignRow.number, 2);
   worksheet.mergeCells(titleSignRow.number, 5, titleSignRow.number, 6);
 
+  const preparedPosition =
+    dataDetail.preparedByPosition ?? dataDetail.createdBy?.position ?? "";
+  const checkedPosition =
+    dataDetail.checkedByPosition ?? dataDetail.checkedBy?.position ?? "";
+  const confirmedPosition =
+    dataDetail.confirmedByPosition ?? dataDetail.confirmedBy?.position ?? "";
+
   const position = [
-    dataDetail.preparedByPosition,
+    preparedPosition,
     "",
     "",
-    dataDetail.checkedByPosition,
-    dataDetail.confirmedByPosition,
+    checkedPosition,
+    confirmedPosition,
     "",
   ];
   const positionRow = worksheet.addRow(position);
@@ -912,12 +919,19 @@ export const handleExport = async (dataDetail: Document) => {
   worksheet.addRow([]);
   worksheet.addRow([]);
 
+  const preparedName =
+    dataDetail.preparedByName ?? dataDetail.createdBy?.name ?? "";
+  const checkedName =
+    dataDetail.checkedByName ?? dataDetail.checkedBy?.name ?? "";
+  const confirmedName =
+    dataDetail.confirmedByName ?? dataDetail.confirmedBy?.name ?? "";
+
   const name = [
-    dataDetail.preparedByName,
+    preparedName,
     "",
     "",
-    dataDetail.checkedByName,
-    dataDetail.confirmedByName,
+    checkedName,
+    confirmedName,
     "",
   ];
   const nameRow = worksheet.addRow(name);

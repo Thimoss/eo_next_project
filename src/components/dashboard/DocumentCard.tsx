@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Document } from "../../../types/Documents.type";
+import { Document, DocumentStatus } from "../../../types/Documents.type";
 import { format } from "date-fns";
 import { HiDotsVertical } from "react-icons/hi";
 
@@ -16,6 +16,28 @@ const getInitials = (name: string) => {
   return initials.slice(0, 3); // Return the first two initials
 };
 
+const statusPalette: Record<
+  DocumentStatus,
+  { label: string; className: string }
+> = {
+  IN_PROGRESS: {
+    label: "Dalam Proses",
+    className: "bg-slate-100 text-slate-700",
+  },
+  NEED_CHECKED: {
+    label: "Perlu Dicek",
+    className: "bg-amber-100 text-amber-700",
+  },
+  NEED_CONFIRMED: {
+    label: "Perlu Konfirmasi",
+    className: "bg-sky-100 text-sky-700",
+  },
+  APPROVED: {
+    label: "Disetujui",
+    className: "bg-emerald-100 text-emerald-700",
+  },
+};
+
 export default function DocumentCard({
   document,
   handleDetail,
@@ -23,6 +45,7 @@ export default function DocumentCard({
   handleDelete,
 }: DocumentCardProps) {
   const initials = getInitials(document.name);
+  const statusMeta = statusPalette[document.status];
   const [showActions, setShowActions] = useState(false);
   const actionsRef = useRef<HTMLDivElement | null>(null);
   const hasActions = Boolean(handleEdit || handleDelete);
@@ -107,6 +130,11 @@ export default function DocumentCard({
         <div className="flex flex-col gap-1.5">
           <span className="text-sm font-semibold text-gray-800">
             {document.name}
+          </span>
+          <span
+            className={`inline-flex w-fit items-center rounded-full px-2.5 py-1 text-[11px] font-semibold ${statusMeta.className}`}
+          >
+            {statusMeta.label}
           </span>
           <span className="text-xs text-gray-500">
             Modifikasi Terakhir : {format(document.updatedAt, "MM/dd/yyyy")}

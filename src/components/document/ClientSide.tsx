@@ -105,10 +105,12 @@ export default function ClientSide({
               confirmedBy={dataDetail.confirmedBy}
               checkedBy={dataDetail.checkedBy}
               preparedBy={dataDetail.createdBy}
+              status={dataDetail.status}
               mutate={mutateDetail}
               slug={slug}
               accessToken={accessToken}
               canEdit={canEdit}
+              session={session}
             />
           </div>
           {canEdit && (

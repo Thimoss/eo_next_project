@@ -29,7 +29,6 @@ export default function DocumentInformation({
   slug,
   mutate,
   accessToken,
-  canEdit = true,
 }: DocumentInfformationProps) {
   const [editMode, setEditMode] = useState(false);
   const [loading, setLoading] = useState(false);

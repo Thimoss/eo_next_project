@@ -5,6 +5,7 @@ import { KeyedMutator } from "swr";
 import Api from "../../../service/Api";
 import { toast } from "react-toastify";
 import { CgSpinner } from "react-icons/cg";
+import { FiDownload } from "react-icons/fi";
 import type { DocumentStatus } from "../../../types/Documents.type";
 import type { UserSession } from "../../../types/Session.type";
 
@@ -65,6 +66,7 @@ export default function DocumentApproval({
   const [approvalLoading, setApprovalLoading] = useState<
     "submit" | "check" | "confirm" | null
   >(null);
+  const [downloadLoading, setDownloadLoading] = useState(false);
   const [currentDate, setCurrentDate] = useState("");
   const statusMeta = statusPalette[status];
   const sessionId = session?.id;
@@ -74,7 +76,7 @@ export default function DocumentApproval({
   const isOwner = Boolean(sessionId && ownerId && sessionId === ownerId);
   const isChecker = Boolean(sessionId && checkerId && sessionId === checkerId);
   const isConfirmer = Boolean(
-    sessionId && confirmerId && sessionId === confirmerId
+    sessionId && confirmerId && sessionId === confirmerId,
   );
 
   const actionConfig =
@@ -86,20 +88,20 @@ export default function DocumentApproval({
             "bg-primaryBlue shadow-[0_12px_28px_-20px_rgba(0,110,182,0.9)] hover:bg-primaryBlueDarker",
         }
       : status === "NEED_CHECKED" && isChecker
-      ? {
-          key: "check" as const,
-          label: "Setujui (Checker)",
-          className:
-            "bg-primaryGreen shadow-[0_12px_28px_-20px_rgba(176,203,31,0.9)] hover:bg-primaryGreenDarker",
-        }
-      : status === "NEED_CONFIRMED" && isConfirmer
-      ? {
-          key: "confirm" as const,
-          label: "Konfirmasi",
-          className:
-            "bg-primaryGreen shadow-[0_12px_28px_-20px_rgba(176,203,31,0.9)] hover:bg-primaryGreenDarker",
-        }
-      : null;
+        ? {
+            key: "check" as const,
+            label: "Setujui (Checker)",
+            className:
+              "bg-primaryGreen shadow-[0_12px_28px_-20px_rgba(176,203,31,0.9)] hover:bg-primaryGreenDarker",
+          }
+        : status === "NEED_CONFIRMED" && isConfirmer
+          ? {
+              key: "confirm" as const,
+              label: "Konfirmasi",
+              className:
+                "bg-primaryGreen shadow-[0_12px_28px_-20px_rgba(176,203,31,0.9)] hover:bg-primaryGreenDarker",
+            }
+          : null;
 
   const { handleSubmit, register, reset } = useForm<FormData>({});
   useEffect(() => {
@@ -161,7 +163,7 @@ export default function DocumentApproval({
   };
 
   const handleApprovalAction = async (
-    action: "submit" | "check" | "confirm"
+    action: "submit" | "check" | "confirm",
   ) => {
     const actionMap = {
       submit: {
@@ -220,6 +222,43 @@ export default function DocumentApproval({
     setCurrentDate(formattedDate);
   }, []);
 
+  const handleDownloadPDF = async () => {
+    try {
+      setDownloadLoading(true);
+      const api = new Api();
+      api.url = `document/download-pdf/${slug}`;
+      api.auth = true;
+      api.token = accessToken ?? "";
+      api.method = "GET";
+
+      const response = await fetch(`${api.baseUrl}${api.url}`, {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to download PDF");
+      }
+
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `document-${slug}.pdf`;
+      document.body.appendChild(a);
+      a.click();
+      window.URL.revokeObjectURL(url);
+      document.body.removeChild(a);
+      toast.success("PDF berhasil diunduh");
+    } catch (error: any) {
+      toast.error("Gagal mengunduh PDF: " + error.message);
+    } finally {
+      setDownloadLoading(false);
+    }
+  };
+
   return (
     <div className="relative overflow-hidden rounded-2xl border border-gray-200/70 bg-white p-6 shadow-[0_18px_40px_-30px_rgba(15,23,42,0.45)]">
       <div className="pointer-events-none absolute -top-16 right-0 h-36 w-36 rounded-full bg-primaryBlue/10 blur-3xl" />
@@ -244,6 +283,21 @@ export default function DocumentApproval({
             Status: {statusMeta.label}
           </span>
           <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
+            {status === "APPROVED" && (
+              <button
+                type="button"
+                onClick={handleDownloadPDF}
+                disabled={downloadLoading}
+                className="inline-flex items-center justify-center gap-2 rounded-full bg-primaryGreen px-4 py-2 text-sm font-semibold text-white shadow-[0_12px_28px_-20px_rgba(176,203,31,0.9)] transition duration-200 hover:bg-primaryGreenDarker disabled:cursor-not-allowed disabled:opacity-70"
+              >
+                {downloadLoading ? (
+                  <CgSpinner className="h-4 w-4 animate-spin" />
+                ) : (
+                  <FiDownload className="h-4 w-4" />
+                )}
+                Download PDF
+              </button>
+            )}
             {actionConfig && (
               <button
                 type="button"

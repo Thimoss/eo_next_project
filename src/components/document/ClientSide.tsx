@@ -70,7 +70,12 @@ export default function ClientSide({
   });
 
   const ownerId = dataDetail?.createdById ?? dataDetail?.createdBy?.id;
-  const canEdit = Boolean(session && ownerId && session.id === ownerId);
+  const canEdit = Boolean(
+    session &&
+    ownerId &&
+    session.id === ownerId &&
+    dataDetail?.status === "IN_PROGRESS",
+  );
 
   return (
     <>

@@ -1,6 +1,7 @@
 import { ApiUrl } from "../config/app";
 
 class Api {
+  public baseUrl: string = ApiUrl;
   public url: string = "";
   public method: "GET" | "POST" | "PATCH" | "DELETE" = "POST";
   public type: "form" | "json" | "multipart" = "json";

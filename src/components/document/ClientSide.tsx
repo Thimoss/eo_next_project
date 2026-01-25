@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useRef, useState } from "react";
 import DocumentInformation from "./DocumentInformation";
 import { UseDetailDocument } from "../../../hooks/Documents";
 import Loading from "../global/Loading";
@@ -12,6 +12,10 @@ import UpdateModalItem from "./UpdateModalItem";
 import DeleteModalItem from "./DeleteModalItem";
 import DocumentApproval from "./DocumentApproval";
 import { UserSession } from "../../../types/Session.type";
+import html2canvas from "html2canvas-pro";
+import jsPDF from "jspdf";
+import { toast } from "react-toastify";
+import Api from "../../../service/Api";
 
 interface DetailDocumentProps {
   slug: string;
@@ -23,6 +27,8 @@ export default function ClientSide({
   accessToken,
   session,
 }: DetailDocumentProps) {
+  const printRef = useRef<HTMLDivElement | null>(null);
+  const [downloadLoading, setDownloadLoading] = useState(false);
   const validAccessToken = accessToken ?? "";
   const {
     dataDetail,
@@ -77,13 +83,140 @@ export default function ClientSide({
     dataDetail?.status === "IN_PROGRESS",
   );
 
+  const handleDownloadPdfFromUi = async () => {
+    if (!printRef.current) {
+      toast.error("Gagal menyiapkan tampilan untuk PDF.");
+      return;
+    }
+
+    let tempWrapper: HTMLDivElement | null = null;
+
+    const A4_LANDSCAPE_WIDTH_PX = 1123;
+    const A4_LANDSCAPE_HEIGHT_PX = 794;
+
+    try {
+      setDownloadLoading(true);
+      const element = printRef.current;
+      tempWrapper = document.createElement("div");
+      tempWrapper.style.position = "fixed";
+      tempWrapper.style.top = "0";
+      tempWrapper.style.left = "-10000px";
+      tempWrapper.style.width = `${A4_LANDSCAPE_WIDTH_PX}px`;
+      tempWrapper.style.minHeight = `${A4_LANDSCAPE_HEIGHT_PX}px`;
+      tempWrapper.style.opacity = "1";
+      tempWrapper.style.zIndex = "0";
+      tempWrapper.style.overflow = "visible";
+      tempWrapper.style.background = "#ffffff";
+      tempWrapper.style.pointerEvents = "none";
+      tempWrapper.style.padding = "24px 32px";
+
+      const clone = element.cloneNode(true) as HTMLElement;
+      clone.style.width = `${A4_LANDSCAPE_WIDTH_PX}px`;
+      clone.style.minHeight = `${A4_LANDSCAPE_HEIGHT_PX}px`;
+      clone.style.maxWidth = "none";
+      clone.style.overflow = "visible";
+      clone.style.paddingBottom = "24px";
+      const overflowNodes = Array.from(
+        clone.querySelectorAll<HTMLElement>(
+          "[class*='overflow-x'], [class*='overflow-y']",
+        ),
+      );
+      overflowNodes.forEach((node) => {
+        node.style.overflow = "visible";
+        node.style.overflowX = "visible";
+        node.style.overflowY = "visible";
+        node.style.width = "auto";
+        node.style.maxWidth = "none";
+      });
+
+      tempWrapper.appendChild(clone);
+      document.body.appendChild(tempWrapper);
+
+      const contentHeight = Math.max(
+        A4_LANDSCAPE_HEIGHT_PX,
+        clone.scrollHeight + 48,
+      );
+      tempWrapper.style.height = `${contentHeight}px`;
+      tempWrapper.style.minHeight = `${contentHeight}px`;
+
+      if (document.fonts?.ready) {
+        await document.fonts.ready;
+      }
+
+      const canvas = await html2canvas(tempWrapper, {
+        scale: 2,
+        useCORS: true,
+        backgroundColor: "#ffffff",
+        windowWidth: A4_LANDSCAPE_WIDTH_PX,
+        windowHeight: Math.max(contentHeight, tempWrapper.scrollHeight),
+      });
+
+      const imgData = canvas.toDataURL("image/png");
+      const pdf = new jsPDF({
+        orientation: "landscape",
+        unit: "mm",
+        format: "a4",
+      });
+
+      const pageWidth = pdf.internal.pageSize.getWidth();
+      const pageHeight = pdf.internal.pageSize.getHeight();
+      const imgWidth = canvas.width;
+      const imgHeight = canvas.height;
+      const ratio = Math.min(pageWidth / imgWidth, pageHeight / imgHeight);
+      const renderWidth = imgWidth * ratio;
+      const renderHeight = imgHeight * ratio;
+      const offsetX = (pageWidth - renderWidth) / 2;
+      const offsetY = (pageHeight - renderHeight) / 2;
+
+      pdf.addImage(imgData, "PNG", offsetX, offsetY, renderWidth, renderHeight);
+      const pdfBlob = pdf.output("blob");
+
+      const formData = new FormData();
+      formData.append("file", pdfBlob, `document-${slug}.pdf`);
+
+      const api = new Api();
+      const response = await fetch(
+        `${api.baseUrl}document/download-pdf-ui/${slug}`,
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${validAccessToken}`,
+          },
+          body: formData,
+        },
+      );
+
+      if (!response.ok) {
+        throw new Error("Failed to generate PDF");
+      }
+
+      const finalBlob = await response.blob();
+      const url = window.URL.createObjectURL(finalBlob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `document-${slug}.pdf`;
+      document.body.appendChild(a);
+      a.click();
+      window.URL.revokeObjectURL(url);
+      document.body.removeChild(a);
+      toast.success("PDF berhasil diunduh");
+    } catch (error: any) {
+      toast.error("Gagal mengunduh PDF: " + error.message);
+    } finally {
+      if (tempWrapper) {
+        tempWrapper.remove();
+      }
+      setDownloadLoading(false);
+    }
+  };
+
   return (
     <>
       {isLoadingDetail ? (
         <Loading />
       ) : dataDetail ? (
         <>
-          <div className="flex flex-col gap-8">
+          <div ref={printRef} className="flex flex-col gap-8 bg-white">
             <DocumentInformation
               location={dataDetail.location}
               base={dataDetail.base}
@@ -116,6 +249,8 @@ export default function ClientSide({
               accessToken={accessToken}
               canEdit={canEdit}
               session={session}
+              onDownloadPdf={handleDownloadPdfFromUi}
+              downloadLoading={downloadLoading}
             />
           </div>
           {canEdit && (

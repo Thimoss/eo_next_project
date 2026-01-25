@@ -66,8 +66,6 @@ export default function VerifyDocumentPage() {
     );
   }
 
-  console.log(data);
-
   if (error || !data) {
     return (
       <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-blue-50 via-white to-green-50 p-4">

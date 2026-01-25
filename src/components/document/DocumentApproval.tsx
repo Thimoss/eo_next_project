@@ -25,6 +25,8 @@ interface DocumentApprovalProps {
   accessToken?: string;
   canEdit?: boolean;
   session?: UserSession | null;
+  onDownloadPdf?: () => void | Promise<void>;
+  downloadLoading?: boolean;
 }
 
 const statusPalette: Record<
@@ -60,13 +62,14 @@ export default function DocumentApproval({
   accessToken,
   canEdit = true,
   session,
+  onDownloadPdf,
+  downloadLoading = false,
 }: DocumentApprovalProps) {
   const [editMode, setEditMode] = useState(false);
   const [loading, setLoading] = useState(false);
   const [approvalLoading, setApprovalLoading] = useState<
     "submit" | "check" | "confirm" | null
   >(null);
-  const [downloadLoading, setDownloadLoading] = useState(false);
   const [currentDate, setCurrentDate] = useState("");
   const statusMeta = statusPalette[status];
   const sessionId = session?.id;
@@ -222,42 +225,6 @@ export default function DocumentApproval({
     setCurrentDate(formattedDate);
   }, []);
 
-  const handleDownloadPDF = async () => {
-    try {
-      setDownloadLoading(true);
-      const api = new Api();
-      api.url = `document/download-pdf/${slug}`;
-      api.auth = true;
-      api.token = accessToken ?? "";
-      api.method = "GET";
-
-      const response = await fetch(`${api.baseUrl}${api.url}`, {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      });
-
-      if (!response.ok) {
-        throw new Error("Failed to download PDF");
-      }
-
-      const blob = await response.blob();
-      const url = window.URL.createObjectURL(blob);
-      const a = document.createElement("a");
-      a.href = url;
-      a.download = `document-${slug}.pdf`;
-      document.body.appendChild(a);
-      a.click();
-      window.URL.revokeObjectURL(url);
-      document.body.removeChild(a);
-      toast.success("PDF berhasil diunduh");
-    } catch (error: any) {
-      toast.error("Gagal mengunduh PDF: " + error.message);
-    } finally {
-      setDownloadLoading(false);
-    }
-  };
 
   return (
     <div className="relative overflow-hidden rounded-2xl border border-gray-200/70 bg-white p-6 shadow-[0_18px_40px_-30px_rgba(15,23,42,0.45)]">
@@ -286,7 +253,7 @@ export default function DocumentApproval({
             {status === "APPROVED" && (
               <button
                 type="button"
-                onClick={handleDownloadPDF}
+                onClick={onDownloadPdf}
                 disabled={downloadLoading}
                 className="inline-flex items-center justify-center gap-2 rounded-full bg-primaryGreen px-4 py-2 text-sm font-semibold text-white shadow-[0_12px_28px_-20px_rgba(176,203,31,0.9)] transition duration-200 hover:bg-primaryGreenDarker disabled:cursor-not-allowed disabled:opacity-70"
               >

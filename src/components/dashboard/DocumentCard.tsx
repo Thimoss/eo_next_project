@@ -48,7 +48,9 @@ export default function DocumentCard({
   const statusMeta = statusPalette[document.status];
   const [showActions, setShowActions] = useState(false);
   const actionsRef = useRef<HTMLDivElement | null>(null);
-  const hasActions = Boolean(handleEdit || handleDelete);
+  const canEdit = document.status === "IN_PROGRESS" && Boolean(handleEdit);
+  const canDelete = Boolean(handleDelete);
+  const hasActions = canEdit || canDelete;
 
   const toggleActions = () => {
     if (!hasActions) {
@@ -100,7 +102,7 @@ export default function DocumentCard({
                   ref={actionsRef}
                   className="absolute right-0 z-10 mt-2 flex w-28 flex-col gap-1 rounded-xl border border-gray-100 bg-white p-1.5 text-sm shadow-[0_16px_40px_-28px_rgba(15,23,42,0.5)]"
                 >
-                  {handleEdit && (
+                  {canEdit && handleEdit && (
                     <button
                       type="button"
                       onClick={() => handleEdit(document)}
@@ -109,7 +111,7 @@ export default function DocumentCard({
                       Edit
                     </button>
                   )}
-                  {handleDelete && (
+                  {canDelete && handleDelete && (
                     <button
                       type="button"
                       onClick={() => handleDelete(document)}

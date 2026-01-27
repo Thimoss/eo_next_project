@@ -200,8 +200,11 @@ export default function ClientSide({
       window.URL.revokeObjectURL(url);
       document.body.removeChild(a);
       toast.success("PDF berhasil diunduh");
-    } catch (error: any) {
-      toast.error("Gagal mengunduh PDF: " + error.message);
+    } catch (error: unknown) {
+       toast.error(
+        "Gagal mengunduh PDF: " +
+          (error instanceof Error ? error.message : String(error)),
+      );
     } finally {
       if (tempWrapper) {
         tempWrapper.remove();

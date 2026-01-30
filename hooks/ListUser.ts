@@ -8,7 +8,7 @@ interface UseListUsersProps {
   session?: UserSession;
 }
 
-export const useListUsers = ({ accessToken, session }: UseListUsersProps) => {
+export const useListUsers = ({ accessToken }: UseListUsersProps) => {
   const [searchQuery, setSearchQuery] = useState("");
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(100);

@@ -37,10 +37,10 @@ export default function Navbar({ session }: NavbarProps) {
 
   const [isOpen, setIsOpen] = useState(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const [isMounted, setIsMounted] = useState(false);
 
   const dropdownRef = useRef<HTMLDivElement | null>(null);
   const avatarRef = useRef<HTMLButtonElement | null>(null);
+  const portalTarget = typeof document !== "undefined" ? document.body : null;
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
@@ -49,10 +49,10 @@ export default function Navbar({ session }: NavbarProps) {
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };
-
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
+  const closeMenus = () => {
+    setIsOpen(false);
+    setIsSidebarOpen(false);
+  };
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
@@ -74,19 +74,14 @@ export default function Navbar({ session }: NavbarProps) {
   }, []);
 
   useEffect(() => {
-    setIsOpen(false);
-    setIsSidebarOpen(false);
-  }, [pathname]);
-
-  useEffect(() => {
-    if (!isMounted) return;
     document.body.style.overflow = isSidebarOpen ? "hidden" : "";
     return () => {
       document.body.style.overflow = "";
     };
-  }, [isMounted, isSidebarOpen]);
+  }, [isSidebarOpen]);
 
   const handleLogout = async () => {
+    closeMenus();
     await logout();
   };
 
@@ -129,6 +124,7 @@ export default function Navbar({ session }: NavbarProps) {
                 <Link
                   key={item.href}
                   href={item.href}
+                  onClick={closeMenus}
                   className={navLinkClasses(item.href)}
                   aria-current={isActiveLink(item.href) ? "page" : undefined}
                 >
@@ -162,6 +158,7 @@ export default function Navbar({ session }: NavbarProps) {
                   >
                     <Link
                       href="/profile"
+                      onClick={closeMenus}
                       className="block px-4 py-2 cursor-pointer transition duration-200 hover:bg-gray-100 rounded-md"
                     >
                       Profil
@@ -192,7 +189,7 @@ export default function Navbar({ session }: NavbarProps) {
       </div>
 
       {/* Sidebar (Mobile) */}
-      {isMounted &&
+      {portalTarget &&
         createPortal(
           <>
             {isSidebarOpen && (
@@ -224,7 +221,7 @@ export default function Navbar({ session }: NavbarProps) {
 
                 <Link
                   href="/profile"
-                  onClick={() => setIsSidebarOpen(false)}
+                  onClick={closeMenus}
                   className="flex items-center gap-3 cursor-pointer rounded-xl p-3 bg-white ring-1 ring-gray-200/80 hover:bg-gray-50 transition duration-200 ease-in-out"
                 >
                   <div className="aspect-square rounded-full flex items-center justify-center h-[40px] border-2 border-white overflow-hidden text-white text-center text-xl bg-gradient-to-br from-primaryBlue to-primaryBlueDarker shadow-[0_8px_18px_-12px_rgba(0,110,182,0.6)]">
@@ -240,7 +237,7 @@ export default function Navbar({ session }: NavbarProps) {
                     <Link
                       key={item.href}
                       href={item.href}
-                      onClick={() => setIsSidebarOpen(false)}
+                      onClick={closeMenus}
                       className={`relative flex items-center gap-2 cursor-pointer rounded-xl px-3 py-2 transition duration-200 ease-in-out ${
                         isActiveLink(item.href)
                           ? "bg-primaryBlue/10 text-primaryBlue font-semibold before:content-[''] before:absolute before:left-1 before:top-2 before:bottom-2 before:w-1 before:rounded-full before:bg-primaryBlue"
@@ -262,7 +259,7 @@ export default function Navbar({ session }: NavbarProps) {
               </div>
             </div>
           </>,
-          document.body
+          portalTarget
         )}
     </header>
   );
